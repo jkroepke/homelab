@@ -1,0 +1,15 @@
+- name: Copy CA config
+  copy:
+    src: "files/ca-config.json"
+    dest: "{{ pki_dir }}/ca-config.json"
+
+- name: stat ca.pem
+  stat:
+    path: "{{ pki_dir }}/ca.pem"
+  register: stat_ca
+
+- name: Generate CA
+  when: not stat_ca.stat.exists
+  shell: cfssl gencert -initca ca-csr.json | cfssljson -bare ca
+  args:
+    chdir: "{{ pki_dir }}"

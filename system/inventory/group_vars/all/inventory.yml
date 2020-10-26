@@ -1,0 +1,4 @@
+pki_dir: '{{ playbook_dir ~ "/../.pki" }}'
+
+kubernetes_network: 10.32.0.0/24
+kubernetes_public_hostname: api.k8s-hard-way.jkroepke.de

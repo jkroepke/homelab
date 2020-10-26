@@ -1,0 +1,27 @@
+- name: Copy node config
+  template:
+    src: worker-csr.json.j2
+    dest: "{{ pki_dir }}/{{ item }}-csr.json"
+  loop: "{{ query('inventory_hostnames', 'tag_worker_true') }}"
+
+- name: stat worker.pem
+  stat:
+    path: "{{ pki_dir }}/{{ instance }}.pem"
+  register: stat_worker
+  loop: "{{ query('inventory_hostnames', 'tag_worker_true') }}"
+  loop_control:
+    loop_var: instance
+
+- name: Generate node certificates
+  when: not item.stat.exists
+  shell: >-
+    cfssl gencert
+    -ca=ca.pem
+    -ca-key=ca-key.pem
+    -config=ca-config.json
+    -hostname={{ item.instance }},{{ hostvars[item.instance].public_dns_name }},{{ hostvars[item.instance].public_ip_address }},{{ hostvars[item.instance].private_dns_name }},{{ hostvars[item.instance].private_ip_address }}
+    -profile=kubernetes
+    {{ item.instance }}-csr.json | cfssljson -bare {{ item.instance }}
+  args:
+    chdir: "{{ pki_dir }}"
+  loop: "{{ stat_worker.results }}"

@@ -1,0 +1,17 @@
+# Created by .ignore support plugin (hsz.mobi)
+### Terraform template
+# Local .terraform directories
+**/.terraform/*
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
+
+# Crash log files
+crash.log
+
+
+.pki/*
+!.pki/.gitempty
+
+ansible.log

@@ -1,0 +1,24 @@
+plugin: aws_ec2
+strict: yes
+aws_profile: adorsys-sandbox
+
+regions:
+  - eu-central-1
+
+hostnames:
+  - private-dns-name
+
+filters:
+  tag:project:
+    - 'jkr-kubernetes-the-hard-way'
+
+keyed_groups:
+  - prefix: tag
+    key: tags
+
+compose:
+  ansible_host: public_dns_name
+  launch_time: launch_time
+  network_interfaces: network_interfaces
+  block_device_mappings: block_device_mappings
+
