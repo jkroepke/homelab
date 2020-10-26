@@ -1,0 +1,37 @@
+- name: Copy admin config
+  copy:
+    src: "files/kubernetes-csr.json"
+    dest: "{{ pki_dir }}/kubernetes-csr.json"
+
+- name: stat kubernetes.pem
+  stat:
+    path: "{{ pki_dir }}/kubernetes.pem"
+  register: stat
+
+- set_fact:
+    kubernetes_public_addresses: "{{ lookup('dig', kubernetes_public_hostname ~ './A').split(',') }}"
+    kubernetes_api_address: "{{ kubernetes_network | regex_replace('0/[0-9]+$', '1') }}"
+    kubernetes_controllers_name: "{{ groups.tag_controller_true | map('extract', hostvars, 'private_dns_name') | list }}"
+    kubernetes_controllers_addresses: "{{ groups.tag_controller_true | map('extract', hostvars, 'private_ip_address') | list }}"
+    kubernetes_hostnames:
+      - kubernetes
+      - kubernetes.default
+      - kubernetes.default.svc
+      - kubernetes.default.svc.cluster
+      - kubernetes.default.svc.cluster.local
+
+- set_fact:
+    kubernetes_certificate_hostnames: "{{ kubernetes_public_hostname }},{{ kubernetes_api_address }},{{ kubernetes_controllers_name | join(',') }},{{ kubernetes_controllers_addresses | join(',') }},{{ kubernetes_hostnames | join(',') }},127.0.0.1"
+
+- name: Generate kubernetes certificate
+  when: not stat.stat.exists
+  shell: >-
+    cfssl gencert \
+    -ca=ca.pem \
+    -ca-key=ca-key.pem \
+    -config=ca-config.json \
+    -hostname={{ kubernetes_certificate_hostnames }}
+    -profile=kubernetes \
+    kubernetes-csr.json | cfssljson -bare kubernetes
+  args:
+    chdir: "{{ pki_dir }}"

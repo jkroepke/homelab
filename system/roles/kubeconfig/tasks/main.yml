@@ -1,0 +1,15 @@
+- name: generate worker kubeconfigs
+  include_tasks: generate.yml
+  loop: "{{ groups.tag_worker_true }}"
+  loop_control:
+    loop_var: kubeconfig
+
+- name: generate other kubeconfigs
+  include_tasks: generate.yml
+  loop:
+    - kube-proxy
+    - kube-controller-manager
+    - kube-scheduler
+    - admin
+  loop_control:
+    loop_var: kubeconfig

@@ -24,7 +24,7 @@ resource "aws_lb_listener" "api" {
 
 resource "aws_lb_target_group" "controller" {
   name     = "${var.name}-api"
-  port     = 443
+  port     = 6443
   protocol = "TCP"
   vpc_id   = aws_vpc.vpc.id
 

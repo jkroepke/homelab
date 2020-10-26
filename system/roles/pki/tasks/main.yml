@@ -12,4 +12,3 @@
 
 - import_tasks: certificates/worker.yml
 - import_tasks: certificates/kubernetes.yml
-- import_tasks: distribute.yml

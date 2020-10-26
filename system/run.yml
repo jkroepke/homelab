@@ -1,1 +1,3 @@
 - import_playbook: pki.yml
+- import_playbook: kubeconfig.yml
+- import_playbook: bootstrap.yml

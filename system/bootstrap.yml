@@ -1,0 +1,6 @@
+- hosts: tag_project_jkr_kubernetes_the_hard_way
+  gather_facts: false
+  roles:
+    - bootstrap
+  tags:
+    - bootstrap

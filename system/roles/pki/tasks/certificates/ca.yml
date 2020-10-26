@@ -1,7 +1,10 @@
 - name: Copy CA config
   copy:
-    src: "files/ca-config.json"
-    dest: "{{ pki_dir }}/ca-config.json"
+    src: "files/{{ item }}"
+    dest: "{{ pki_dir }}/{{ item }}"
+  loop:
+    - ca-config.json
+    - ca-csr.json
 
 - name: stat ca.pem
   stat:

@@ -11,7 +11,7 @@
 crash.log
 
 
-.pki/*
-!.pki/.gitempty
+.local/*
+!.local/.gitempty
 
 ansible.log
