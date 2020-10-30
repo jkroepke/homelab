@@ -1,0 +1,10 @@
+- name: Generate encryption key
+  shell: head -c 32 /dev/urandom | base64
+  register: encryption_key_cmd
+
+- name: Generate encryption config
+  template:
+    src: encryption-config.yaml.j2
+    dest: "{{ cluster_config_dir }}/encryption-config.yaml"
+  vars:
+    encryption_key: "{{ encryption_key_cmd.stdout }}"

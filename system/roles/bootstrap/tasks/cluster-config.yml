@@ -1,0 +1,10 @@
+- name: copy controller kubeconfigs
+  when: inventory_hostname in groups.tag_controller_true
+  copy:
+    src: "{{ cluster_config_dir }}/{{ item }}"
+    dest: "/root/{{ item }}"
+  loop:
+    - encryption-config.yaml
+
+
+

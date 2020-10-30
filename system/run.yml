@@ -1,3 +1,4 @@
-- import_playbook: pki.yml
-- import_playbook: kubeconfig.yml
-- import_playbook: bootstrap.yml
+- import_playbook: playbooks/pki.yml
+- import_playbook: playbooks/kubeconfig.yml
+- import_playbook: playbooks/bootstrap.yml
+- import_playbook: playbooks/encryption-config.yml

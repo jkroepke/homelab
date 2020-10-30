@@ -26,6 +26,7 @@
     --kubeconfig={{ kubeconfig }}.kubeconfig
   args:
     chdir: "{{ kubeconfig_dir }}"
+
 - name: kubectl config use-context
   shell: >-
     kubectl config use-context default --kubeconfig={{ kubeconfig }}.kubeconfig
