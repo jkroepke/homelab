@@ -1,4 +1,5 @@
-- hosts: localhost
+- name: Configure encryption config
+  hosts: localhost
   gather_facts: false
   roles:
     - encryption-config

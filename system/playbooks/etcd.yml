@@ -1,0 +1,6 @@
+- name: Setup etcd
+  hosts: tag_controller_true
+  roles:
+    - etcd
+  tags:
+    - etcd
