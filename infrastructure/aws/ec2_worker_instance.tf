@@ -66,3 +66,11 @@ resource "aws_instance" "worker" {
     kubernetes_pod_cidr = cidrsubnet(var.kubernetes_cluster_cidr_block, 8, replace(each.key, "worker", "") - 1)
   }
 }
+
+resource "aws_route" "pod-cidr" {
+  for_each = aws_instance.worker
+
+  route_table_id         = aws_default_route_table.vpc.id
+  destination_cidr_block = each.value.tags.kubernetes_pod_cidr
+  instance_id            = each.value.id
+}
