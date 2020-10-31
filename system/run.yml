@@ -3,3 +3,4 @@
 - import_playbook: playbooks/bootstrap.yml
 - import_playbook: playbooks/encryption-config.yml
 - import_playbook: playbooks/etcd.yml
+- import_playbook: playbooks/kubernetes-control-plane.yml

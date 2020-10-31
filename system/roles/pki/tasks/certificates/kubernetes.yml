@@ -10,7 +10,7 @@
 
 - set_fact:
     kubernetes_public_addresses: "{{ lookup('dig', kubernetes_public_hostname ~ './A').split(',') }}"
-    kubernetes_api_address: "{{ kubernetes_network | regex_replace('0/[0-9]+$', '1') }}"
+    kubernetes_api_address: "{{ kubernetes_service_cidr | regex_replace('0/[0-9]+$', '1') }}"
     kubernetes_controllers_name: "{{ groups.tag_controller_true | map('extract', hostvars, 'private_dns_name') | list }}"
     kubernetes_controllers_addresses: "{{ groups.tag_controller_true | map('extract', hostvars, 'private_ip_address') | list }}"
     kubernetes_hostnames:

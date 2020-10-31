@@ -1,8 +1,8 @@
-- name: systemd daemon-reload
+- name: systemctl daemon-reload
   systemd:
     daemon_reload: yes
 
-- name: systemd restart etcd
+- name: systemctl restart etcd
   service:
     name: etcd
     state: restarted

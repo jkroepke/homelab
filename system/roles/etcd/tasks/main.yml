@@ -31,6 +31,8 @@
     - ca.pem
     - kubernetes-key.pem
     - kubernetes.pem
+  notify:
+    - systemctl restart etcd
 
 - name: Copy systemd service files
   template:
@@ -39,12 +41,12 @@
   vars:
     etcd_members: "{{ groups.tag_controller_true }}"
   notify:
-    - systemd daemon-reload
-    - systemd restart etcd
+    - systemctl daemon-reload
+    - systemctl restart etcd
 
 - meta: flush_handlers
 
-- name: systemd start etcd
+- name: systemctl start etcd
   service:
     name: etcd
     state: started

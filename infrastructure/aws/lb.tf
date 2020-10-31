@@ -29,6 +29,12 @@ resource "aws_lb_target_group" "controller" {
   vpc_id   = aws_vpc.vpc.id
 
   target_type = "instance"
+  health_check {
+    enabled = true
+
+    path = "/healthz"
+    protocol = "HTTPS"
+  }
 }
 
 resource "aws_lb_target_group_attachment" "controller" {
