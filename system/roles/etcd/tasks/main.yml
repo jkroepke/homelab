@@ -1,6 +1,6 @@
 - name: Download etcd
   unarchive:
-    src: https://github.com/etcd-io/etcd/releases/download/{{ etcd_version }}/etcd-{{ etcd_version }}-linux-amd64.tar.gz
+    src: https://github.com/etcd-io/etcd/releases/download/{{ versions.etcd }}/etcd-{{ versions.etcd }}-linux-amd64.tar.gz
     dest: /usr/local/bin
     creates: /usr/local/bin/etcd
     remote_src: yes

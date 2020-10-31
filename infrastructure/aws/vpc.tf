@@ -1,5 +1,5 @@
 resource "aws_vpc" "vpc" {
-  cidr_block = var.cidr_block
+  cidr_block = var.vpc_cidr_block
 
   assign_generated_ipv6_cidr_block = true
 

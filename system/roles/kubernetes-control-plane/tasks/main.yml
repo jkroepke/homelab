@@ -1,6 +1,6 @@
 - name: download files
   get_url:
-    url: "https://storage.googleapis.com/kubernetes-release/release/{{ kubernetes_version }}/bin/linux/amd64/{{ item }}"
+    url: "https://storage.googleapis.com/kubernetes-release/release/{{ versions.kubernetes }}/bin/linux/amd64/{{ item }}"
     dest: /usr/local/bin/
     mode: 0755
   loop:

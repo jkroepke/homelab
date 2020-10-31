@@ -1,0 +1,7 @@
+- name: Set Hostname
+  copy:
+    content: "{{ inventory_hostname }}"
+    dest: "/etc/hostname"
+
+
+

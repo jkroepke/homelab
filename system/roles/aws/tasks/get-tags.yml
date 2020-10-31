@@ -1,0 +1,16 @@
+- amazon.aws.ec2_metadata_facts:
+
+- name: get tags
+  command: >-
+    aws ec2 describe-tags
+    --filter "Name=resource-type,Values=instance"
+    --filter "Name=resource-id,Values={{ ansible_ec2_instance_id }}"
+    --output json
+  environment:
+    AWS_DEFAULT_REGION: "{{ placement.region }}"
+  changed_when: False
+  register: tags
+
+- set_fact:
+    kubernetes_pod_cidr: "{{ tags.stdout | from_json | community.general.json_query('Tags[?Key==`kubernetes_pod_cidr`].Value') }}"
+

@@ -2,10 +2,14 @@ variable "name" {
   type = string
 }
 
-variable "cidr_block" {
+variable "vpc_cidr_block" {
   type = string
 }
 
 variable "availability_zones" {
   type = list(string)
+}
+
+variable "kubernetes_cluster_cidr_block" {
+  type = string
 }

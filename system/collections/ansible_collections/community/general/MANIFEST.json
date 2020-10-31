@@ -1,0 +1,35 @@
+{
+ "collection_info": {
+  "namespace": "community",
+  "name": "general",
+  "version": "1.2.0",
+  "authors": [
+   "Ansible (https://github.com/ansible)"
+  ],
+  "readme": "README.md",
+  "tags": [
+   "community"
+  ],
+  "description": null,
+  "license": [],
+  "license_file": "COPYING",
+  "dependencies": {
+   "ansible.netcommon": ">=1.0.0",
+   "ansible.posix": ">=1.0.0",
+   "community.kubernetes": ">=1.0.0",
+   "google.cloud": ">=1.0.0"
+  },
+  "repository": "https://github.com/ansible-collections/community.general",
+  "documentation": null,
+  "homepage": "https://github.com/ansible-collections/community.general",
+  "issues": "https://github.com/ansible-collections/community.general/issues"
+ },
+ "file_manifest_file": {
+  "name": "FILES.json",
+  "ftype": "file",
+  "chksum_type": "sha256",
+  "chksum_sha256": "b431396e306a929007e6e62712a1594f35477233160595c7930b68e128f4c55d",
+  "format": 1
+ },
+ "format": 1
+}

@@ -25,6 +25,8 @@ resource "aws_instance" "controller" {
   associate_public_ip_address = true
   key_name                    = aws_key_pair.ssh.key_name
 
+  iam_instance_profile = aws_iam_instance_profile.kubernetes-controller.name
+
   vpc_security_group_ids = [
     aws_security_group.external.id,
     aws_security_group.internal.id
