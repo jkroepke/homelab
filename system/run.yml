@@ -5,3 +5,4 @@
 - import_playbook: playbooks/etcd.yml
 - import_playbook: playbooks/kubernetes-control-plane.yml
 - import_playbook: playbooks/kubernetes-worker-node.yml
+- import_playbook: playbooks/kubernetes-addons.yml

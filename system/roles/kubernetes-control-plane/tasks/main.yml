@@ -16,6 +16,7 @@
   loop:
     - /etc/kubernetes/config
     - /etc/kubernetes/config/rbac
+    - /etc/kubernetes/config/addons
     - /var/lib/kubernetes/
 
 - name: Copy files

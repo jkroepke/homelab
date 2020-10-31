@@ -12,5 +12,4 @@
   register: tags
 
 - set_fact:
-    kubernetes_pod_cidr: "{{ tags.stdout | from_json | community.general.json_query('Tags[?Key==`kubernetes_pod_cidr`].Value') }}"
-
+    kubernetes_pod_cidr: "{{ tags.stdout | from_json | community.general.json_query('Tags[?Key==`kubernetes_pod_cidr`].Value') | first }}"

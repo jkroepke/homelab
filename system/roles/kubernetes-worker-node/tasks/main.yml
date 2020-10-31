@@ -41,7 +41,7 @@
 - name: Download runc
   get_url:
     url: "https://github.com/opencontainers/runc/releases/download/{{ versions.runc }}/runc.amd64"
-    dest: /usr/local/bin/
+    dest: /usr/local/bin/runc
     mode: 0755
 
 - name: Download crictl
@@ -67,6 +67,18 @@
     - --strip-components=1
     - --wildcards
     - 'bin/*'
+
+- name: Download cni plugins
+  unarchive:
+    src: https://github.com/containernetworking/plugins/releases/download/{{ versions.cni }}/cni-plugins-linux-amd64-{{ versions.cni }}.tgz
+    dest: /opt/cni/bin/
+    creates: /opt/cni/bin/loopback
+    remote_src: yes
+    owner: root
+    group: root
+    mode: 0755
+    extra_opts:
+    - --strip-components=1
 
 - name: Copy files
   copy:
