@@ -2,3 +2,5 @@
   hosts: localhost
   roles:
     - disk-setup
+  tags:
+    - disk-setup

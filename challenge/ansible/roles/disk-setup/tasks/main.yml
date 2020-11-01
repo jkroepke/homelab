@@ -34,4 +34,4 @@
     src: LABEL=etcd
     fstype: ext4
     opts: defaults,noatime,nofail,x-systemd.automount
-    passno: 2
+    passno: "2"
