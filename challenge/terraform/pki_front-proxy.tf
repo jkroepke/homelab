@@ -10,16 +10,14 @@
 
 // See: https://front-proxy.io/docs/setup/best-practices/certificates/
 
-resource "tls_private_key" "front-proxy-key" {
-  for_each = toset(concat(["front-proxy-ca"], keys(local.front-proxy_certificates)))
-
+resource "tls_private_key" "front-proxy-ca" {
   algorithm = "RSA"
   rsa_bits  = 2048
 }
 
 resource "tls_self_signed_cert" "front-proxy-ca" {
-  key_algorithm   = tls_private_key.front-proxy-key["front-proxy-ca"].algorithm
-  private_key_pem = tls_private_key.front-proxy-key["front-proxy-ca"].private_key_pem
+  key_algorithm   = tls_private_key.front-proxy-ca.algorithm
+  private_key_pem = tls_private_key.front-proxy-ca.private_key_pem
 
   subject {
     common_name  = "${var.name} front-proxy CA"
@@ -34,33 +32,4 @@ resource "tls_self_signed_cert" "front-proxy-ca" {
     "cert_signing",
     "crl_signing"
   ]
-}
-
-resource "tls_cert_request" "front-proxy-csr" {
-  for_each = local.front-proxy_certificates
-
-  key_algorithm   = tls_private_key.front-proxy-key[each.key].algorithm
-  private_key_pem = tls_private_key.front-proxy-key[each.key].private_key_pem
-
-  subject {
-    common_name  = "${var.name} ${replace(each.key, "-", " ")}"
-    organization = var.name
-  }
-}
-
-resource "tls_locally_signed_cert" "front-proxy-crt" {
-  for_each = local.front-proxy_certificates
-
-  ca_key_algorithm   = tls_private_key.front-proxy-key["front-proxy-ca"].algorithm
-  ca_private_key_pem = tls_private_key.front-proxy-key["front-proxy-ca"].private_key_pem
-  ca_cert_pem        = tls_self_signed_cert.front-proxy-ca.cert_pem
-
-  cert_request_pem   = tls_cert_request.front-proxy-csr[each.key].cert_request_pem
-
-  validity_period_hours = local.validity_period_hours
-
-  allowed_uses = concat([
-    "key_encipherment",
-    "digital_signature"
-  ], each.value)
 }

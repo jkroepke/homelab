@@ -8,25 +8,14 @@
   Instead, generate a private key file outside of Terraform and distribute it securely to the system where Terraform will be run.
 */
 
-locals {
-  etcd_certificates = {
-    "etcd-healthcheck-client": ["client_auth"],
-    "etcd-peer": ["client_auth", "server_auth"],
-    "etcd-server": ["client_auth", "server_auth"],
-    "apiserver-kubelet-client": ["client_auth"],
-  }
-}
-
-resource "tls_private_key" "etcd-key" {
-  for_each = toset(concat(["etcd-ca"], keys(local.etcd_certificates)))
-
+resource "tls_private_key" "etcd-ca" {
   algorithm = "RSA"
   rsa_bits  = 2048
 }
 
 resource "tls_self_signed_cert" "etcd-ca" {
-  key_algorithm   = tls_private_key.etcd-key["etcd-ca"].algorithm
-  private_key_pem = tls_private_key.etcd-key["etcd-ca"].private_key_pem
+  key_algorithm   = tls_private_key.etcd-ca.algorithm
+  private_key_pem = tls_private_key.etcd-ca.private_key_pem
 
   subject {
     common_name  = "${var.name} etcd CA"
@@ -41,33 +30,4 @@ resource "tls_self_signed_cert" "etcd-ca" {
     "cert_signing",
     "crl_signing"
   ]
-}
-
-resource "tls_cert_request" "etcd-csr" {
-  for_each = local.etcd_certificates
-
-  key_algorithm   = tls_private_key.etcd-key[each.key].algorithm
-  private_key_pem = tls_private_key.etcd-key[each.key].private_key_pem
-
-  subject {
-    common_name  = "${var.name} ${replace(each.key, "-", " ")}"
-    organization = var.name
-  }
-}
-
-resource "tls_locally_signed_cert" "etcd-crt" {
-  for_each = local.etcd_certificates
-
-  ca_key_algorithm   = tls_private_key.etcd-key["etcd-ca"].algorithm
-  ca_private_key_pem = tls_private_key.etcd-key["etcd-ca"].private_key_pem
-  ca_cert_pem        = tls_self_signed_cert.etcd-ca.cert_pem
-
-  cert_request_pem   = tls_cert_request.etcd-csr[each.key].cert_request_pem
-
-  validity_period_hours = local.validity_period_hours
-
-  allowed_uses = concat([
-    "key_encipherment",
-    "digital_signature"
-  ], each.value)
 }
