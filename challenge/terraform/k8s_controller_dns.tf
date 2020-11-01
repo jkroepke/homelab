@@ -19,3 +19,24 @@ resource "aws_route53_record" "controller_AAAA" {
 
   records = aws_instance.controller[each.key].ipv6_addresses
 }
+
+resource "aws_route53_record" "etcd-server_SRV" {
+  zone_id = aws_route53_zone.local.zone_id
+
+  name    = "_etcd-server-ssl._tcp.etcd"
+  ttl     = "300"
+  type    = "SRV"
+
+  records = [for name, instance in aws_instance.controller: "0 0 2380 ${instance.private_dns_name}."]
+}
+
+
+resource "aws_route53_record" "etcd-client_SRV" {
+  zone_id = aws_route53_zone.local.zone_id
+
+  name    = "_etcd-client-ssl._tcp.etcd"
+  ttl     = "300"
+  type    = "SRV"
+
+  records = [for name, instance in aws_instance.controller: "0 0 2379 ${instance.private_dns_name}."]
+}

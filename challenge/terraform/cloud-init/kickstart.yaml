@@ -8,6 +8,7 @@ package_upgrade: true
 apt_reboot_if_required: true
 
 packages:
+  - git
   - ansible
 
 growpart:

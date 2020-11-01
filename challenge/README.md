@@ -33,3 +33,12 @@ Based on: https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-ce
 ### Setup PKI
 
 Upstream: https://kubernetes.io/docs/setup/best-practices/certificates/
+
+
+# Bootstrap Process
+
+* Install git and ansible via cloud-init
+* Kickstart ansible via ansible-pull
+* Install kublet
+* run etcd as static pod and kickstart cluster via dns discovery
+* all everything else
