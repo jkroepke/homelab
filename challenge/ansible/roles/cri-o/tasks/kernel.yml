@@ -7,10 +7,11 @@
     - br_netfilter
 
 - name: load modules on system start
-  path: /etc/modules-load.d/kubernetes-cni.conf
-  content: |
-    br_netfilter
-    overlay
+  copy:
+    dest: /etc/modules-load.d/kubernetes-cni.conf
+    content: |
+      br_netfilter
+      overlay
 
 - name: Set sysctl for cri-o
   sysctl:
