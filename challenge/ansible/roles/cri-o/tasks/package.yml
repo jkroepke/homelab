@@ -9,7 +9,7 @@
     state: present
   loop:
     - deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/x{{ ansible_distribution }}_{{ ansible_distribution_version }}/ /
-    - deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/{{ versions.cri-o.split(".")[0] }}.{{ versions.cri-o.split(".")[1] }}/x{{ ansible_distribution }}_{{ ansible_distribution_version }}/ /
+    - deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/{{ versions['cri-o'].split(".")[0] }}.{{ versions['cri-o'].split(".")[1] }}/x{{ ansible_distribution }}_{{ ansible_distribution_version }}/ /
 
 - name: Ensure package version
   copy:
