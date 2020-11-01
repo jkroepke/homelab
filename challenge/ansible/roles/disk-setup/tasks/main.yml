@@ -1,0 +1,37 @@
+- name: Install nvme-cli
+  package:
+    state: present
+    name: nvme-cli
+
+- name: Get EBS volume path
+  shell: nvme id-ctrl -v /dev/{{ item }} | grep 0000 | grep -oe 'xv[a-z]*'
+  with_items:
+    - nvme1n1
+    - nvme2n1
+    - nvme3n1
+    - nvme4n1
+  changed_when: false
+  when: "item in ansible_devices"
+  register: nvm_to_ebs
+
+- name: Define volume nvme path
+  set_fact:
+    dev_xvdf: "{{ nvm_to_ebs | json_query(\"results[?stdout=='xvdf'].item\") | first }}"
+
+- name: Format etcd volume
+  filesystem:
+    fstype: xfs
+    dev: "/dev/{{ dev_xvdb }}"
+    opts: -n ftype=1 -L etcd
+  when:
+    - ansible_devices[dev_xvdf].links.uuids | length == 0
+    - ansible_devices[dev_xvdf].partitions | length == 0
+
+- name: Mount etcd
+  mount:
+    state: present
+    path: /var/lib/etcd
+    src: LABEL=etcd
+    fstype: ext4
+    opts: defaults,noatime,nofail,x-systemd.automount
+    passno: 2

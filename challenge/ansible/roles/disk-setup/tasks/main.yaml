@@ -1,4 +1,0 @@
-- name: test
-  copy:
-    content: "HI"
-    dest: /opt/ansible
