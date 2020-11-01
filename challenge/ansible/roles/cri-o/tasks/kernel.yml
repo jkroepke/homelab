@@ -1,0 +1,26 @@
+- name: modprobe
+  modprobe:
+    state: present
+    name: "{{ item }}"
+  loop:
+    - overlay
+    - br_netfilter
+
+- name: load modules on system start
+  path: /etc/modules-load.d/kubernetes-cni.conf
+  content: |
+    br_netfilter
+    overlay
+
+- name: Set sysctl for cri-o
+  sysctl:
+    state: present
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+    reload: yes
+    sysctl_file: /etc/sysctl.d/kubernetes-cni.conf
+    sysctl_set: yes
+  loop:
+    - {name: "net.ipv4.ip_forward", value: "1"}
+    - {name: "net.bridge.bridge-nf-call-iptables", value: "1"}
+    - {name: "net.bridge.bridge-nf-call-ip6tables", value: "1"}

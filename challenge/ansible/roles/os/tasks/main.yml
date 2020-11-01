@@ -1,0 +1,5 @@
+- name: Install basic packages
+  apt:
+    name: aptitude
+    state: present
+    force_apt_get: yes

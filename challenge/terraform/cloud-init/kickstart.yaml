@@ -11,12 +11,6 @@ packages:
   - git
   - ansible
 
-growpart:
-  mode: auto
-  devices:
-    - "/"
-    - "/var/lib/etcd"
-
 runcmd:
   - >-
     cloud-init-per once
@@ -26,7 +20,7 @@ runcmd:
     --url https://github.com/jkroepke/kubernetes-the-hard-way.git
     --checkout main
     --directory /usr/local/ansible/
-    --tags disk-setup,cri-o,etcd,controller
+    --tags common,cri-o,etcd,controller
     challenge/ansible/local.yml
 
 apt:

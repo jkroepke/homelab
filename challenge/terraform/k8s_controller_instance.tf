@@ -18,7 +18,7 @@ resource "aws_instance" "controller" {
 
   ebs_optimized = true
 
-  user_data = data.template_cloudinit_config.controller.rendered
+  user_data = data.template_cloudinit_config.controller[each.key].rendered
 
   // ip forward
   source_dest_check = false

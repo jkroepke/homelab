@@ -1,4 +1,6 @@
 data "template_cloudinit_config" "controller" {
+  for_each = local.controller_nodes
+
   gzip          = false
   base64_encode = false
 
@@ -6,6 +8,17 @@ data "template_cloudinit_config" "controller" {
     filename     = "kickstart.yaml"
     content_type = "text/cloud-config"
     content      = file("cloud-init/kickstart.yaml")
+  }
+
+  part {
+    filename     = "disks.yaml"
+    content_type = "text/cloud-config"
+    content      = templatefile("cloud-init/disks.yaml", {
+      count = 2
+      ebs = {
+        etcd = aws_ebs_volume.controller_etcd[each.key].id
+      }
+    })
   }
 
   part {

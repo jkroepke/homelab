@@ -1,0 +1,36 @@
+- name: Get apt-key for cri-o repositories
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: 2472D6D0D2F66AF87ABA8DA34D64390375060AA4
+
+- name: Enable cri-o repositories
+  apt_repository:
+    repo: "{{ item }}"
+    state: present
+  loop:
+    - deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/x{{ ansible_distribution }}_{{ ansible_distribution_version }}/ /
+    - deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/{{ versions.cri-o.split(".")[0] }}.{{ versions.cri-o.split(".")[1] }}/x{{ ansible_distribution }}_{{ ansible_distribution_version }}/ /
+
+- name: Ensure package version
+  content: |-
+    Package: cri-*
+    Pin: version {{ versions.cri-o }}*
+    Pin-Priority: 1000
+
+- name: Install cri-o
+  packages:
+    state: present
+    name: cri-o,cri-o-runc,cri-tools
+
+- name: Remove 100-crio-bridge.conf
+  file:
+    state: absent
+    path: /etc/cni/net.d/100-crio-bridge.conf
+
+- name: enable and start cri-o
+  service:
+    name: cri-o
+    state: started
+    enabled: yes
+
+

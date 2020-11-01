@@ -1,6 +1,13 @@
-- name: disk-setup
+- name: common
   hosts: localhost
   roles:
-    - disk-setup
+    - os
   tags:
-    - disk-setup
+    - common
+
+- name: common
+  hosts: localhost
+  roles:
+    - os
+  tags:
+    - cri-o
