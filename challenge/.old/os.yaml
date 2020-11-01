@@ -1,0 +1,25 @@
+#cloud-config
+
+timezone: Europe/Berlin
+locale: C.UTF-8
+packages:
+  - awscli
+  - curl
+  - tzdata
+  - unattended-upgrades
+
+apt:
+  preserve_sources_list: true
+  conf: |
+    APT::Get::Assume-Yes "true";
+    APT::Get::Fix-Broken "true";
+    APT::Get::Install-Recommends "false";
+    APT::Get::Install-Suggests "false";
+
+package_update: true
+package_upgrade: true
+apt_reboot_if_required: true
+
+# http://cloudinit.readthedocs.io/en/latest/topics/merging.html
+# http://jen20.com/2015/10/04/cloudconfig-merging.html
+merge_type: 'list(append)+dict(recurse_array)+str()'
