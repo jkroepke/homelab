@@ -1,3 +1,4 @@
 - name: disk-setup
+  hosts: localhost
   roles:
     - disk-setup
