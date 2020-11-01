@@ -8,6 +8,6 @@
 - name: common
   hosts: localhost
   roles:
-    - os
+    - cri-o
   tags:
     - cri-o

@@ -29,7 +29,7 @@ resource "aws_instance" "controller" {
 
   root_block_device {
     delete_on_termination = true
-    volume_size           = 200
+    volume_size           = 50
   }
 
   lifecycle {

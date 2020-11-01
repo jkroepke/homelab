@@ -2,8 +2,8 @@
 
 bootcmd:
   - |
-    while [ `lsblk | grep disk | wc -l` -lt ${total_disk_count} ]; do
-        echo [`date --rfc-3339=ns`] waiting on disks ... expected ${total_disk_count} found `lsblk | grep disk | wc -l`;
+    while [ `lsblk | grep disk | wc -l` -lt ${count} ]; do
+        echo [`date --rfc-3339=ns`] waiting on disks ... expected ${count} found `lsblk | grep disk | wc -l`;
         sleep 5;
     done
 

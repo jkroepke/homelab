@@ -27,7 +27,7 @@ resource "aws_route53_record" "etcd-server_SRV" {
   ttl     = "300"
   type    = "SRV"
 
-  records = [for name, instance in aws_instance.controller: "0 0 2380 ${instance.private_dns_name}."]
+  records = [for name, instance in aws_instance.controller: "0 0 2380 ${instance.private_dns}."]
 }
 
 
@@ -38,5 +38,5 @@ resource "aws_route53_record" "etcd-client_SRV" {
   ttl     = "300"
   type    = "SRV"
 
-  records = [for name, instance in aws_instance.controller: "0 0 2379 ${instance.private_dns_name}."]
+  records = [for name, instance in aws_instance.controller: "0 0 2379 ${instance.private_dns}."]
 }

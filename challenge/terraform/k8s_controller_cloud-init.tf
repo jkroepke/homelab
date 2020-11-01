@@ -16,7 +16,7 @@ data "template_cloudinit_config" "controller" {
     content      = templatefile("cloud-init/disks.yaml", {
       count = 2
       ebs = {
-        etcd = aws_ebs_volume.controller_etcd[each.key].id
+        etcd = replace(aws_ebs_volume.controller_etcd[each.key].id, "-", "")
       }
     })
   }
