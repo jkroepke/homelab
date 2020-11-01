@@ -9,14 +9,14 @@
     state: present
   loop:
     - deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/x{{ ansible_distribution }}_{{ ansible_distribution_version }}/ /
-    - deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/{{ versions['cri-o'].split(".")[0] }}.{{ versions['cri-o'].split(".")[1] }}/x{{ ansible_distribution }}_{{ ansible_distribution_version }}/ /
+    - deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/{{ versions.cri_o.split(".")[0] }}.{{ versions.cri_o.split(".")[1] }}/x{{ ansible_distribution }}_{{ ansible_distribution_version }}/ /
 
 - name: Ensure package version
   copy:
     dest: /etc/apt/preferences.d/cri-o
     content: |-
       Package: cri-*
-      Pin: version {{ versions.cri-o }}*
+      Pin: version {{ versions.cri_o }}*
       Pin-Priority: 1000
 
 - name: Install cri-o

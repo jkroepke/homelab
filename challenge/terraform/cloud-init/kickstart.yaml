@@ -20,7 +20,7 @@ runcmd:
     --purge
     --url https://github.com/jkroepke/kubernetes-the-hard-way.git
     --checkout ansible
-    --directory /usr/local/ansible/
+    --directory /tmp/ansible/
     --tags common,cri-o,etcd,controller
     challenge/ansible/local.yml
 
