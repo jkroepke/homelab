@@ -20,7 +20,7 @@
       Pin-Priority: 1000
 
 - name: Install cri-o
-  packages:
+  package:
     state: present
     name: cri-o,cri-o-runc,cri-tools
 
