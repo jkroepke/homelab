@@ -4,6 +4,9 @@
     - os
   tags:
     - common
+  pre_tasks:
+    - debug: var=versions
+
 
 - name: common
   hosts: localhost
