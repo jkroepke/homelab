@@ -14,7 +14,7 @@
   loop: "{{ etcd_certificates }}"
 
 - name: create csr for etcd certificates
-  community.crypto.openssl_csr:
+  openssl_csr:
     path: /etc/etcd/{{ item }}.csr
     privatekey_path: /etc/etcd/{{ item }}.key
     common_name: "{{ ansible_fqdn }}"
