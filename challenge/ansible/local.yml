@@ -20,3 +20,10 @@
     - etcd
   tags:
     - etcd
+
+- name: kubernetes
+  hosts: localhost
+  roles:
+    - kubernetes
+  tags:
+    - kubernetes
