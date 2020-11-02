@@ -17,5 +17,5 @@
 
 - name: Copy static pod
   template:
-    src: etc/kubernetes/manifests/etcd.yaml
+    src: etc/kubernetes/manifests/etcd.yaml.j2
     dest: /etc/kubernetes/manifests/etcd.yaml
