@@ -1,9 +1,9 @@
 locals {
   ansible_vars = {
     versions = var.versions
-    kubernetes = {
+    kubernetes = merge({
       api: aws_route53_zone.dns.name
-    }
+    }, var.kubernetes)
     etcd = {
       discovery_srv = "etcd.${aws_route53_zone.dns.name}"
     }

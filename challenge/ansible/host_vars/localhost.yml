@@ -11,4 +11,5 @@ etcd:
 
 kubernetes:
   api: joe-k8s-sandbox.adorsys-sandbox.aws.adorsys.de
-  pod_cidr_block: "10.32.0.0/16"
+  service_cidr_block: "10.32.0.0/16"
+  pod_cidr_block: "10.200.0.0/16"
