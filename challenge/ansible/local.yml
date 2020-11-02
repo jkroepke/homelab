@@ -7,9 +7,16 @@
   pre_tasks:
     - debug: var=versions
 
-- name: common
+- name: cri-o
   hosts: localhost
   roles:
     - cri-o
   tags:
     - cri-o
+
+- name: etcd
+  hosts: localhost
+  roles:
+    - etcd
+  tags:
+    - etcd
