@@ -12,7 +12,7 @@ authorization:
   mode: Webhook
 clusterDomain: "cluster.local"
 clusterDNS:
-  - "10.32.0.2"
+  - "{{ kubernetes.pod_cidr_block | regex_replace('[0-9]/[0-9][0-9]?', '53') }}"
 podCIDR: "{{ kubernetes.pod_cidr_block }}"
 serializeImagePulls: false
 staticPodPath: "/etc/kubernetes/manifests/"
