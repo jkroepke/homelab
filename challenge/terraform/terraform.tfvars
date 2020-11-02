@@ -12,3 +12,5 @@ versions = {
   # https://github.com/kubernetes/kubernetes/blob/release-1.19/cmd/kubeadm/app/constants/constants.go#L429
   etcd = "3.4.13-0"
 }
+
+kubernetes = {}

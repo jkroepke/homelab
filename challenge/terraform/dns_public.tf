@@ -22,7 +22,7 @@ resource "aws_route53_record" "adorsys-sandbox_aws_adorsys_de_NS" {
 resource "aws_route53_record" "api" {
   zone_id = aws_route53_zone.dns.id
 
-  name    = var.kubernetes.public_hostname
+  name    = aws_route53_zone.dns.name
   type    = "A"
 
   alias {
@@ -32,24 +32,18 @@ resource "aws_route53_record" "api" {
   }
 }
 
-resource "aws_route53_record" "bastion_public_A" {
+resource "aws_route53_record" "bastion_public" {
+  for_each = {
+    "A"    = [aws_eip.bastion.public_ip]
+    "AAAA" = aws_instance.bastion.ipv6_addresses
+  }
+
   zone_id = aws_route53_zone.dns.id
 
-  name    = "bastion"
-  type    = "A"
+  name    = "bastion.${aws_route53_zone.dns.name}"
+  type    = each.key
 
   ttl     = "3600"
 
-  records = [aws_eip.bastion.public_ip]
-}
-
-resource "aws_route53_record" "bastion_public_AAAA" {
-  zone_id = aws_route53_zone.dns.id
-
-  name    = "bastion"
-  type    = "AAAA"
-
-  ttl     = "3600"
-
-  records = aws_instance.bastion.ipv6_addresses
+  records = each.value
 }
