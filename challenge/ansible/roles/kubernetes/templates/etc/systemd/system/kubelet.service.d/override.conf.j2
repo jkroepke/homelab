@@ -5,7 +5,7 @@ Requires=crio.service
 [Service]
 ExecStart=
 ExecStart=/usr/bin/kubelet \
-  --cloud-provider=aws
+  --cloud-provider=aws \
   --config=/etc/kubernetes/kubelet-config.yaml \
   --container-runtime=remote \
   --container-runtime-endpoint=unix:///var/run/crio/crio.sock \
