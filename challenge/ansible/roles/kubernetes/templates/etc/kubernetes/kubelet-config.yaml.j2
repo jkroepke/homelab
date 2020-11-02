@@ -7,9 +7,10 @@ authentication:
   webhook:
     enabled: true
   x509:
-    clientCAFile: "/etc/kubernetes/pki/ca.pem"
+    clientCAFile: "/etc/kubernetes/pki/ca.crt"
 authorization:
   mode: Webhook
+cgroupDriver: "systemd"
 clusterDomain: "cluster.local"
 clusterDNS:
   - "{{ kubernetes.pod_cidr_block | regex_replace('[0-9]/[0-9][0-9]?', '53') }}"
