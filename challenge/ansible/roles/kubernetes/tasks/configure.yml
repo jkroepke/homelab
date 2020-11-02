@@ -5,8 +5,8 @@
 
 - name: configure
   template:
-    src: {{ item }}.j2
-    dest: /{{ item }}
+    src: "{{ item }}.j2"
+    dest: "/{{ item }}"
   loop:
     - etc/kubernetes/kubelet-config.yaml
     - etc/systemd/system/kubelet.service.d/override.conf
