@@ -36,7 +36,7 @@
     path: /etc/kubernetes/pki/{{ item.name }}.csr
     privatekey_path: /etc/kubernetes/pki/{{ item.name }}.key
     common_name: "{{ ansible_fqdn }}"
-    subject: "{{ item.subject | default({O: ('system:' if 'kube' in item else '') ~ item}) }}"
+    subject: "{{ item.subject | default({'O': ('system:' if 'kube' in item else '') ~ item}) }}"
     subject_alt_name: "{{ subject_alt_name if 'serverAuth' in item.extended_key_usage else omit }}"
     key_usage:
       - digitalSignature
