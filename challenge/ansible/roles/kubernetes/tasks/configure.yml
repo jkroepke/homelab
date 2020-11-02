@@ -1,3 +1,8 @@
+- name: create directories
+  file:
+    state: directory
+    path: /etc/systemd/system/kubelet.service.d
+
 - name: copy files
   copy:
     src: files/etc/systemd/system/kubelet.service.d/override.conf
@@ -8,8 +13,8 @@
 
 - name: copy template
   template:
-    src: files/etc/kubernetes/kubelet/kubelet-config.yaml.j2
-    dest: /etc/kubernetes/kubelet/kubelet-config.yaml
+    src: files/etc/kubernetes/kubelet-config.yaml.j2
+    dest: /etc/kubernetes/kubelet-config.yaml
   notify:
     - systemctl restart kubelet
 

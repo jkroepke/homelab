@@ -14,7 +14,7 @@
   copy:
     dest: /etc/apt/preferences.d/cri-o
     content: |-
-      Package: kubelet
+      Package: kube*
       Pin: version {{ versions.kubernetes }}*
       Pin-Priority: 1000
 
