@@ -26,15 +26,15 @@
 
 - name: create key for kubernetes certificates
   openssl_privatekey:
-    path: /etc/etcd/{{ item.name }}.key
+    path: /etc/kubernetes/pki/{{ item.name }}.key
     size: 2048
     type: RSA
   loop: "{{ kubernetes_certificates }}"
 
 - name: create csr for kubernetes certificates
   openssl_csr:
-    path: /etc/etcd/{{ item.name }}.csr
-    privatekey_path: /etc/etcd/{{ item.name }}.key
+    path: /etc/kubernetes/pki/{{ item.name }}.csr
+    privatekey_path: /etc/kubernetes/pki/{{ item.name }}.key
     common_name: "{{ ansible_fqdn }}"
     subject: "{{ item.subject | default(omit) }}"
     subject_alt_name: "{{ subject_alt_name if 'serverAuth' in item.extended_key_usage else omit }}"
@@ -46,10 +46,10 @@
 
 - name: sign kubernetes certificates
   openssl_certificate:
-    path: /etc/etcd/{{ item.name }}.crt
-    csr_path: /etc/etcd/{{ item.name }}.csr
-    ownca_path: /etc/etcd/ca.crt
-    ownca_privatekey_path: /etc/etcd/ca.key
+    path: /etc/kubernetes/pki/{{ item.name }}.crt
+    csr_path: /etc/kubernetes/pki/{{ item.name }}.csr
+    ownca_path: /etc/kubernetes/pki/ca.crt
+    ownca_privatekey_path: /etc/kubernetes/pki/ca.key
     ownca_not_after: "+3650d"
     provider: ownca
   loop: "{{ kubernetes_certificates }}"

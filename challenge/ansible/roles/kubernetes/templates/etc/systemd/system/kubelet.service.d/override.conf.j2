@@ -8,6 +8,7 @@ ExecStart=/usr/bin/kubelet \
   --config=/etc/kubernetes/kubelet-config.yaml \
   --container-runtime=remote \
   --container-runtime-endpoint=unix:///var/run/crio/crio.sock \
+  --hostname-override={{ ansible_fqdn }} \
   --kubeconfig=/etc/kubernetes/pki/kubelet.kubeconfig \
   --network-plugin=cni \
   --register-node=true \
