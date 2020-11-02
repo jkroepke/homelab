@@ -3,6 +3,7 @@ After=crio.service
 Requires=crio.service
 
 [Service]
+ExecStart=
 ExecStart=/usr/bin/kubelet \
   --cloud-provider=aws
   --config=/etc/kubernetes/kubelet-config.yaml \
