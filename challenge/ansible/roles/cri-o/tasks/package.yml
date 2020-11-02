@@ -25,8 +25,8 @@
     name: cri-o,cri-o-runc,cri-tools
 
 - name: Remove 100-crio-bridge.conf
-  file:
-    state: absent
+  copy:
+    content: ""
     path: /etc/cni/net.d/100-crio-bridge.conf
 
 - name: enable and start cri-o

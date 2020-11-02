@@ -24,6 +24,6 @@ runcmd:
     --tags common,cri-o,etcd,controller
     challenge/ansible/local.yml
 
-apt:
-  ansible:
-    source: 'ppa:ansible/ansible'
+#apt:
+#  ansible:
+#    source: 'ppa:ansible/ansible'
