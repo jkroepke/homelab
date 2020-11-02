@@ -4,5 +4,7 @@ versions:
   # https://github.com/kubernetes/kubernetes/blob/release-1.19/cmd/kubeadm/app/constants/constants.go#L429
   etcd: 3.4.13-0
 
+  kubernetes: 1.19.3
+
 etcd:
   discovery_srv: etcd.joe-k8s-sandbox.adorsys-sandbox.aws.adorsys.de

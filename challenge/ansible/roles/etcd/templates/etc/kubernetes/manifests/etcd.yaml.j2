@@ -20,6 +20,7 @@ spec:
     - --discovery-srv {{ etcd.discovery_srv }}
     - --name {{ ansible_fqdn }}
     - --initial-advertise-peer-urls https://{{ ansible_fqdn }}:2380
+    - --initial-cluster={{ ansible_fqdn }}=https://{{ ansible_fqdn }}:2380
     - --initial-cluster-token kubernetes
     - --initial-cluster-state new
     - --key-file=/etc/etcd/server.key

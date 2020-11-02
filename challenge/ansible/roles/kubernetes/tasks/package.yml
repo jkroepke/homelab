@@ -1,0 +1,30 @@
+- name: Get apt-key for kubernetes repositories
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: 54A647F9048D5688D7DA2ABE6A030B21BA07F4FB
+
+- name: Enable kubernetes repositories
+  apt_repository:
+    repo: "{{ item }}"
+    state: present
+  loop:
+    - deb https://apt.kubernetes.io/ kubernetes-xenial main
+
+- name: Ensure package version
+  copy:
+    dest: /etc/apt/preferences.d/cri-o
+    content: |-
+      Package: kubelet
+      Pin: version {{ versions.kubernetes }}*
+      Pin-Priority: 1000
+
+- name: Install kubelet
+  package:
+    state: present
+    name: kubelet
+
+- name: enable and start cri-o
+  service:
+    name: cri-o
+    state: started
+    enabled: yes

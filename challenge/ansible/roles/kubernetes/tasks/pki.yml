@@ -2,11 +2,14 @@
 
 - name: set etcd certificates
   set_fact:
-    etcd_certificates:
-      - { name: healthcheck-client, extended_key_usage: ["clientAuth"], subject: omit }
-      - { name: peer, extended_key_usage: ["clientAuth", "serverAuth"], subject: omit }
-      - { name: server, extended_key_usage: ["clientAuth", "serverAuth"], subject: omit }
-      - { name: apiserver-etcd-client, extended_key_usage: ["clientAuth"], subject: "system:masters" }
+    kubernetes_certificates:
+      - { name: apiserver, extended_key_usage: ["serverAuth"], subject: omit }
+      - { name: apiserver-kubelet-client, extended_key_usage: ["clientAuth"], subject: "system:masters" }
+      - { name: sa, extended_key_usage: ["clientAuth"], subject: omit }
+      - { name: admin, extended_key_usage: ["clientAuth"] }
+      - { name: kubelet, extended_key_usage: ["clientAuth"] }
+      - { name: controller-manager, extended_key_usage: ["clientAuth"] }
+      - { name: scheduler, extended_key_usage: ["clientAuth"] }
     subject_alt_name:
       - "DNS:{{ ansible_fqdn }}"
       - "DNS:{{ ansible_hostname }}"
@@ -15,12 +18,18 @@
       - "IP:{{ ansible_default_ipv4.address }}"
       - "IP:127.0.0.1"
       - "IP:::1"
+      - "kubernetes"
+      - "kubernetes.default"
+      - "kubernetes.default.svc"
+      - "kubernetes.default.svc.cluster"
+      - "kubernetes.default.svc.cluster.local"
+
 - name: create key for etcd certificates
   openssl_privatekey:
     path: /etc/etcd/{{ item.name }}.key
     size: 2048
     type: RSA
-  loop: "{{ etcd_certificates }}"
+  loop: "{{ kubernetes_certificates }}"
 
 - name: create csr for etcd certificates
   openssl_csr:
@@ -33,7 +42,7 @@
       - digitalSignature
       - keyAgreement
     extended_key_usage: "{{ item.extended_key_usage }}"
-  loop: "{{ etcd_certificates }}"
+  loop: "{{ kubernetes_certificates }}"
 
 - name: sign etcd certificates
   openssl_certificate:
@@ -43,5 +52,5 @@
     ownca_privatekey_path: /etc/etcd/ca.key
     ownca_not_after: "+3650d"
     provider: ownca
-  loop: "{{ etcd_certificates }}"
+  loop: "{{ kubernetes_certificates }}"
 
