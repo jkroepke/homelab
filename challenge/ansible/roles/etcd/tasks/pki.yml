@@ -34,7 +34,7 @@
   loop: "{{ etcd_certificates }}"
 
 - name: sign etcd certificates
-  x509_certificate:
+  openssl_certificate:
     path: /etc/etcd/{{ item }}.crt
     csr_path: /etc/etcd/{{ item }}.csr
     ownca_path: /etc/etcd/ca.crt
