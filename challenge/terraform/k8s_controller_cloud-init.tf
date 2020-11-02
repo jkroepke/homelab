@@ -64,7 +64,7 @@ data "template_cloudinit_config" "controller" {
     filename     = "kubernetes.key"
     content_type = "text/cloud-config"
     content      = templatefile("cloud-init/parts/write_file.yaml", {
-      path = "/etc/kubernetes/ca.key"
+      path = "/etc/kubernetes/pki/ca.key"
       content = tls_private_key.kubernetes-ca.private_key_pem
     })
   }
@@ -73,7 +73,7 @@ data "template_cloudinit_config" "controller" {
     filename     = "etcd.key"
     content_type = "text/cloud-config"
     content      = templatefile("cloud-init/parts/write_file.yaml", {
-      path = "/etc/kubernetes/ca.crt"
+      path = "/etc/kubernetes/pki/ca.crt"
       content = tls_self_signed_cert.kubernetes-ca.cert_pem
     })
   }
@@ -82,7 +82,7 @@ data "template_cloudinit_config" "controller" {
     filename     = "kubernetes.key"
     content_type = "text/cloud-config"
     content      = templatefile("cloud-init/parts/write_file.yaml", {
-      path = "/etc/kubernetes/ca.key"
+      path = "/etc/kubernetes/pki/ca.key"
       content = tls_private_key.front-proxy-ca.private_key_pem
     })
   }
@@ -91,7 +91,7 @@ data "template_cloudinit_config" "controller" {
     filename     = "etcd.key"
     content_type = "text/cloud-config"
     content      = templatefile("cloud-init/parts/write_file.yaml", {
-      path = "/etc/kubernetes/ca.crt"
+      path = "/etc/kubernetes/pki/ca.crt"
       content = tls_self_signed_cert.front-proxy-ca.cert_pem
     })
   }

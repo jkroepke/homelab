@@ -12,7 +12,7 @@
 - name: Provide client cert for kube-apiserver
   copy:
     src: /etc/etcd/apiserver-etcd-client.crt
-    dest: /etc/kubernetes/apiserver-etcd-client.crt
+    dest: /etc/kubernetes/pki/apiserver-etcd-client.crt
     remote_src: yes
 
 - name: Copy static pod

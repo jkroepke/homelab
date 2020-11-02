@@ -1,0 +1,22 @@
+- name: copy files
+  copy:
+    src: files/etc/systemd/system/kubelet.service.d/override.conf
+    dest: /etc/systemd/system/kubelet.service.d/override.conf
+  notify:
+    - systemctl deamon-reload
+    - systemctl restart kubelet
+
+- name: copy template
+  template:
+    src: files/etc/kubernetes/kubelet/config.yaml.j2
+    dest: /etc/kubernetes/kubelet/config.yaml
+  notify:
+    - systemctl restart kubelet
+
+- meta: flush_handlers
+
+- name: Start kubelet
+  service:
+    name: kubelet
+    state: started
+    enabled: yes
