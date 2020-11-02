@@ -1,15 +1,15 @@
 # See: https://kubernetes.io/docs/setup/best-practices/certificates/
 
-- name: set etcd certificates
+- name: set kubernetes certificates
   set_fact:
     kubernetes_certificates:
-      - { name: apiserver, extended_key_usage: ["serverAuth"] }
+      - { name: kube-apiserver, extended_key_usage: ["serverAuth"] }
       - { name: apiserver-kubelet-client, extended_key_usage: ["clientAuth"], subject: {O: "system:masters"}}
       - { name: sa, extended_key_usage: ["clientAuth"] }
       - { name: admin, extended_key_usage: ["clientAuth"] }
       - { name: kubelet, extended_key_usage: ["clientAuth"] }
-      - { name: controller-manager, extended_key_usage: ["clientAuth"] }
-      - { name: scheduler, extended_key_usage: ["clientAuth"] }
+      - { name: kube-controller-manager, extended_key_usage: ["clientAuth"] }
+      - { name: kube-scheduler, extended_key_usage: ["clientAuth"] }
     subject_alt_name:
       - "DNS:{{ ansible_fqdn }}"
       - "DNS:{{ ansible_hostname }}"
@@ -18,20 +18,20 @@
       - "IP:{{ ansible_default_ipv4.address }}"
       - "IP:127.0.0.1"
       - "IP:::1"
-      - "kubernetes"
-      - "kubernetes.default"
-      - "kubernetes.default.svc"
-      - "kubernetes.default.svc.cluster"
-      - "kubernetes.default.svc.cluster.local"
+      - "DNS:kubernetes"
+      - "DNS:kubernetes.default"
+      - "DNS:kubernetes.default.svc"
+      - "DNS:kubernetes.default.svc.cluster"
+      - "DNS:kubernetes.default.svc.cluster.local"
 
-- name: create key for etcd certificates
+- name: create key for kubernetes certificates
   openssl_privatekey:
     path: /etc/etcd/{{ item.name }}.key
     size: 2048
     type: RSA
   loop: "{{ kubernetes_certificates }}"
 
-- name: create csr for etcd certificates
+- name: create csr for kubernetes certificates
   openssl_csr:
     path: /etc/etcd/{{ item.name }}.csr
     privatekey_path: /etc/etcd/{{ item.name }}.key
@@ -44,7 +44,7 @@
     extended_key_usage: "{{ item.extended_key_usage }}"
   loop: "{{ kubernetes_certificates }}"
 
-- name: sign etcd certificates
+- name: sign kubernetes certificates
   openssl_certificate:
     path: /etc/etcd/{{ item.name }}.crt
     csr_path: /etc/etcd/{{ item.name }}.csr

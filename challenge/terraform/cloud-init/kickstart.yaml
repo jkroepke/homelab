@@ -21,7 +21,8 @@ runcmd:
     --url https://github.com/jkroepke/kubernetes-the-hard-way.git
     --checkout ansible
     --directory /tmp/ansible/
-    --tags common,cri-o,etcd,controller
+    --tags common,cri-o,etcd,kubernetes,controller
+    --extra-vars /etc/ansible/vars.yml
     challenge/ansible/local.yml
 
 #apt:

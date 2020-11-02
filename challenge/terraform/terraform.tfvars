@@ -6,12 +6,9 @@ versions = {
   coreos = "32"
   ubuntu = "focal"
 
-  kubernetes = "1.19.3"
-  cri-o = "1.19"
-}
+  cri_o = "1.19.0"
 
-kubernetes = {
-  public_hostname = "joe-k8s-sandbox.adorsys-sandbox.aws.adorsys.de"
-  service_cidr_block = "10.32.0.0/16"
-  pod_cidr_block = "10.200.0.0/16"
+  kubernetes = "1.19.3"
+  # https://github.com/kubernetes/kubernetes/blob/release-1.19/cmd/kubeadm/app/constants/constants.go#L429
+  etcd = "3.4.13-0"
 }

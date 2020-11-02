@@ -1,3 +1,15 @@
+locals {
+  ansible_vars = {
+    versions = var.versions
+    kubernetes = {
+      api: aws_route53_zone.dns.name
+    }
+    etcd = {
+      discovery_srv = "etcd.${aws_route53_zone.dns.name}"
+    }
+  }
+}
+
 data "template_cloudinit_config" "controller" {
   for_each = local.controller_nodes
 
@@ -18,6 +30,15 @@ data "template_cloudinit_config" "controller" {
       ebs = {
         etcd = replace(aws_ebs_volume.controller_etcd[each.key].id, "-", "")
       }
+    })
+  }
+
+  part {
+    filename     = "vars.yml"
+    content_type = "text/cloud-config"
+    content      = templatefile("cloud-init/parts/write_file.yaml", {
+      path = "/etc/ansible/vars.yml"
+      content = yamlencode(local.ansible_vars)
     })
   }
 

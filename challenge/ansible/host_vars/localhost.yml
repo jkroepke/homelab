@@ -8,3 +8,7 @@ versions:
 
 etcd:
   discovery_srv: etcd.joe-k8s-sandbox.adorsys-sandbox.aws.adorsys.de
+
+kubernetes:
+  api: joe-k8s-sandbox.adorsys-sandbox.aws.adorsys.de
+  pod_cidr_block: "10.32.0.0/16"
