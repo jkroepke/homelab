@@ -15,7 +15,7 @@
       - "DNS:localhost"
       - "IP:{{ ansible_default_ipv6.address }}"
       - "IP:{{ ansible_default_ipv4.address }}"
-      - "IP:{{ pod_cidr_block | regex_replace('\d/\d\d?', '1') }}"
+      - "IP:{{ pod_cidr_block | regex_replace('[0-9]/[0-9][0-9]?', '1') }}"
       - "IP:127.0.0.1"
       - "IP:::1"
       - "DNS:kubernetes"
