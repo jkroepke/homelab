@@ -1,0 +1,45 @@
+- name: set etcd certificates
+  set_fact:
+    etcd_certificates:
+      - healthcheck-client
+      - peer
+      - server
+      - apiserver-etcd-client
+
+- name: create key for etcd certificates
+  openssl_privatekey:
+    path: /etc/etcd/{{ item }}.key
+    size: 2048
+    type: RSA
+  loop: "{{ etcd_certificates }}"
+
+- name: create csr for etcd certificates
+  community.crypto.openssl_csr:
+    path: /etc/etcd/{{ item }}.csr
+    privatekey_path: /etc/etcd/{{ item }}.key
+    common_name: "{{ ansible_fqdn }}"
+    subject_alt_name:
+      - "{{ ansible_hostname }}"
+      - "IP:{{ ansible_default_ipv6.address }}"
+      - "IP:{{ ansible_default_ipv4.address }}"
+      - "localhost"
+      - "IP:127.0.0.1"
+      - "IP:::1"
+    key_usage:
+      - digitalSignature
+      - keyAgreement
+    extended_key_usage:
+      - serverAuth
+      - clientAuth
+  loop: "{{ etcd_certificates }}"
+
+- name: sign etcd certificates
+  x509_certificate:
+    path: /etc/etcd/{{ item }}.crt
+    csr_path: /etc/etcd/{{ item }}.csr
+    ownca_path: /etc/etcd/ca.crt
+    ownca_privatekey_path: /etc/etcd/ca.key
+    ownca_not_after: "+3650d"
+    provider: ownca
+  loop: "{{ etcd_certificates }}"
+

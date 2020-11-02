@@ -20,7 +20,7 @@ resource "tls_self_signed_cert" "front-proxy-ca" {
   private_key_pem = tls_private_key.front-proxy-ca.private_key_pem
 
   subject {
-    common_name  = "${var.name} front-proxy CA"
+    common_name  = "front-proxy CA"
     organization = var.name
   }
 

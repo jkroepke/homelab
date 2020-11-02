@@ -18,7 +18,7 @@ resource "tls_self_signed_cert" "kubernetes-ca" {
   private_key_pem = tls_private_key.kubernetes-ca.private_key_pem
 
   subject {
-    common_name  = "${var.name} kubernetes CA"
+    common_name  = "kubernetes CA"
     organization = var.name
   }
 

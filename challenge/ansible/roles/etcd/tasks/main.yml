@@ -1,0 +1,21 @@
+- name: Ensure directories
+  file:
+    state: directory
+    path: "{{ item }}"
+  loop:
+    - /var/lib/etcd/
+    - /etc/etcd/
+    - /etc/kubernetes/manifests/
+
+- import_tasks: pki.yml
+
+- name: Provide client cert for kube-apiserver
+  copy:
+    src: /etc/etcd/apiserver-etcd-client.crt
+    dest: /etc/kubernetes/apiserver-etcd-client.crt
+    remote_src: yes
+
+- name: Copy static pod
+  template:
+    src: etc/kubernetes/manifests/etcd.yaml
+    dest: /etc/kubernetes/manifests/etcd.yaml
