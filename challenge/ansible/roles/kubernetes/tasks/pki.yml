@@ -3,7 +3,7 @@
 - name: set etcd certificates
   set_fact:
     kubernetes_certificates:
-      - { name: apiserver, extended_key_usage: ["serverAuth"], subject: omit }
+      - { name: apiserver, extended_key_usage: ["serverAuth"] }
       - { name: apiserver-kubelet-client, extended_key_usage: ["clientAuth"], subject: "system:masters" }
       - { name: sa, extended_key_usage: ["clientAuth"], subject: omit }
       - { name: admin, extended_key_usage: ["clientAuth"] }
@@ -36,7 +36,7 @@
     path: /etc/etcd/{{ item.name }}.csr
     privatekey_path: /etc/etcd/{{ item.name }}.key
     common_name: "{{ ansible_fqdn }}"
-    subject: "{{ item.subject }}"
+    subject: "{{ item.subject | default(omit) }}"
     subject_alt_name: "{{ subject_alt_name if 'serverAuth' in item.extended_key_usage else omit }}"
     key_usage:
       - digitalSignature
