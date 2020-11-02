@@ -34,7 +34,6 @@ Based on: https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-ce
 
 Upstream: 
 * https://kubernetes.io/docs/setup/best-practices/certificates/
-* https://kubernetes.io/docs/setup/best-practices/certificates/
 
 # Bootstrap Process
 
@@ -43,3 +42,4 @@ Upstream:
 * Install kublet
 * run etcd as static pod and kickstart cluster via dns discovery
 * all everything else
+

@@ -24,13 +24,17 @@ resource "aws_iam_policy" "controller" {
 }
 
 # https://github.com/kubernetes/cloud-provider-aws#iam-policy
+# https://github.com/kubernetes/autoscaler/tree/master/charts/cluster-autoscaler-chart#additional-configuration
 data "aws_iam_policy_document" "controller" {
   statement {
     sid = "1"
     actions = [
       "autoscaling:DescribeAutoScalingGroups",
+      "autoscaling:DescribeAutoScalingInstances",
       "autoscaling:DescribeLaunchConfigurations",
       "autoscaling:DescribeTags",
+      "autoscaling:SetDesiredCapacity",
+      "autoscaling:TerminateInstanceInAutoScalingGroup",
       "ec2:DescribeInstances",
       "ec2:DescribeRegions",
       "ec2:DescribeRouteTables",
