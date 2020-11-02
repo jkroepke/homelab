@@ -12,7 +12,7 @@
 
 - name: Ensure package version
   copy:
-    dest: /etc/apt/preferences.d/cri-o
+    dest: /etc/apt/preferences.d/kubernetes
     content: |-
       Package: kube*
       Pin: version {{ versions.kubernetes }}*
