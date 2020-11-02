@@ -14,6 +14,9 @@ cgroupDriver: "systemd"
 clusterDomain: "cluster.local"
 clusterDNS:
   - "{{ kubernetes.pod_cidr_block | regex_replace('[0-9]/[0-9][0-9]?', '53') }}"
+featureGates:
+  DefaultPodTopologySpread: true
+  EphemeralContainers: true
 podCIDR: "{{ kubernetes.pod_cidr_block }}"
 serializeImagePulls: false
 staticPodPath: "/etc/kubernetes/manifests/"
