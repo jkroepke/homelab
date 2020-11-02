@@ -21,7 +21,7 @@
 - name: Install kubelet
   package:
     state: present
-    name: kubelet
+    name: kubelet,kubectl
 
 - name: enable and start cri-o
   service:

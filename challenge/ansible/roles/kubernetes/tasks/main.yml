@@ -1,4 +1,2 @@
-- import_tasks: pki.yml
 - import_tasks: package.yml
-- import_tasks: kubeconfig.yml
 - import_tasks: configure.yml
