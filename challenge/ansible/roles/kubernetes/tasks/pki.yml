@@ -7,7 +7,6 @@
       - { name: apiserver-kubelet-client, extended_key_usage: ["clientAuth"], subject: {O: "system:masters"}}
       - { name: sa, extended_key_usage: ["clientAuth"] }
       - { name: admin, extended_key_usage: ["clientAuth"] }
-      - { name: kubelet, extended_key_usage: ["clientAuth"] }
       - { name: kube-controller-manager, extended_key_usage: ["clientAuth"] }
       - { name: kube-scheduler, extended_key_usage: ["clientAuth"] }
     subject_alt_name:

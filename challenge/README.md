@@ -32,8 +32,9 @@ Based on: https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-ce
 
 ### Setup PKI
 
-Upstream: https://kubernetes.io/docs/setup/best-practices/certificates/
-
+Upstream: 
+* https://kubernetes.io/docs/setup/best-practices/certificates/
+* https://kubernetes.io/docs/setup/best-practices/certificates/
 
 # Bootstrap Process
 

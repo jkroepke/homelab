@@ -14,8 +14,10 @@ clusterDomain: "cluster.local"
 clusterDNS:
   - "10.32.0.2"
 podCIDR: "{{ kubernetes.pod_cidr_block }}"
+serializeImagePulls: false
 staticPodPath: "/etc/kubernetes/manifests/"
 resolvConf: "/run/systemd/resolve/resolv.conf"
 runtimeRequestTimeout: "15m"
 tlsCertFile: "/etc/kubernetes/pki/kubelet.crt"
 tlsPrivateKeyFile: "/etc/kubernetes/pki/kubelet.key"
+
