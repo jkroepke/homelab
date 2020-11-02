@@ -2,7 +2,7 @@
   systemd:
     daemon_reload: yes
 
-- name: systemctl restart kube-apiserver
+- name: systemctl restart kubelet
   service:
     name: kubelet
     state: restarted
