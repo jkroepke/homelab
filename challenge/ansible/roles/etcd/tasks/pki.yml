@@ -6,7 +6,7 @@
       - { name: healthcheck-client, extended_key_usage: ["clientAuth"] }
       - { name: peer, extended_key_usage: ["clientAuth", "serverAuth"] }
       - { name: server, extended_key_usage: ["clientAuth", "serverAuth"] }
-      - { name: apiserver-etcd-client, extended_key_usage: ["clientAuth"], subject: "system:masters" }
+      - { name: apiserver-etcd-client, extended_key_usage: ["clientAuth"], subject: {O: "system:masters"} }
     subject_alt_name:
       - "DNS:{{ ansible_fqdn }}"
       - "DNS:{{ ansible_hostname }}"

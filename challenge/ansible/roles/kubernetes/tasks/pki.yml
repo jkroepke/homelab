@@ -4,8 +4,8 @@
   set_fact:
     kubernetes_certificates:
       - { name: apiserver, extended_key_usage: ["serverAuth"] }
-      - { name: apiserver-kubelet-client, extended_key_usage: ["clientAuth"], subject: "system:masters" }
-      - { name: sa, extended_key_usage: ["clientAuth"], subject: omit }
+      - { name: apiserver-kubelet-client, extended_key_usage: ["clientAuth"], subject: {O: "system:masters"}}
+      - { name: sa, extended_key_usage: ["clientAuth"] }
       - { name: admin, extended_key_usage: ["clientAuth"] }
       - { name: kubelet, extended_key_usage: ["clientAuth"] }
       - { name: controller-manager, extended_key_usage: ["clientAuth"] }
