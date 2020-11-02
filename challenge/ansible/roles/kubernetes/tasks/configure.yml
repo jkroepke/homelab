@@ -11,7 +11,7 @@
     - etc/kubernetes/kubelet-config.yaml
     - etc/systemd/system/kubelet.service.d/override.conf
   notify:
-    - systemctl deamon-reload
+    - systemctl daemon-reload
     - systemctl restart kubelet
 
 - meta: flush_handlers
