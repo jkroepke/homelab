@@ -8,7 +8,7 @@
       - { name: kube-controller-manager, extended_key_usage: ["clientAuth"], common_name: "system:kube-controller-manager" }
       - { name: kube-scheduler, extended_key_usage: ["clientAuth"], common_name: "system:kube-scheduler" }
       - { name: kubelet, extended_key_usage: ["clientAuth"], common_name: "system:node:{{ ansible_fqdn }}",subject: {O: "system:nodes"}}
-      - { name: cni, extended_key_usage: ["clientAuth"], common_name: "calico-cni"}}
+      - { name: cni, extended_key_usage: ["clientAuth"], common_name: "calico-cni"}
     subject_alt_name:
       - "DNS:{{ ansible_fqdn }}"
       - "DNS:{{ ansible_hostname }}"

@@ -1,5 +1,3 @@
-#cloud-config
-
 bootcmd:
   - |
     while [ `lsblk | grep disk | wc -l` -lt ${count} ]; do
