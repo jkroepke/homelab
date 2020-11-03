@@ -1,20 +1,12 @@
-- name: create directories
-  file:
-    state: directory
-    path: /etc/systemd/system/kubelet.service.d
+- copy:
+    content: KUBELET_EXTRA_ARGS=--cloud-provider=external
+    dest: /etc/default/kubelet
 
-- name: configure
-  template:
-    src: "{{ item }}.j2"
-    dest: "/{{ item }}"
-  loop:
-    - etc/kubernetes/kubelet-config.yaml
-    - etc/systemd/system/kubelet.service.d/override.conf
-  notify:
-    - systemctl daemon-reload
-    - systemctl restart kubelet
+- command: >-
+    kubeadm init phase kubeconfig kubelet --config /etc/kubernetes/kubeadm/config.yaml
 
-- meta: flush_handlers
+- command: >-
+    kubeadm init phase kubelet-start --config /etc/kubernetes/kubeadm/config.yaml
 
 - name: Start kubelet
   service:

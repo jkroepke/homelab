@@ -14,12 +14,19 @@
   tags:
     - cri-o
 
-- name: etcd
+- name: kubernetes-controller
   hosts: localhost
   roles:
-    - etcd
+    - kubernetes-controller
   tags:
-    - etcd
+    - controller
+
+- name: kubernetes-worker
+  hosts: localhost
+  roles:
+    - kubernetes-worker
+  tags:
+    - worker
 
 - name: kubernetes
   hosts: localhost
@@ -27,10 +34,3 @@
     - kubernetes
   tags:
     - kubernetes
-
-- name: kubernetes-controller
-  hosts: localhost
-  roles:
-    - kubernetes-controller
-  tags:
-    - controller

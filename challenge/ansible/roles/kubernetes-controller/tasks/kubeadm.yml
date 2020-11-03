@@ -1,5 +1,23 @@
-- name: kubeadm init phase certs all
-  command: kubeadm init phase certs all
+- file:
+    state: directory
+    path: /etc/kubernetes/kubeadm/patches/
 
-- name: kubeadm init phase kubeconfig all
-  command: kubeadm init phase kubeconfig all
+- name: configure kubeadm
+  template:
+    src: "{{ item }}.j2"
+    dest: "/{{ item }}"
+  loop:
+    - etc/kubernetes/kubeadm/config.yaml
+    - etc/kubernetes/kubeadm/patches/etcd.yaml
+
+- command: >-
+    kubeadm init phase certs all --config /etc/kubernetes/kubeadm/config.yaml
+- command: >-
+    kubeadm init phase kubeconfig all --config /etc/kubernetes/kubeadm/config.yaml
+- command: >-
+    kubeadm init phase etcd local --config /etc/kubernetes/kubeadm/config.yaml --experimental-patches /etc/kubernetes/kubeadm/patches/
+- command: >-
+    kubeadm init phase control-plane all
+    --apiserver-extra-args cloud-provider=external
+    --controller-manager-extra-args cloud-provider=external
+    --scheduler-extra-args cloud-provider=external

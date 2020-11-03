@@ -1,0 +1,40 @@
+- name: Ensure kubernetes package version
+  copy:
+    dest: /etc/apt/preferences.d/kubernetes
+    content: |-
+      Package: kube*
+      Pin: version {{ versions.kubernetes }}*
+      Pin-Priority: 1000
+
+- name: Ensure cri-o package version
+  copy:
+    dest: /etc/apt/preferences.d/cri-o
+    content: |-
+      Package: cri-*
+      Pin: version {{ versions.cri_o }}*
+      Pin-Priority: 1000
+
+- name: Get apt-key for kubernetes repositories
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: 54A647F9048D5688D7DA2ABE6A030B21BA07F4FB
+
+- name: Enable kubernetes repositories
+  apt_repository:
+    repo: "{{ item }}"
+    state: present
+  loop:
+    - deb https://apt.kubernetes.io/ kubernetes-xenial main
+
+- name: Get apt-key for cri-o repositories
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: 2472D6D0D2F66AF87ABA8DA34D64390375060AA4
+
+- name: Enable cri-o repositories
+  apt_repository:
+    repo: "{{ item }}"
+    state: present
+  loop:
+    - deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/x{{ ansible_distribution }}_{{ ansible_distribution_version }}/ /
+    - deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/{{ versions.cri_o.split(".")[0] }}.{{ versions.cri_o.split(".")[1] }}/x{{ ansible_distribution }}_{{ ansible_distribution_version }}/ /
