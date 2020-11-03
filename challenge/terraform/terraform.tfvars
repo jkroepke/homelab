@@ -17,6 +17,6 @@ versions = {
 }
 
 kubernetes = {
-  service_cidr_block = "10.32.0.0/24"
+  service_cidr_block = "10.96.0.0/12"
   pod_cidr_block = "10.200.0.0/16"
 }

@@ -1,0 +1,5 @@
+- name: kubeadm init phase certs all
+  command: kubeadm init phase certs all
+
+- name: kubeadm init phase kubeconfig all
+  command: kubeadm init phase kubeconfig all
