@@ -1,11 +1,11 @@
 - name: Download calico
   get_url:
-    url: 'https://github.com/projectcalico/cni-plugin/releases/download/v{{ calico }}/calico-amd64'
+    url: 'https://github.com/projectcalico/cni-plugin/releases/download/v{{ versions.calico }}/calico-amd64'
     dest: '/opt/cni/bin/calico'
 
 - name: Download calico-ipam
   get_url:
-    url: 'https://github.com/projectcalico/cni-plugin/releases/download/v{{ calico }}/calico-ipam-amd64'
+    url: 'https://github.com/projectcalico/cni-plugin/releases/download/v{{ versions.calico }}/calico-ipam-amd64'
     dest: '/opt/cni/bin/calico-ipam'
 
 
