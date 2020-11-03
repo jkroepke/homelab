@@ -3,7 +3,7 @@
     dest: /etc/default/kubelet
 
 - command: >-
-    kubeadm init phase kubeconfig kubelet --config /etc/kubernetes/kubeadm/config.yaml
+    kubeadm init phase kubeconfig kubelet --config /etc/kubernetes/kubeadm/config.yaml --control-plane-endpoint {{ kubernetes.api }}
 
 - command: >-
     kubeadm init phase kubelet-start --config /etc/kubernetes/kubeadm/config.yaml

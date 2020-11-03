@@ -13,7 +13,7 @@
 - command: >-
     kubeadm init phase certs all --config /etc/kubernetes/kubeadm/config.yaml
 - command: >-
-    kubeadm init phase kubeconfig all --config /etc/kubernetes/kubeadm/config.yaml
+    kubeadm init phase kubeconfig all --config /etc/kubernetes/kubeadm/config.yaml --control-plane-endpoint {{ kubernetes.api }}
 - command: >-
     kubeadm init phase etcd local --config /etc/kubernetes/kubeadm/config.yaml --experimental-patches /etc/kubernetes/kubeadm/patches/
 - command: >-
