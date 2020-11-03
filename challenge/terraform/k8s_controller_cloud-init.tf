@@ -65,7 +65,7 @@ data "template_cloudinit_config" "controller" {
     content_type = "text/cloud-config"
     content      = templatefile("cloud-init/parts/write_file.yaml", {
       path = "/etc/kubernetes/pki/ca.key"
-      content = tls_private_key.kubernetes-ca.private_key_pem
+      content = tls_private_key.kubernetes-key["kubernetes-ca"].private_key_pem
     })
   }
 
@@ -93,6 +93,24 @@ data "template_cloudinit_config" "controller" {
     content      = templatefile("cloud-init/parts/write_file.yaml", {
       path = "/etc/kubernetes/pki/ca.crt"
       content = tls_self_signed_cert.front-proxy-ca.cert_pem
+    })
+  }
+
+  part {
+    filename     = "kubernetes.key"
+    content_type = "text/cloud-config"
+    content      = templatefile("cloud-init/parts/write_file.yaml", {
+      path = "/etc/kubernetes/pki/sa.key"
+      content = tls_private_key.kubernetes-sa.private_key_pem
+    })
+  }
+
+  part {
+    filename     = "etcd.key"
+    content_type = "text/cloud-config"
+    content      = templatefile("cloud-init/parts/write_file.yaml", {
+      path = "/etc/kubernetes/pki/sa.pub"
+      content = tls_private_key.kubernetes-sa.public_key_pem
     })
   }
 }

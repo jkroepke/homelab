@@ -11,6 +11,9 @@ versions = {
   kubernetes = "1.19.3"
   # https://github.com/kubernetes/kubernetes/blob/release-1.19/cmd/kubeadm/app/constants/constants.go#L429
   etcd = "3.4.13-0"
+
+  # CNI
+  calico = "3.14.0"
 }
 
 kubernetes = {

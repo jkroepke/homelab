@@ -4,9 +4,11 @@
   set_fact:
     kubernetes_certificates:
       - { name: kube-apiserver, extended_key_usage: ["serverAuth"] }
-      - { name: apiserver-kubelet-client, extended_key_usage: ["clientAuth"], subject: {O: "system:masters"}}
-      - { name: kube-controller-manager, extended_key_usage: ["clientAuth"] }
-      - { name: kube-scheduler, extended_key_usage: ["clientAuth"] }
+      - { name: kube-apiserver-kubelet-client, extended_key_usage: ["clientAuth"], subject: {O: "system:masters"}}
+      - { name: kube-controller-manager, extended_key_usage: ["clientAuth"], common_name: "system:kube-controller-manager" }
+      - { name: kube-scheduler, extended_key_usage: ["clientAuth"], common_name: "system:kube-scheduler" }
+      - { name: kubelet, extended_key_usage: ["clientAuth"], common_name: "system:node:{{ ansible_fqdn }}",subject: {O: "system:nodes"}}
+      - { name: cni, extended_key_usage: ["clientAuth"], common_name: "calico-cni"}}
     subject_alt_name:
       - "DNS:{{ ansible_fqdn }}"
       - "DNS:{{ ansible_hostname }}"
@@ -33,8 +35,8 @@
   openssl_csr:
     path: /etc/kubernetes/pki/{{ item.name }}.csr
     privatekey_path: /etc/kubernetes/pki/{{ item.name }}.key
-    common_name: "{{ ansible_fqdn }}"
-    subject: "{{ item.subject | default({'O': ('system:' if 'kube' in item else '') ~ item}) }}"
+    common_name: "{{ item.common_name | default(omit) }}"
+    subject: "{{ item.subject | default(omit) }}"
     subject_alt_name: "{{ subject_alt_name if 'serverAuth' in item.extended_key_usage else omit }}"
     key_usage:
       - digitalSignature
