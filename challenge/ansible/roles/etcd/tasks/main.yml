@@ -16,6 +16,7 @@
     remote_src: yes
 
 - name: Copy static pod
+  when: false
   template:
     src: etc/kubernetes/manifests/etcd.yaml.j2
     dest: /etc/kubernetes/manifests/etcd.yaml
