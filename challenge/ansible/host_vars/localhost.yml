@@ -6,6 +6,8 @@ versions:
 
   kubernetes: 1.19.3
 
+  calico: 3.14.0
+
 etcd:
   discovery_srv: etcd.joe-k8s-sandbox.adorsys-sandbox.aws.adorsys.de
 
