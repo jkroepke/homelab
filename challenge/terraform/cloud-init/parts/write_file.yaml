@@ -1,5 +1,6 @@
 write_files:
-- path: "${path}"
+- path: '${path}'
+  permissions: '${mode}'
   content: |
     ${indent(4, content)}
 

@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+instance_name="$1"
+api_hostname="$2"
+
+{
+  cloud-init status --wait > /dev/null
+
+  if [ -f "${HOME}/.kube/config" ]; then
+    return
+  fi
+
+  wait_for_api() {
+    while [ "$(curl --connect-timeout 30 --retry 300 --retry-delay 1 --retry-connrefused -ksSf "https://${api_hostname}:6443/healthz")" != "ok" ]; do
+      sleep 5
+    done
+  }
+
+  cluster_init() {
+    kubeadm init \
+      --node-name "$(hostname -f)" \
+      --config /etc/kubernetes/kubeadm.yaml \
+      --upload-certs \
+      --skip-token-print --skip-certificate-key-print
+  }
+
+  controller_join() {
+    kubeadm join \
+      --node-name "$(hostname -f)" \
+      --config /etc/kubernetes/kubeadm.yaml
+  }
+
+  case "${instance_name}" in
+    controller1)
+      if ! curl --connect-timeout 10 -sSf "https://${api_hostname}:6443/healthz" -o /dev/null; then
+        cluster_init
+      else
+        controller_join
+      fi
+      ;;
+    controller*)
+      wait_for_api
+      controller_join
+      ;;
+    *)
+      echo "Unknown instance ${instance_name}"
+      exit 1
+      ;;
+  esac
+
+  mkdir -p "${HOME}/.kube"
+  ln -sf "/etc/kubernetes/admin.conf" "${HOME}/.kube/config"
+  rm /etc/kubernetes/kubeadm.yaml
+} |& tee /var/log/instance-kickstart.log

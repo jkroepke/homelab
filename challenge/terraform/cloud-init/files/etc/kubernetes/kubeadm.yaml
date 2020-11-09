@@ -1,0 +1,60 @@
+---
+apiVersion: kubeadm.k8s.io/v1beta2
+kind: InitConfiguration
+bootstrapTokens:
+  - groups:
+      - system:bootstrappers:kubeadm:default-node-token
+    token: "${bootstrap_token}"
+    ttl: 0s
+    usages:
+      - signing
+      - authentication
+certificateKey: "${encryption_key}"
+nodeRegistration:
+  criSocket: unix:///var/run/crio/crio.sock
+  kubeletExtraArgs:
+    cgroup-driver: "systemd"
+    cloud-provider: external
+---
+apiVersion: kubeadm.k8s.io/v1beta2
+kind: ClusterConfiguration
+apiServer:
+  extraArgs:
+    cloud-provider: external
+  timeoutForControlPlane: 4m0s
+certificatesDir: /etc/kubernetes/pki
+clusterName: "${cluster_name}"
+controlPlaneEndpoint: "${api_hostname}:6443"
+controllerManager:
+  extraArgs:
+    address: 0.0.0.0
+    cloud-provider: external
+    configure-cloud-routes: "false"
+dns:
+  type: CoreDNS
+etcd:
+  local:
+    dataDir: /var/lib/etcd
+imageRepository: k8s.gcr.io
+kubernetesVersion: "v${version}"
+networking:
+  dnsDomain: cluster.local
+  podSubnet: 192.168.0.0/16
+  serviceSubnet: "${service_cidr_block}"
+---
+apiVersion: kubeadm.k8s.io/v1beta2
+kind: JoinConfiguration
+caCertPath: /etc/kubernetes/pki/ca.crt
+controlPlane:
+  certificateKey: "${encryption_key}"
+discovery:
+  bootstrapToken:
+    apiServerEndpoint: "${api_hostname}:6443"
+    token: "${bootstrap_token}"
+    unsafeSkipCAVerification: true
+  timeout: "5m0s"
+nodeRegistration:
+  criSocket: "unix:///var/run/crio/crio.sock"
+  kubeletExtraArgs:
+    cgroup-driver: "systemd"
+    cloud-provider: "external"

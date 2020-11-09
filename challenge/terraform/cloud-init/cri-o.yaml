@@ -1,0 +1,30 @@
+#cloud-config
+
+apt:
+  sources:
+    libcontainers.list:
+      source: deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_20.04/ /
+      keyid: 2472D6D0D2F66AF87ABA8DA34D64390375060AA4
+
+    cri-o.list:
+      source: deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/${split(".",versions.cri-o)[0]}.${split(".",versions.cri-o)[1]}/xUbuntu_20.04/ /
+      keyid: 2472D6D0D2F66AF87ABA8DA34D64390375060AA4
+
+packages:
+  - cri-o
+  - cri-o-runc
+  - cri-tools
+
+write_files:
+  - path: /etc/systemd/system-preset/cri-o.present
+    content: |
+      enable crio
+  - path: /etc/apt/preferences.d/cri-o
+    content: |
+      Package: cri-*
+      Pin: version ${versions.cri-o}*
+      Pin-Priority: 1000
+
+# http://cloudinit.readthedocs.io/en/latest/topics/merging.html
+# http://jen20.com/2015/10/04/cloudconfig-merging.html
+merge_type: 'list(append)+dict(recurse_array)+str()'

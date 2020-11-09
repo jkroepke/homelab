@@ -43,3 +43,12 @@ Upstream:
 * run etcd as static pod and kickstart cluster via dns discovery
 * all everything else
 
+# todo
+
+- https://github.com/kubernetes/cloud-provider-aws
+- https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/cloudprovider/aws/README.md
+- https://github.com/kubernetes/ingress-nginx
+- https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack
+- https://github.com/deliveryhero/helm-charts/tree/master/stable/node-problem-detector
+- https://github.com/aws/aws-node-termination-handler
+- https://github.com/keycloak/keycloak-operator

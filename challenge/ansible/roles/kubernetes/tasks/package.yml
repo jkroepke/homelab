@@ -1,4 +1,0 @@
-- name: Install kubelet
-  package:
-    state: present
-    name: kubelet,kubectl

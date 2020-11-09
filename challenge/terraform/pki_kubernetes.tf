@@ -9,72 +9,26 @@
 */
 
 // See: https://kubernetes.io/docs/setup/best-practices/certificates/
-locals {
-  kubernetes_certificates = {
-    "admin": {
-      cn: "kubernetes-admin"
-      o: "system:masters"
-    }
-  }
-}
 
-resource "tls_private_key" "kubernetes-key" {
-  for_each = toset(concat(["kubernetes-ca"], keys(local.kubernetes_certificates)))
-
+resource "tls_private_key" "kubernetes-ca" {
   algorithm = "RSA"
   rsa_bits  = 2048
 }
 
 resource "tls_self_signed_cert" "kubernetes-ca" {
-  key_algorithm   = tls_private_key.kubernetes-key["kubernetes-ca"].algorithm
-  private_key_pem = tls_private_key.kubernetes-key["kubernetes-ca"].private_key_pem
+  key_algorithm   = tls_private_key.kubernetes-ca.algorithm
+  private_key_pem = tls_private_key.kubernetes-ca.private_key_pem
 
   subject {
     common_name  = "${var.name} kubernetes CA"
     organization = var.name
   }
 
-  validity_period_hours = local.validity_period_hours
-
+  validity_period_hours = 87600
   is_ca_certificate = true
 
   allowed_uses = [
     "cert_signing",
     "crl_signing"
-  ]
-}
-
-resource "tls_private_key" "kubernetes-sa" {
-  algorithm = "RSA"
-  rsa_bits  = 2048
-}
-
-resource "tls_cert_request" "kubernetes-csr" {
-  for_each = local.kubernetes_certificates
-
-  key_algorithm   = tls_private_key.kubernetes-key[each.key].algorithm
-  private_key_pem = tls_private_key.kubernetes-key[each.key].private_key_pem
-
-  subject {
-    common_name  = each.value.cn
-    organization = each.value.o
-  }
-}
-
-resource "tls_locally_signed_cert" "kubernetes-crt" {
-  for_each = local.kubernetes_certificates
-
-  ca_key_algorithm   = tls_private_key.kubernetes-key["kubernetes-ca"].algorithm
-  ca_private_key_pem = tls_private_key.kubernetes-key["kubernetes-ca"].private_key_pem
-  ca_cert_pem        = tls_self_signed_cert.kubernetes-ca.cert_pem
-
-  cert_request_pem   = tls_cert_request.kubernetes-csr[each.key].cert_request_pem
-
-  validity_period_hours = local.validity_period_hours
-
-  allowed_uses = [
-    "key_encipherment",
-    "digital_signature",
-    "client_auth"
   ]
 }

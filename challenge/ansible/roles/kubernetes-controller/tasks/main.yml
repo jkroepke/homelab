@@ -1,3 +1,0 @@
-- import_tasks: kubeadm.yml
-#- import_tasks: pki.yml
-#- import_tasks: kubeconfig.yml

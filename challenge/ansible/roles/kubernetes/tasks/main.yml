@@ -1,3 +1,0 @@
-- import_tasks: package.yml
-- import_tasks: configure.yml
-- import_tasks: calico.yml
