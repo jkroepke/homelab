@@ -52,6 +52,7 @@ resource "aws_launch_template" "worker" {
     resource_type = "instance"
 
     tags = {
+      Name                                = "${var.name}-worker"
       project                             = var.name
       "kubernetes.io/cluster/${var.name}" = "owned"
     }
