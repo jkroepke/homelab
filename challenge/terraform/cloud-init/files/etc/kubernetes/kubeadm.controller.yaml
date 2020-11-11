@@ -15,21 +15,35 @@ nodeRegistration:
   kubeletExtraArgs:
     cgroup-driver: "systemd"
     cloud-provider: external
+    feature-gates: CSIMigration=true,CSIMigrationAWS=true,CSIMigrationAWSComplete=true,EphemeralContainers=true
 ---
 apiVersion: kubeadm.k8s.io/v1beta2
 kind: ClusterConfiguration
 apiServer:
   extraArgs:
     cloud-provider: external
+    oidc-issuer-url: "https://login.${kubernetes.api_hostname}/auth/realms/kubernetes/.well-known/openid-configuration"
+    oidc-client-id: "kubernetes"
+    oidc-username-claim: "sub"
+    oidc-username-prefix: "oidc:"
+    oidc-groups-claim: "groups"
+    oidc-groups-prefix: "oidc:"
+    oidc-ca-file: "/etc/ssl/certs/ca-certificates.crt"
   timeoutForControlPlane: 4m0s
+  extraVolumes:
+    - name: ca-trust
+      hostPath: /etc/ssl/certs/
+      mountPath: /etc/ssl/certs/
+      readOnly: true
 certificatesDir: /etc/kubernetes/pki
 clusterName: "${cluster_name}"
-controlPlaneEndpoint: "${api_hostname}:6443"
+controlPlaneEndpoint: "${kubernetes.api_hostname}:6443"
 controllerManager:
   extraArgs:
     address: 0.0.0.0
     cloud-provider: external
     configure-cloud-routes: "false"
+    feature-gates: CSIMigration=true,CSIMigrationAWS=true,CSIMigrationAWSComplete=true,EphemeralContainers=true
 dns:
   type: CoreDNS
 etcd:
@@ -39,8 +53,8 @@ imageRepository: k8s.gcr.io
 kubernetesVersion: "v${version}"
 networking:
   dnsDomain: cluster.local
-  podSubnet: 192.168.0.0/16
-  serviceSubnet: "${service_cidr_block}"
+  podSubnet: "${kubernetes.pod_cidr_block}"
+  serviceSubnet: "${kubernetes.service_cidr_block}"
 ---
 apiVersion: kubeadm.k8s.io/v1beta2
 kind: JoinConfiguration
@@ -49,7 +63,7 @@ controlPlane:
   certificateKey: "${encryption_key}"
 discovery:
   bootstrapToken:
-    apiServerEndpoint: "${api_hostname}:6443"
+    apiServerEndpoint: "${kubernetes.api_hostname}:6443"
     token: "${bootstrap_token}"
     unsafeSkipCAVerification: true
   timeout: "5m0s"
@@ -58,3 +72,4 @@ nodeRegistration:
   kubeletExtraArgs:
     cgroup-driver: "systemd"
     cloud-provider: "external"
+    feature-gates: CSIMigration=true,CSIMigrationAWS=true,CSIMigrationAWSComplete=true,EphemeralContainers=true

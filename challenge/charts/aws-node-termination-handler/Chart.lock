@@ -1,0 +1,6 @@
+dependencies:
+- name: aws-node-termination-handler
+  repository: https://aws.github.io/eks-charts
+  version: 0.12.0
+digest: sha256:f09d771aadbf45a18e06530323f19dcbc46e798a1e6684717ae5456fc432c19e
+generated: "2020-11-11T21:27:43.021208+01:00"

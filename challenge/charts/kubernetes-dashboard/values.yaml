@@ -1,0 +1,25 @@
+kubernetes-dashboard:
+  extraArgs:
+  - --system-banner="Welcome to Kubernetes"
+  nodeSelector:
+    node-role.kubernetes.io/master: ""
+  tolerations:
+    - effect: NoSchedule
+      operator: Exists
+    - effect: NoExecute
+      operator: Exists
+  ingress:
+    enabled: true
+  hosts:
+    - dashboard.joe-k8s-sandbox.adorsys-sandbox.aws.adorsys.de
+  tls:
+    - secretName: kubernetes-dashboard-tls
+      hosts:
+        - dashboard.joe-k8s-sandbox.adorsys-sandbox.aws.adorsys.de
+  metricsScraper:
+    enabled: true
+  metrics-server:
+    enabled: true
+    args:
+      - --kubelet-insecure-tls
+      - --kubelet-preferred-address-types=InternalIP

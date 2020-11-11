@@ -52,3 +52,6 @@ Upstream:
 - https://github.com/deliveryhero/helm-charts/tree/master/stable/node-problem-detector
 - https://github.com/aws/aws-node-termination-handler
 - https://github.com/keycloak/keycloak-operator
+- https://github.com/kubernetes/dashboard/tree/master/aio/deploy/helm-chart/kubernetes-dashboard
+- https://github.com/kubernetes-sigs/aws-ebs-csi-driver ?
+- https://github.com/jetstack/cert-manager

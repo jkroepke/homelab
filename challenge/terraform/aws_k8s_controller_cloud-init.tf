@@ -1,6 +1,4 @@
 data "template_cloudinit_config" "controller" {
-  for_each = local.controller_nodes
-
   gzip          = false
   base64_encode = false
 
@@ -8,28 +6,28 @@ data "template_cloudinit_config" "controller" {
     filename     = "instance-kickstart"
     content_type = "text/cloud-config"
     content      = templatefile("cloud-init/parts/write_file.yaml", {
-      path    = "/usr/local/bin/instance-kickstart"
-      content = file("cloud-init/files/usr/local/bin/instance-kickstart")
+      path    = "/usr/local/bin/control-plan-kickstart"
+      content = file("cloud-init/files/usr/local/bin/control-plan-kickstart")
       mode    = "0700"
     })
   }
 
   part {
-    filename     = "os.yaml"
+    filename     = "10-os.yaml"
     content_type = "text/cloud-config"
-    content      = templatefile("cloud-init/os.yaml", {instance_name = each.key})
+    content      = file("cloud-init/10-os.yaml")
   }
 
   part {
-    filename     = "cri-o.yaml"
+    filename     = "20-cri-o.yaml"
     content_type = "text/cloud-config"
-    content      = templatefile("cloud-init/cri-o.yaml", {versions = var.versions})
+    content      = templatefile("cloud-init/20-cri-o.yaml", {versions = var.versions})
   }
 
   part {
-    filename     = "kubernetes.yaml"
+    filename     = "30-kubernetes.yaml"
     content_type = "text/cloud-config"
-    content      = templatefile("cloud-init/kubernetes.yaml", {versions = var.versions})
+    content      = templatefile("cloud-init/30-kubernetes.yaml", {versions = var.versions})
   }
 
   part {
@@ -37,11 +35,10 @@ data "template_cloudinit_config" "controller" {
     content_type = "text/cloud-config"
     content      = templatefile("cloud-init/parts/write_file.yaml", {
       path    = "/etc/kubernetes/kubeadm.yaml"
-      content = templatefile("cloud-init/files/etc/kubernetes/kubeadm.yaml", {
+      content = templatefile("cloud-init/files/etc/kubernetes/kubeadm.controller.yaml", {
         cluster_name       = var.name
-        api_hostname       = var.kubernetes.api_hostname
         version            = var.versions.kubernetes
-        service_cidr_block = var.kubernetes.service_cidr_block
+        kubernetes         = var.kubernetes
         bootstrap_token    = local.bootstrap_token
         encryption_key     = local.encryption_key
       })

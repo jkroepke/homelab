@@ -1,0 +1,7 @@
+apiVersion: v2
+name: kube-router
+version: 1.0.0
+appVersion: 1.1.0
+maintainers:
+  - name: Jan-Otto Kröpke
+    email: github@jkroepke.de

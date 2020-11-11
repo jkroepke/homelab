@@ -11,8 +11,10 @@ api_hostname="$2"
     return
   fi
 
+  kubeadm config images pull --config /etc/kubernetes/kubeadm.yaml
+
   wait_for_api() {
-    while [ "$(curl --connect-timeout 30 --retry 300 --retry-delay 1 --retry-connrefused -ksSf "https://${api_hostname}:6443/healthz")" != "ok" ]; do
+    while [ "$(curl --connect-timeout 30 --retry 300 --retry-delay 5 --retry-connrefused -ksSf "https://${api_hostname}:6443/healthz")" != "ok" ]; do
       sleep 5
     done
   }
@@ -20,6 +22,7 @@ api_hostname="$2"
   cluster_init() {
     kubeadm init \
       --node-name "$(hostname -f)" \
+      --skip-phases addon/kube-proxy \
       --config /etc/kubernetes/kubeadm.yaml \
       --upload-certs \
       --skip-token-print --skip-certificate-key-print

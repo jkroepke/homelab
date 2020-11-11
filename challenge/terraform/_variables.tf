@@ -20,7 +20,6 @@ variable "versions" {
     cri-o      = string
     kubernetes = string
     etcd       = string
-    calico     = string
   })
 }
 

@@ -23,19 +23,13 @@ resource "aws_iam_policy" "controller" {
   policy = data.aws_iam_policy_document.controller.json
 }
 
-# https://github.com/kubernetes/cloud-provider-aws#iam-policy
-# https://github.com/kubernetes/autoscaler/tree/master/charts/cluster-autoscaler-chart#additional-configuration
-
 data "aws_iam_policy_document" "controller" {
+  # https://github.com/kubernetes/cloud-provider-aws#iam-policy
   statement {
-    sid = "1"
     actions = [
       "autoscaling:DescribeAutoScalingGroups",
-      "autoscaling:DescribeAutoScalingInstances",
       "autoscaling:DescribeLaunchConfigurations",
       "autoscaling:DescribeTags",
-      "autoscaling:SetDesiredCapacity",
-      "autoscaling:TerminateInstanceInAutoScalingGroup",
       "ec2:DescribeInstances",
       "ec2:DescribeRegions",
       "ec2:DescribeRouteTables",
@@ -93,15 +87,40 @@ data "aws_iam_policy_document" "controller" {
     resources = ["*"]
   }
 
-  /*
+  # https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/example-iam-policy.json
   statement {
     actions = [
-      "s3:GetObject",
+      "ec2:AttachVolume",
+      "ec2:CreateSnapshot",
+      "ec2:CreateTags",
+      "ec2:CreateVolume",
+      "ec2:DeleteSnapshot",
+      "ec2:DeleteTags",
+      "ec2:DeleteVolume",
+      "ec2:DescribeAvailabilityZones",
+      "ec2:DescribeInstances",
+      "ec2:DescribeSnapshots",
+      "ec2:DescribeTags",
+      "ec2:DescribeVolumes",
+      "ec2:DescribeVolumesModifications",
+      "ec2:DetachVolume",
+      "ec2:ModifyVolume"
     ]
 
-    resources = [
-      "${aws_s3_bucket.bootstrap.arn}/controller/*"
-    ]
+    resources = ["*"]
   }
-  */
+
+  # https://github.com/kubernetes/autoscaler/tree/master/charts/cluster-autoscaler-chart#additional-configuration
+  statement {
+    actions = [
+      "autoscaling:DescribeAutoScalingGroups",
+      "autoscaling:DescribeAutoScalingInstances",
+      "autoscaling:DescribeLaunchConfigurations",
+      "autoscaling:DescribeTags",
+      "autoscaling:SetDesiredCapacity",
+      "autoscaling:TerminateInstanceInAutoScalingGroup"
+    ]
+
+    resources = ["*"]
+  }
 }

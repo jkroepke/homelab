@@ -18,10 +18,7 @@ resource "aws_instance" "controller" {
 
   ebs_optimized = true
 
-  user_data = data.template_cloudinit_config.controller[each.key].rendered
-
-  // ip forward
-  source_dest_check = false
+  user_data = data.template_cloudinit_config.controller.rendered
 
   credit_specification {
     cpu_credits = "standard"

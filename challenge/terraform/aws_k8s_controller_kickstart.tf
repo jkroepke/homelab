@@ -6,14 +6,14 @@ resource "null_resource" "controller-kickstart" {
   }
 
   depends_on = [
-    aws_lb_listener.api,
-    aws_lb_target_group_attachment.controller
+    aws_lb_listener.k8s-api,
+    aws_lb_target_group_attachment.k8s-api
   ]
 
   provisioner "remote-exec" {
     # /usr/local/bin/instance-kickstart controller0 joe-k8s-sandbox.adorsys-sandbox.aws.adorsys.de
     inline = [
-      "/bin/sudo /usr/local/bin/instance-kickstart ${each.key} ${aws_route53_record.api.name}"
+      "/bin/sudo /usr/local/bin/control-plan-kickstart ${each.key} ${aws_route53_record.api.name}"
     ]
 
     connection {

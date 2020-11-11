@@ -24,6 +24,10 @@ write_files:
       Package: cri-*
       Pin: version ${versions.cri-o}*
       Pin-Priority: 1000
+  - path: /etc/cni/net.d/200-loopback.conf
+    content: ""
+  - path: /etc/cni/net.d/100-crio-bridge.conf
+    content: ""
 
 # http://cloudinit.readthedocs.io/en/latest/topics/merging.html
 # http://jen20.com/2015/10/04/cloudconfig-merging.html

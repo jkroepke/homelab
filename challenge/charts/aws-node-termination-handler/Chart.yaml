@@ -1,0 +1,7 @@
+apiVersion: v2
+name: aws-node-termination-handler
+version: 0.12.0
+dependencies:
+  - name: aws-node-termination-handler
+    version: 0.12.0
+    repository: https://aws.github.io/eks-charts

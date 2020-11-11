@@ -6,12 +6,18 @@ locals {
   bastion_user = "ubuntu"
   bastion_host = aws_eip.bastion.public_dns
   bastion_port = 22
+
+  admin_config_location = abspath("${path.root}/../.local/admin.config")
 }
 
 resource "null_resource" "download-admin-config" {
   depends_on = [
     null_resource.controller-kickstart
   ]
+
+  triggers = {
+    admin_config_location = local.admin_config_location
+  }
 
   provisioner "local-exec" {
     command = join(" ", [
@@ -28,7 +34,7 @@ resource "null_resource" "download-admin-config" {
       ]),
       "\"",
       "${local.controller1_user}@${local.controller1_host}:/etc/kubernetes/admin.conf",
-      ".local/admin.config"
+      local.admin_config_location
     ])
   }
 }

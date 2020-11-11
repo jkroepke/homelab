@@ -1,0 +1,31 @@
+ingress-nginx:
+  controller:
+    config:
+      proxy-protocol: "True"
+      real-ip-header: "proxy_protocol"
+      set-real-ip-from: "10.0.0.0/8"
+    tolerations:
+      - effect: NoSchedule
+        operator: Exists
+      - key: CriticalAddonsOnly
+        operator: Exists
+      - effect: NoExecute
+        operator: Exists
+    service:
+      type: NodePort
+      nodePorts:
+        http: 32080
+        https: 32443
+
+    nodeSelector:
+      node-role.kubernetes.io/master: ""
+
+
+    metrics:
+      enabled: true
+      service:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "10254"
+
+  defaultBackend:
+    enabled: true
