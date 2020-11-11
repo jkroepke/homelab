@@ -2,4 +2,4 @@ aws-node-termination-handler:
   enableSpotInterruptionDraining: true
   enableRebalanceMonitoring: true
   enableScheduledEventDraining: true
-  webhookURL: "https://hooks.slack.com/services/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"
+  webhookURL: "https://hooks.slack.com/services/"
