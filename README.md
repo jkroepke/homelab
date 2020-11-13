@@ -8,16 +8,4 @@ Based on: https://github.com/kelseyhightower/kubernetes-the-hard-way
 
 A more challenged Kubernetes the hard way
 
-Changes to the original:
-
-* AWS infrastructure
-* Minimalistic OS (Fedora CoreOS)
-    * Immutable host
-* Enabled AWS Cloud provider functionalities
-* CNI based on AWS VPC + calico
-* Most of the services should run in containers via static pods.
-* Monitoring Stack
-* CoreDNS
-* nginx Ingress Controller
-* cert-manager
-* IAM with Keycloak
+See: https://github.com/jkroepke/kubernetes-the-hard-way/tree/main/challenge
