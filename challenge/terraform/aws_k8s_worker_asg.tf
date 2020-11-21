@@ -5,6 +5,8 @@ resource "aws_launch_template" "worker" {
 
   key_name = aws_key_pair.ssh.key_name
 
+  update_default_version = true
+
   iam_instance_profile {
     name = aws_iam_instance_profile.worker.name
   }
@@ -37,12 +39,7 @@ resource "aws_launch_template" "worker" {
     }
   }
 
-  network_interfaces {
-    associate_public_ip_address = true
-    security_groups = [
-      aws_security_group.worker.id
-    ]
-  }
+  vpc_security_group_ids = [aws_security_group.worker.id]
 
   lifecycle {
     create_before_destroy = true
@@ -67,11 +64,11 @@ resource "aws_autoscaling_group" "worker" {
 
   health_check_type = "EC2"
 
-  vpc_zone_identifier = [ for subnet in aws_subnet.subnet : subnet.id ]
+  vpc_zone_identifier = [for subnet in aws_subnet.subnet : subnet.id]
 
   launch_template {
     id      = aws_launch_template.worker.id
-    version = "$Latest"
+    version = aws_launch_template.worker.latest_version
   }
 
   # https://github.com/kubernetes/autoscaler/tree/master/charts/cluster-autoscaler-chart#aws---using-auto-discovery-of-tagged-instance-groups

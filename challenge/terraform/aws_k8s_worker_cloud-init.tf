@@ -11,13 +11,13 @@ data "template_cloudinit_config" "worker" {
   part {
     filename     = "20-cri-o.yaml"
     content_type = "text/cloud-config"
-    content      = templatefile("cloud-init/20-cri-o.yaml", {versions = var.versions})
+    content      = templatefile("cloud-init/20-cri-o.yaml", { versions = var.versions })
   }
 
   part {
     filename     = "30-kubernetes.yaml"
     content_type = "text/cloud-config"
-    content      = templatefile("cloud-init/30-kubernetes.yaml", {versions = var.versions})
+    content      = templatefile("cloud-init/30-kubernetes.yaml", { versions = var.versions })
   }
 
   part {
@@ -29,22 +29,22 @@ data "template_cloudinit_config" "worker" {
   part {
     filename     = "kubeadm.yaml"
     content_type = "text/cloud-config"
-    content      = templatefile("cloud-init/parts/write_file.yaml", {
-      path    = "/etc/kubernetes/kubeadm.yaml"
+    content = templatefile("cloud-init/parts/write_file.yaml", {
+      path = "/etc/kubernetes/kubeadm.yaml"
       content = templatefile("cloud-init/files/etc/kubernetes/kubeadm.worker.yaml", {
-        cluster_name       = var.name
-        version            = var.versions.kubernetes
-        kubernetes         = var.kubernetes
-        bootstrap_token    = local.bootstrap_token
+        cluster_name    = var.name
+        version         = var.versions.kubernetes
+        kubernetes      = var.kubernetes
+        bootstrap_token = local.bootstrap_token
       })
-      mode    = "0500"
+      mode = "0500"
     })
   }
 
   part {
     filename     = "10-crio.conf"
     content_type = "text/cloud-config"
-    content      = templatefile("cloud-init/parts/write_file.yaml", {
+    content = templatefile("cloud-init/parts/write_file.yaml", {
       path    = "/etc/systemd/system/kubelet.service.d/10-crio.conf"
       content = file("cloud-init/files/etc/systemd/system/kubelet.service.d/10-crio.conf")
       mode    = "0400"

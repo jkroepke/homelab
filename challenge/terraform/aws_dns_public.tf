@@ -22,8 +22,8 @@ resource "aws_route53_record" "adorsys-sandbox_aws_adorsys_de_NS" {
 resource "aws_route53_record" "api" {
   zone_id = aws_route53_zone.dns.id
 
-  name    = var.kubernetes.api_hostname
-  type    = "A"
+  name = var.kubernetes.api_hostname
+  type = "A"
 
   alias {
     name                   = aws_lb.lb.dns_name
@@ -40,10 +40,10 @@ resource "aws_route53_record" "bastion_public" {
 
   zone_id = aws_route53_zone.dns.id
 
-  name    = "bastion.${aws_route53_zone.dns.name}"
-  type    = each.key
+  name = "bastion.${aws_route53_zone.dns.name}"
+  type = each.key
 
-  ttl     = "3600"
+  ttl = "3600"
 
   records = each.value
 }

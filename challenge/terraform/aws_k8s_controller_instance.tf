@@ -38,7 +38,7 @@ resource "aws_instance" "controller" {
   }
 
   tags = {
-    Name = "${var.name}-${each.key}"
+    Name    = "${var.name}-${each.key}"
     project = var.name
 
     "kubernetes.io/cluster/${var.name}" = "owned"

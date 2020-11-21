@@ -1,6 +1,6 @@
 resource "aws_instance" "bastion" {
-  ami               = data.aws_ami.ubuntu.id
-  instance_type     = "t3a.micro"
+  ami           = data.aws_ami.ubuntu.id
+  instance_type = "t3a.micro"
 
   availability_zone = aws_subnet.subnet[var.availability_zones[1]].availability_zone
   subnet_id         = aws_subnet.subnet[var.availability_zones[1]].id
@@ -32,7 +32,7 @@ resource "aws_instance" "bastion" {
   }
 
   tags = {
-    Name = "${var.name}-bastion"
+    Name    = "${var.name}-bastion"
     project = var.name
   }
 }

@@ -25,7 +25,7 @@ resource "tls_self_signed_cert" "kubernetes-ca" {
   }
 
   validity_period_hours = 87600
-  is_ca_certificate = true
+  is_ca_certificate     = true
 
   allowed_uses = [
     "cert_signing",

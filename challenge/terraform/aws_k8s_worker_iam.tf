@@ -10,8 +10,8 @@ resource "aws_iam_role" "worker" {
 }
 
 resource "aws_iam_policy_attachment" "worker" {
-  name       = "${var.name}-worker"
-  roles      = [
+  name = "${var.name}-worker"
+  roles = [
     aws_iam_role.worker.name
   ]
   policy_arn = aws_iam_policy.worker.arn
@@ -27,7 +27,7 @@ data "aws_iam_policy_document" "worker" {
   # https://github.com/kubernetes/cloud-provider-aws#iam-policy
   statement {
     sid = "1"
-    actions =  [
+    actions = [
       "ec2:DescribeInstances",
       "ec2:DescribeRegions",
       "ecr:GetAuthorizationToken",

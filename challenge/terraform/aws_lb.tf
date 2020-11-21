@@ -2,7 +2,7 @@ resource "aws_lb" "lb" {
   name               = var.name
   internal           = false
   load_balancer_type = "network"
-  subnets            = [for subnet in aws_subnet.subnet: subnet.id]
+  subnets            = [for subnet in aws_subnet.subnet : subnet.id]
 
   enable_cross_zone_load_balancing = false
 
@@ -28,15 +28,15 @@ resource "aws_lb_target_group" "http" {
   protocol = "TCP"
   vpc_id   = aws_vpc.vpc.id
 
-  target_type = "instance"
+  target_type       = "ip"
   proxy_protocol_v2 = true
 
   health_check {
     enabled = true
 
-    path     = "/healthz"
-    protocol = "HTTPS"
-    port     = "6443"
+    path     = "/nginx-health"
+    protocol = "HTTP"
+    port     = "traffic-port"
   }
 }
 
@@ -44,7 +44,7 @@ resource "aws_lb_target_group_attachment" "http" {
   for_each = aws_instance.controller
 
   target_group_arn = aws_lb_target_group.http.arn
-  target_id        = each.value.id
+  target_id        = each.value.private_ip
   port             = 32080
 }
 
@@ -65,15 +65,15 @@ resource "aws_lb_target_group" "https" {
   protocol = "TCP"
   vpc_id   = aws_vpc.vpc.id
 
-  target_type = "instance"
+  target_type       = "ip"
   proxy_protocol_v2 = true
 
   health_check {
     enabled = true
 
-    path     = "/healthz"
-    protocol = "HTTPS"
-    port     = "6443"
+    path     = "/nginx-health"
+    protocol = "HTTP"
+    port     = "traffic-port"
   }
 }
 
@@ -81,7 +81,7 @@ resource "aws_lb_target_group_attachment" "https" {
   for_each = aws_instance.controller
 
   target_group_arn = aws_lb_target_group.https.arn
-  target_id        = each.value.id
+  target_id        = each.value.private_ip
   port             = 32443
 }
 
@@ -102,14 +102,14 @@ resource "aws_lb_target_group" "k8s-api" {
   protocol = "TCP"
   vpc_id   = aws_vpc.vpc.id
 
-  target_type = "instance"
+  target_type = "ip"
 
   health_check {
     enabled = true
 
     path     = "/healthz"
     protocol = "HTTPS"
-    port     = "6443"
+    port     = "traffic-port"
   }
 }
 
@@ -117,6 +117,6 @@ resource "aws_lb_target_group_attachment" "k8s-api" {
   for_each = aws_instance.controller
 
   target_group_arn = aws_lb_target_group.k8s-api.arn
-  target_id        = each.value.id
+  target_id        = each.value.private_ip
   port             = aws_lb_listener.k8s-api.port
 }

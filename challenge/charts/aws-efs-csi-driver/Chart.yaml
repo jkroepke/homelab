@@ -1,0 +1,6 @@
+apiVersion: v2
+name: aws-efs-csi-driver
+version: 0.1.0
+dependencies:
+  - name: aws-efs-csi-driver
+    version: 0.1.0

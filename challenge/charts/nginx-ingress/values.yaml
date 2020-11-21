@@ -1,9 +1,10 @@
-ingress-nginx:
+nginx-ingress:
   controller:
     config:
-      proxy-protocol: "True"
-      real-ip-header: "proxy_protocol"
-      set-real-ip-from: "10.0.0.0/8"
+      entries:
+        proxy-protocol: "true"
+        real-ip-header: "proxy_protocol"
+        set-real-ip-from: "10.0.0.0/8"
     tolerations:
       - effect: NoSchedule
         operator: Exists
@@ -13,19 +14,18 @@ ingress-nginx:
         operator: Exists
     service:
       type: NodePort
-      nodePorts:
-        http: 32080
-        https: 32443
+      httpPort:
+        nodePort: 32080
+      httpsPort:
+        nodePort: 32443
 
     nodeSelector:
       node-role.kubernetes.io/master: ""
 
+    setAsDefaultIngress: true
 
-    metrics:
-      enabled: true
-      service:
-        prometheus.io/scrape: "true"
-        prometheus.io/port: "10254"
+    healthStatus: true
+    enableLatencyMetrics: true
 
   defaultBackend:
     enabled: true

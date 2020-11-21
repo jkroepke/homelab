@@ -10,8 +10,8 @@ resource "aws_iam_role" "controller" {
 }
 
 resource "aws_iam_policy_attachment" "controller" {
-  name       = "${var.name}-controller"
-  roles      = [
+  name = "${var.name}-controller"
+  roles = [
     aws_iam_role.controller.name
   ]
   policy_arn = aws_iam_policy.controller.arn
@@ -119,6 +119,15 @@ data "aws_iam_policy_document" "controller" {
       "autoscaling:DescribeTags",
       "autoscaling:SetDesiredCapacity",
       "autoscaling:TerminateInstanceInAutoScalingGroup"
+    ]
+
+    resources = ["*"]
+  }
+
+  # https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/cloudprovider/aws/README.md#auto-discovery-setup
+  statement {
+    actions = [
+      "ec2:DescribeLaunchTemplateVersions"
     ]
 
     resources = ["*"]

@@ -1,5 +1,5 @@
 resource "aws_security_group" "bastion" {
-  name = "${var.name}-bastion"
+  name   = "${var.name}-bastion"
   vpc_id = aws_vpc.vpc.id
 
   ingress {

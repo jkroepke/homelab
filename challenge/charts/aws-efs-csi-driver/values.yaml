@@ -1,0 +1,27 @@
+aws-efs-csi-driver:
+  replicaCount: 1
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+
+  tolerations:
+    - effect: NoSchedule
+      operator: Exists
+    - key: CriticalAddonsOnly
+      operator: Exists
+    - effect: NoExecute
+      operator: Exists
+
+  node:
+    podAnnotations: {}
+    tolerations:
+      - effect: NoSchedule
+        operator: Exists
+      - key: CriticalAddonsOnly
+        operator: Exists
+      - effect: NoExecute
+        operator: Exists

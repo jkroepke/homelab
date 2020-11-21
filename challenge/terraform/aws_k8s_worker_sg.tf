@@ -1,11 +1,11 @@
 resource "aws_security_group" "worker" {
-  name = "${var.name}-worker"
+  name   = "${var.name}-worker"
   vpc_id = aws_vpc.vpc.id
 
   dynamic "ingress" {
     # https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#check-required-ports
     for_each = {
-      10250: "Kubelet API"
+      10250 : "Kubelet API"
     }
     content {
       description = ingress.value
