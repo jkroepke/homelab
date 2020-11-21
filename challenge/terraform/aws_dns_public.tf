@@ -47,3 +47,15 @@ resource "aws_route53_record" "bastion_public" {
 
   records = each.value
 }
+
+
+resource "aws_route53_record" "router_public" {
+  zone_id = aws_route53_zone.dns.id
+
+  name = "*.${aws_route53_zone.dns.name}"
+  type = "CNAME"
+
+  ttl = "300"
+
+  records = [aws_route53_zone.dns.name]
+}

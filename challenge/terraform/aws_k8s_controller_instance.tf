@@ -16,6 +16,8 @@ resource "aws_instance" "controller" {
     aws_security_group.controller.id
   ]
 
+  source_dest_check = false
+
   ebs_optimized = true
 
   user_data = data.template_cloudinit_config.controller.rendered
