@@ -131,4 +131,13 @@ data "aws_iam_policy_document" "controller" {
 
     resources = ["*"]
   }
+
+  # https://github.com/jtblin/kube2iam#iam-roles
+  statement {
+    actions = [
+      "sts:AssumeRole",
+    ]
+
+    resources = ["*"]
+  }
 }

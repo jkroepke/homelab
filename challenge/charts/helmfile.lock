@@ -21,6 +21,9 @@ dependencies:
 - name: k8s-event-logger
   repository: https://charts.deliveryhero.io/
   version: "1.0"
+- name: kiam
+  repository: https://uswitch.github.io/kiam-helm-charts/charts/
+  version: 5.9.0
 - name: kube-prometheus-stack
   repository: https://prometheus-community.github.io/helm-charts
   version: 12.2.0
@@ -30,5 +33,5 @@ dependencies:
 - name: node-problem-detector
   repository: https://charts.deliveryhero.io/
   version: 1.8.0
-digest: sha256:7bf60ba6657cda77a9cce22d0aac75c40f2dcbc19dc8abfbd1017f21fd2fde65
-generated: "2020-11-22T18:44:23.65007+01:00"
+digest: sha256:086972d420d844763fa2a67e5b5d95bc72ce2958b876b146d0b3c8d558026499
+generated: "2020-11-23T00:48:12.568462+01:00"

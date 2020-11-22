@@ -65,6 +65,15 @@ data "aws_iam_policy_document" "worker" {
     resources = ["*"]
   }
 
+  # https://github.com/jtblin/kube2iam#iam-roles
+  statement {
+    actions = [
+      "sts:AssumeRole",
+    ]
+
+    resources = ["*"]
+  }
+
   /*
   # https://stackoverflow.com/a/57507735/8087167
   statement {

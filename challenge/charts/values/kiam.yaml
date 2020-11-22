@@ -1,0 +1,9 @@
+agent:
+  host:
+    iptables: true
+    interface: cali+
+  whiteListRouteRegexp: '^/.+/meta-data/.*$'
+
+  prometheus:
+    servicemonitor:
+      enabled: true
