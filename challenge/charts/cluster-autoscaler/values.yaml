@@ -1,5 +1,8 @@
 ---
 cluster-autoscaler-chart:
+  nameOverride: cluster-autoscaler
+  image:
+    tag: v1.19.1
   cloudProvider: aws
   awsRegion: eu-central-1
   autoDiscovery:
@@ -10,8 +13,11 @@ cluster-autoscaler-chart:
     - effect: NoExecute
       operator: Exists
   extraArgs:
+    balance-similar-node-groups: true
+    cluster-name: joe-k8s-sandbox
     scale-down-enabled: true
     scale-down-delay-after-add: 10m
     scale-down-delay-after-delete: 0s
     scale-down-delay-after-failure: 3m
     scale-down-unneeded-time: 10m
+    skip-nodes-with-system-pods: false

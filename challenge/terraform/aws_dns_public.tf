@@ -14,7 +14,7 @@ resource "aws_route53_record" "adorsys-sandbox_aws_adorsys_de_NS" {
   name    = aws_route53_zone.dns.name
   type    = "NS"
 
-  ttl = "3600"
+  ttl = "300"
 
   records = aws_route53_zone.dns.name_servers
 }
@@ -43,7 +43,7 @@ resource "aws_route53_record" "bastion_public" {
   name = "bastion.${aws_route53_zone.dns.name}"
   type = each.key
 
-  ttl = "3600"
+  ttl = "300"
 
   records = each.value
 }

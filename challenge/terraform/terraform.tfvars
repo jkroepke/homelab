@@ -10,7 +10,7 @@ versions = {
   cri-o = "1.19.0"
 
   # https://github.com/kubernetes/kubernetes/tags
-  kubernetes = "1.19.3"
+  kubernetes = "1.19.4"
 
   # https://github.com/kubernetes/kubernetes/blob/release-1.19/cmd/kubeadm/app/constants/constants.go#L429
   etcd = "3.4.13-0"

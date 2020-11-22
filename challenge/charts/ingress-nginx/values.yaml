@@ -1,0 +1,33 @@
+ingress-nginx:
+  controller:
+    replicaCount: 3
+    config:
+      enable-real-ip: "true"
+      real-ip-header: "proxy_protocol"
+      set-real-ip-from: "10.0.0.0/8"
+      use-proxy-protocol: "true"
+    nodeSelector:
+      node-role.kubernetes.io/master: ""
+    tolerations:
+      - effect: NoSchedule
+        operator: Exists
+      - key: CriticalAddonsOnly
+        operator: Exists
+      - effect: NoExecute
+        operator: Exists
+    resources:
+      limits:
+        cpu: 100m
+        memory: 128Mi
+      requests:
+        cpu: 100m
+        memory: 128Mi
+    service:
+      type: NodePort
+      nodePorts:
+        http: "32080"
+        https: "32443"
+    metrics:
+      enabled: true
+  defaultBackend:
+    enabled: true

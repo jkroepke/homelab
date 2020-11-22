@@ -22,7 +22,6 @@ api_hostname="$2"
   cluster_init() {
     kubeadm init \
       --node-name "$(hostname -f)" \
-      --skip-phases addon/kube-proxy \
       --config /etc/kubernetes/kubeadm.yaml \
       --upload-certs \
       --skip-token-print --skip-certificate-key-print

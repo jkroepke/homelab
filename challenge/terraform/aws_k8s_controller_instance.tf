@@ -13,10 +13,11 @@ resource "aws_instance" "controller" {
   iam_instance_profile = aws_iam_instance_profile.controller.name
 
   vpc_security_group_ids = [
-    aws_security_group.controller.id
+    aws_security_group.controller.id,
+    aws_security_group.worker.id
   ]
 
-  source_dest_check = false
+  source_dest_check = true
 
   ebs_optimized = true
 
@@ -46,30 +47,3 @@ resource "aws_instance" "controller" {
     "kubernetes.io/cluster/${var.name}" = "owned"
   }
 }
-
-# - cloud-init-per once -- /usr/local/bin/instance-kickstart ${instance_name}
-
-/*
-resource "aws_ebs_volume" "controller_etcd" {
-  for_each = local.controller_nodes
-
-  availability_zone = each.value.availability_zone
-  size              = 20
-
-  tags = {
-    Name     = "${each.key}-etcd"
-    project = var.name
-  }
-}
-
-resource "aws_volume_attachment" "controller_etcd" {
-  for_each = {for name, instance in aws_instance.controller : name => {
-    instance_id = instance.id
-    volume_id   = aws_ebs_volume.controller_etcd[name].id
-  }}
-
-  device_name = "/dev/xvdf"
-  volume_id   = each.value.volume_id
-  instance_id = each.value.instance_id
-}
-*/

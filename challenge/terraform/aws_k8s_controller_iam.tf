@@ -116,7 +116,6 @@ data "aws_iam_policy_document" "controller" {
       "autoscaling:DescribeAutoScalingGroups",
       "autoscaling:DescribeAutoScalingInstances",
       "autoscaling:DescribeLaunchConfigurations",
-      "autoscaling:DescribeTags",
       "autoscaling:SetDesiredCapacity",
       "autoscaling:TerminateInstanceInAutoScalingGroup"
     ]

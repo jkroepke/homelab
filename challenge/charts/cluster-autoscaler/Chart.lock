@@ -1,0 +1,6 @@
+dependencies:
+- name: cluster-autoscaler-chart
+  repository: https://kubernetes.github.io/autoscaler
+  version: 1.1.1
+digest: sha256:a2c363ecd4a75d3cf7061345b596e07341d2986fe4ed21597ce5a25fe6810f00
+generated: "2020-11-21T18:43:54.365435+01:00"

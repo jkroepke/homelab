@@ -64,4 +64,15 @@ data "aws_iam_policy_document" "worker" {
 
     resources = ["*"]
   }
+
+  /*
+  # https://stackoverflow.com/a/57507735/8087167
+  statement {
+    actions = [
+      "ec2:ModifyInstanceAttribute",
+    ]
+
+    resources = ["*"]
+  }
+  */
 }

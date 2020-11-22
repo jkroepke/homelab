@@ -36,7 +36,7 @@ resource "aws_lb_target_group" "http" {
 
     path     = "/nginx-health"
     protocol = "HTTP"
-    port     = "traffic-port"
+    port     = "32080"
   }
 }
 
@@ -73,7 +73,7 @@ resource "aws_lb_target_group" "https" {
 
     path     = "/nginx-health"
     protocol = "HTTP"
-    port     = "traffic-port"
+    port     = "32080"
   }
 }
 

@@ -1,0 +1,38 @@
+kube-prometheus-stack:
+  grafana:
+    adminPassword: adminadmin1
+    ingress:
+      enabled: true
+      annotations:
+        kubernetes.io/ingress.class: nginx
+        kubernetes.io/tls-acme: "true"
+      hosts:
+        - grafana.joe-k8s-sandbox.adorsys-sandbox.aws.adorsys.de
+      tls:
+        - secretName: grafana-tls
+          hosts:
+            - grafana.joe-k8s-sandbox.adorsys-sandbox.aws.adorsys.de
+  prometheus:
+    ingress:
+      enabled: true
+      annotations:
+        kubernetes.io/ingress.class: nginx
+        kubernetes.io/tls-acme: "true"
+      hosts:
+        - prometheus.joe-k8s-sandbox.adorsys-sandbox.aws.adorsys.de
+      tls:
+        - secretName: prometheus-tls
+          hosts:
+            - prometheus.joe-k8s-sandbox.adorsys-sandbox.aws.adorsys.de
+  alertmanager:
+    ingress:
+      enabled: true
+      annotations:
+        kubernetes.io/ingress.class: nginx
+        kubernetes.io/tls-acme: "true"
+      hosts:
+        - alertmanager.joe-k8s-sandbox.adorsys-sandbox.aws.adorsys.de
+      tls:
+        - secretName: alertmanager-tls
+          hosts:
+            - alertmanager.joe-k8s-sandbox.adorsys-sandbox.aws.adorsys.de

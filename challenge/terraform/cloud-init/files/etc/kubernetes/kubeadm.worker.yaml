@@ -51,4 +51,4 @@ nodeRegistration:
   kubeletExtraArgs:
     cgroup-driver: "systemd"
     cloud-provider: "external"
-    feature-gates: CSIMigration=true,CSIMigrationAWS=true,CSIMigrationAWSComplete=true,EphemeralContainers=true
+    feature-gates: CSINodeInfo=true,CSIDriverRegistry=true,CSIBlockVolume=true,CSIMigration=true,CSIMigrationAWS=true,CSIMigrationAWSComplete=true,EphemeralContainers=true

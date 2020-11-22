@@ -15,7 +15,7 @@ nodeRegistration:
   kubeletExtraArgs:
     cgroup-driver: "systemd"
     cloud-provider: external
-    feature-gates: CSIMigration=true,CSIMigrationAWS=true,CSIMigrationAWSComplete=true,EphemeralContainers=true
+    feature-gates: CSINodeInfo=true,CSIDriverRegistry=true,CSIBlockVolume=true,CSIMigration=true,CSIMigrationAWS=true,CSIMigrationAWSComplete=true,EphemeralContainers=true
 ---
 apiVersion: kubeadm.k8s.io/v1beta2
 kind: ClusterConfiguration
@@ -29,6 +29,7 @@ apiServer:
     oidc-groups-claim: "groups"
     oidc-groups-prefix: "oidc:"
     oidc-ca-file: "/etc/ssl/certs/ca-certificates.crt"
+    feature-gates: CSINodeInfo=true,CSIDriverRegistry=true,CSIBlockVolume=true,VolumeSnapshotDataSource=true
   timeoutForControlPlane: 4m0s
   extraVolumes:
     - name: ca-trust
@@ -72,4 +73,4 @@ nodeRegistration:
   kubeletExtraArgs:
     cgroup-driver: "systemd"
     cloud-provider: "external"
-    feature-gates: CSIMigration=true,CSIMigrationAWS=true,CSIMigrationAWSComplete=true,EphemeralContainers=true
+    feature-gates: CSINodeInfo=true,CSIDriverRegistry=true,CSIBlockVolume=true,CSIMigration=true,CSIMigrationAWS=true,CSIMigrationAWSComplete=true,EphemeralContainers=true

@@ -1,0 +1,7 @@
+apiVersion: v2
+name: calico
+version: 0.2.3
+dependencies:
+  - name: calico
+    version: 0.2.3
+    repository: https://flexkube.github.io/charts

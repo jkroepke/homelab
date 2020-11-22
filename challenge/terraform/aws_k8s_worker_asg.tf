@@ -57,14 +57,16 @@ resource "aws_launch_template" "worker" {
 }
 
 resource "aws_autoscaling_group" "worker" {
-  name             = "${var.name}-worker"
-  desired_capacity = 1
+  for_each = toset(var.availability_zones)
+
+  name             = "${var.name}-worker-${each.value}"
+  desired_capacity = 0
   max_size         = 3
-  min_size         = 1
+  min_size         = 0
 
   health_check_type = "EC2"
 
-  vpc_zone_identifier = [for subnet in aws_subnet.subnet : subnet.id]
+  vpc_zone_identifier = [aws_subnet.subnet[each.key].id]
 
   launch_template {
     id      = aws_launch_template.worker.id
@@ -94,8 +96,4 @@ resource "aws_autoscaling_group" "worker" {
       propagate_at_launch = false
     }
   ]
-
-  lifecycle {
-    create_before_destroy = true
-  }
 }

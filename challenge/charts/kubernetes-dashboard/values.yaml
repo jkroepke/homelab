@@ -10,12 +10,15 @@ kubernetes-dashboard:
       operator: Exists
   ingress:
     enabled: true
-  hosts:
-    - dashboard.joe-k8s-sandbox.adorsys-sandbox.aws.adorsys.de
-  tls:
-    - secretName: kubernetes-dashboard-tls
-      hosts:
-        - dashboard.joe-k8s-sandbox.adorsys-sandbox.aws.adorsys.de
+    annotations:
+      kubernetes.io/tls-acme: 'true'
+      kubernetes.io/ingress.class: "nginx"
+    hosts:
+      - dashboard.joe-k8s-sandbox.adorsys-sandbox.aws.adorsys.de
+    tls:
+      - secretName: kubernetes-dashboard-tls
+        hosts:
+          - dashboard.joe-k8s-sandbox.adorsys-sandbox.aws.adorsys.de
   metricsScraper:
     enabled: true
   metrics-server:
@@ -23,3 +26,10 @@ kubernetes-dashboard:
     args:
       - --kubelet-insecure-tls
       - --kubelet-preferred-address-types=InternalIP
+    nodeSelector:
+      node-role.kubernetes.io/master: ""
+    tolerations:
+      - effect: NoSchedule
+        operator: Exists
+      - effect: NoExecute
+        operator: Exists

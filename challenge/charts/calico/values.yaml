@@ -1,0 +1,3 @@
+calico:
+  # https://docs.projectcalico.org/networking/mtu
+  vethMtu: 8981

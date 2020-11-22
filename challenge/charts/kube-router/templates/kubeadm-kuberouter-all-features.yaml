@@ -20,6 +20,13 @@ data:
              "ipam":{
                 "type":"host-local"
              }
+          },
+          {
+             "type":"portmap",
+             "capabilities":{
+                "snat":true,
+                "portMappings":true
+             }
           }
        ]
     }
@@ -59,6 +66,9 @@ spec:
       tier: node
   template:
     metadata:
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9999"
       labels:
         k8s-app: kube-router
         tier: node
@@ -73,6 +83,7 @@ spec:
             - "--run-router=true"
             - "--run-firewall=true"
             - "--run-service-proxy=true"
+            - "--metrics-port=9999"
             - "--bgp-graceful-restart=true"
             - "--kubeconfig=/var/lib/kube-router/kubeconfig"
           env:

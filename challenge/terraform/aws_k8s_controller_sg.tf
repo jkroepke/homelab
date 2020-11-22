@@ -7,8 +7,8 @@ resource "aws_security_group" "controller" {
     for_each = {
       2379 : "etcd client"
       2380 : "etcd peer"
-      10250 : "Kubelet API"
     }
+
     content {
       description = ingress.value
 
@@ -27,6 +27,7 @@ resource "aws_security_group" "controller" {
       32443 : "Ingress HTTPS"
       6443 : "K8S API"
     }
+
     content {
       description = ingress.value
 

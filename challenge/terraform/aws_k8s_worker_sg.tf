@@ -7,6 +7,7 @@ resource "aws_security_group" "worker" {
     for_each = {
       10250 : "Kubelet API"
     }
+
     content {
       description = ingress.value
 
@@ -16,6 +17,42 @@ resource "aws_security_group" "worker" {
 
       security_groups = [aws_security_group.controller.id]
     }
+  }
+
+  dynamic "ingress" {
+    # https://docs.projectcalico.org/getting-started/kubernetes/requirements#network-requirements
+    for_each = {
+      179 : { protocol: "tcp", description: "Calico networking (BGP)" },
+    }
+
+    content {
+      description = ingress.value.description
+
+      from_port = ingress.key
+      protocol  = ingress.value.protocol
+      to_port   = ingress.value.protocol == "icmp" ? 0 : ingress.key
+
+      self = true
+    }
+  }
+
+  # https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml
+  # IPIP
+  ingress {
+    from_port = 0
+    protocol  = 4
+    to_port   = 0
+
+    self = true
+  }
+
+  # IPv6IPv6
+  ingress {
+    from_port = 0
+    protocol  = 41
+    to_port   = 0
+
+    self = true
   }
 
   ingress {
