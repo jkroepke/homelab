@@ -1,0 +1,5 @@
+# https://docs.projectcalico.org/networking/mtu
+vethMtu: 8981
+calico:
+  env:
+    FELIX_IPINIPENABLED: "true"

@@ -1,9 +1,7 @@
 write_files:
-- path: "${path}"
+- path: '${path}'
+  permissions: '${mode}'
   content: |
     ${indent(4, content)}
 
-
-# http://cloudinit.readthedocs.io/en/latest/topics/merging.html
-# http://jen20.com/2015/10/04/cloudconfig-merging.html
 merge_type: 'list(append)+dict(recurse_array)+str()'

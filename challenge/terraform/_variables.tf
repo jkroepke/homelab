@@ -2,11 +2,11 @@ variable "name" {
   type = string
 }
 
-variable "versions" {
-  type = map(string)
+variable "vpc_cidr_block" {
+  type = string
 }
 
-variable "vpc_cidr_block" {
+variable "root_dns_zone" {
   type = string
 }
 
@@ -14,6 +14,19 @@ variable "availability_zones" {
   type = list(string)
 }
 
+variable "versions" {
+  type = object({
+    ubuntu     = string
+    cri-o      = string
+    kubernetes = string
+    etcd       = string
+  })
+}
+
 variable "kubernetes" {
-  type = map(string)
+  type = object({
+    api_hostname       = string
+    service_cidr_block = string
+    pod_cidr_block     = string
+  })
 }

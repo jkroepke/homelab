@@ -1,0 +1,6 @@
+dependencies:
+- name: aws-ebs-csi-driver
+  repository: ""
+  version: 0.6.0
+digest: sha256:11f7ba27c1edc503fd314cfedf41a376d22d7d094481cfd01c6a4d8ce7ab6b22
+generated: "2020-11-23T00:07:33.658488+01:00"

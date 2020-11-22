@@ -1,0 +1,21 @@
+aws-ebs-csi-driver:
+  enableVolumeScheduling: true
+  enableVolumeResizing: true
+  enableVolumeSnapshot: true
+  region: eu-central-1
+  k8sTagClusterId: joe-k8s-sandbox
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+  tolerations:
+    - effect: NoSchedule
+      operator: Exists
+    - key: CriticalAddonsOnly
+      operator: Exists
+    - effect: NoExecute
+      operator: Exists
+

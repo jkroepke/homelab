@@ -11,7 +11,8 @@
 crash.log
 
 
-.local/*
-!.local/.gitempty
+**/.local/*
+!**/.local/.gitempty
+!**/.local/.gitkeep
 
 ansible.log

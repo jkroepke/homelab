@@ -1,0 +1,4 @@
+enableSpotInterruptionDraining: true
+enableRebalanceMonitoring: true
+enableScheduledEventDraining: true
+webhookURL: "https://hooks.slack.com/services/"

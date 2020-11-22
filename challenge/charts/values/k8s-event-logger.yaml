@@ -1,0 +1,9 @@
+env:
+  KUBERNETES_API_URL: https://172.30.0.1
+nodeSelector:
+  node-role.kubernetes.io/master: ""
+tolerations:
+  - effect: NoSchedule
+    operator: Exists
+  - effect: NoExecute
+    operator: Exists

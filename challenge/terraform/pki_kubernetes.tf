@@ -8,6 +8,8 @@
   Instead, generate a private key file outside of Terraform and distribute it securely to the system where Terraform will be run.
 */
 
+// See: https://kubernetes.io/docs/setup/best-practices/certificates/
+
 resource "tls_private_key" "kubernetes-ca" {
   algorithm = "RSA"
   rsa_bits  = 2048
@@ -22,9 +24,8 @@ resource "tls_self_signed_cert" "kubernetes-ca" {
     organization = var.name
   }
 
-  validity_period_hours = local.validity_period_hours
-
-  is_ca_certificate = true
+  validity_period_hours = 87600
+  is_ca_certificate     = true
 
   allowed_uses = [
     "cert_signing",

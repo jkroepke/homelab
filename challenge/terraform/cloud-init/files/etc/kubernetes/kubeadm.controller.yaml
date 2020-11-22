@@ -1,0 +1,76 @@
+---
+apiVersion: kubeadm.k8s.io/v1beta2
+kind: InitConfiguration
+bootstrapTokens:
+  - groups:
+      - system:bootstrappers:kubeadm:default-node-token
+    token: "${bootstrap_token}"
+    ttl: 0s
+    usages:
+      - signing
+      - authentication
+certificateKey: "${encryption_key}"
+nodeRegistration:
+  criSocket: unix:///var/run/crio/crio.sock
+  kubeletExtraArgs:
+    cgroup-driver: "systemd"
+    cloud-provider: external
+    feature-gates: CSINodeInfo=true,CSIDriverRegistry=true,CSIBlockVolume=true,CSIMigration=true,CSIMigrationAWS=true,CSIMigrationAWSComplete=true,EphemeralContainers=true
+---
+apiVersion: kubeadm.k8s.io/v1beta2
+kind: ClusterConfiguration
+apiServer:
+  extraArgs:
+    cloud-provider: external
+    oidc-issuer-url: "https://login.${kubernetes.api_hostname}/auth/realms/kubernetes/.well-known/openid-configuration"
+    oidc-client-id: "kubernetes"
+    oidc-username-claim: "sub"
+    oidc-username-prefix: "oidc:"
+    oidc-groups-claim: "groups"
+    oidc-groups-prefix: "oidc:"
+    oidc-ca-file: "/etc/ssl/certs/ca-certificates.crt"
+    feature-gates: CSINodeInfo=true,CSIDriverRegistry=true,CSIBlockVolume=true,VolumeSnapshotDataSource=true
+  timeoutForControlPlane: 4m0s
+  extraVolumes:
+    - name: ca-trust
+      hostPath: /etc/ssl/certs/
+      mountPath: /etc/ssl/certs/
+      readOnly: true
+certificatesDir: /etc/kubernetes/pki
+clusterName: "${cluster_name}"
+controlPlaneEndpoint: "${kubernetes.api_hostname}:6443"
+controllerManager:
+  extraArgs:
+    address: 0.0.0.0
+    cloud-provider: external
+    configure-cloud-routes: "false"
+    feature-gates: CSIMigration=true,CSIMigrationAWS=true,CSIMigrationAWSComplete=true,EphemeralContainers=true
+dns:
+  type: CoreDNS
+etcd:
+  local:
+    dataDir: /var/lib/etcd
+imageRepository: k8s.gcr.io
+kubernetesVersion: "v${version}"
+networking:
+  dnsDomain: cluster.local
+  podSubnet: "${kubernetes.pod_cidr_block}"
+  serviceSubnet: "${kubernetes.service_cidr_block}"
+---
+apiVersion: kubeadm.k8s.io/v1beta2
+kind: JoinConfiguration
+caCertPath: /etc/kubernetes/pki/ca.crt
+controlPlane:
+  certificateKey: "${encryption_key}"
+discovery:
+  bootstrapToken:
+    apiServerEndpoint: "${kubernetes.api_hostname}:6443"
+    token: "${bootstrap_token}"
+    unsafeSkipCAVerification: true
+  timeout: "5m0s"
+nodeRegistration:
+  criSocket: "unix:///var/run/crio/crio.sock"
+  kubeletExtraArgs:
+    cgroup-driver: "systemd"
+    cloud-provider: "external"
+    feature-gates: CSINodeInfo=true,CSIDriverRegistry=true,CSIBlockVolume=true,CSIMigration=true,CSIMigrationAWS=true,CSIMigrationAWSComplete=true,EphemeralContainers=true
