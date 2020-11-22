@@ -10,6 +10,7 @@ apiServer:
     oidc-groups-claim: "groups"
     oidc-groups-prefix: "oidc:"
     oidc-ca-file: "/etc/ssl/certs/ca-certificates.crt"
+    feature-gates: CSINodeInfo=true,CSIDriverRegistry=true,CSIBlockVolume=true,VolumeSnapshotDataSource=true
   timeoutForControlPlane: 4m0s
   extraVolumes:
     - name: ca-trust

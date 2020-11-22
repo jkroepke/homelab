@@ -2,23 +2,22 @@ global:
   leaderElection:
     namespace: "cert-manager"
 
-cert-manager:
-  installCRDs: true
-  extraArgs:
-    - --cluster-resource-namespace=cert-manager
-    - --enable-certificate-owner-ref=true
-  ingressShim:
-    defaultIssuerName: "letsencrypt"
-    defaultIssuerKind: "ClusterIssuer"
-    defaultIssuerGroup: "cert-manager.io"
+installCRDs: true
+extraArgs:
+  - --cluster-resource-namespace=cert-manager
+  - --enable-certificate-owner-ref=true
+ingressShim:
+  defaultIssuerName: "letsencrypt"
+  defaultIssuerKind: "ClusterIssuer"
+  defaultIssuerGroup: "cert-manager.io"
+tolerations:
+  - effect: NoSchedule
+    operator: Exists
+  - effect: NoExecute
+    operator: Exists
+webhook:
   tolerations:
     - effect: NoSchedule
       operator: Exists
     - effect: NoExecute
       operator: Exists
-  webhook:
-    tolerations:
-      - effect: NoSchedule
-        operator: Exists
-      - effect: NoExecute
-        operator: Exists

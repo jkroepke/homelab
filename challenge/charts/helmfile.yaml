@@ -1,0 +1,113 @@
+---
+helmDefaults:
+  wait: true
+  timeout: 600
+  atomic: true
+  cleanupOnFail: true
+  skipDeps: false
+
+repositories:
+  - name: flexkube
+    url: https://flexkube.github.io/charts
+  - name: aws-efs-csi-driver
+    url: https://kubernetes-sigs.github.io/aws-efs-csi-driver/
+  - name: eks
+    url: https://aws.github.io/eks-charts
+  - name: autoscaler
+    url: https://kubernetes.github.io/autoscaler
+  - name: deliveryhero
+    url: https://charts.deliveryhero.io/
+  - name: ingress-nginx
+    url: https://kubernetes.github.io/ingress-nginx
+  - name: jetstack
+    url: https://charts.jetstack.io
+  - name: kubernetes-dashboard
+    url: https://kubernetes.github.io/dashboard/
+  - name: prometheus
+    url: https://prometheus-community.github.io/helm-charts
+
+releases:
+  - name: cloud-provider-aws
+    namespace: kube-system
+    chart: ./cloud-provider-aws
+
+  - name: calico
+    namespace: kube-system
+    chart: flexkube/calico
+    version: 0.3.0
+    values:
+      - calico/values.yaml
+
+  - name: aws-ebs-csi-driver
+    namespace: kube-system
+    chart: ./aws-ebs-csi-driver
+
+  - name: aws-efs-csi-driver
+    namespace: kube-system
+    chart: aws-efs-csi-driver/aws-efs-csi-driver
+    version: 0.1.0
+    values:
+      - aws-efs-csi-driver/values.yaml
+
+  - name: aws-node-termination-handler
+    namespace: kube-system
+    chart: eks/aws-node-termination-handler
+    version: 0.12.0
+    values:
+      - aws-node-termination-handler/values.yaml
+
+  - name: cluster-autoscaler
+    namespace: kube-system
+    chart: autoscaler/cluster-autoscaler-chart
+    version: 1.1.1
+    values:
+      - cluster-autoscaler/values.yaml
+      - image:
+          tag: v1.19.1
+
+  - name: node-problem-detector
+    namespace: kube-system
+    chart: deliveryhero/node-problem-detector
+    version: 1.8.0
+    values:
+      - node-problem-detector/values.yaml
+
+  - name: ingress-nginx
+    namespace: ingress-nginx
+    chart: ingress-nginx/ingress-nginx
+    version: 3.11.0
+    values:
+      - ingress-nginx/values.yaml
+
+  - name: cert-manager
+    namespace: cert-manager
+    chart: jetstack/cert-manager
+    version: v1.0.1
+    values:
+      - cert-manager/values.yaml
+
+  - name: cert-manager-cluster-issuer
+    namespace: cert-manager
+    chart: ./cert-manager-cluster-issuer
+
+  - name: kubernetes-dashboard
+    namespace: kubernetes-dashboard
+    chart: kubernetes-dashboard/kubernetes-dashboard
+    version: 2.8.2
+    values:
+      - kubernetes-dashboard/values.yaml
+
+  - name: k8s-event-logger
+    namespace: k8s-event-logger
+    chart: deliveryhero/k8s-event-logger
+    version: 1.0
+    values:
+      - k8s-event-logger/values.yaml
+
+  - name: monitoring
+    namespace: monitoring
+    chart: prometheus/kube-prometheus-stack
+    version: 12.2.0
+    values:
+      - kube-prometheus-stack/values.yaml
+

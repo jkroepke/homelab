@@ -1,3 +1,2 @@
-node-problem-detector:
-  nodeSelector:
-    kubernetes.io/os: linux
+nodeSelector:
+  kubernetes.io/os: linux

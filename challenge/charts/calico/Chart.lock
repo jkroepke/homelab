@@ -1,6 +1,0 @@
-dependencies:
-- name: calico
-  repository: https://flexkube.github.io/charts
-  version: 0.2.3
-digest: sha256:61b881132d357374a63b5967140d703c5875c5f5586b34c53ecfb0d168bba026
-generated: "2020-11-21T21:30:44.9363+01:00"
