@@ -97,9 +97,10 @@ releases:
       - values/cert-manager.yaml
 
   - name: cert-manager-cluster-issuer
-    needs: ['cert-manager']
+    needs: ['cert-manager/cert-manager']
     namespace: cert-manager
     chart: ./cert-manager-cluster-issuer
+    disableValidation: true
 
   - name: kubernetes-dashboard
     namespace: kubernetes-dashboard
@@ -121,3 +122,4 @@ releases:
     version: "12.2.0"
     values:
       - values/kube-prometheus-stack.yaml
+    disableValidation: true
