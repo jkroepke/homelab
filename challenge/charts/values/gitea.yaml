@@ -1,0 +1,28 @@
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: "true"
+  hosts:
+    - git.joe-k8s-sandbox.adorsys-sandbox.aws.adorsys.de
+  tls:
+    - secretName: gitea-ingress-tls
+      hosts:
+        - git.joe-k8s-sandbox.adorsys-sandbox.aws.adorsys.de
+
+gitea:
+  admin:
+    username: admin
+    password: ~
+    email: ~
+  # https://docs.gitea.io/en-us/config-cheat-sheet/
+  config:
+    service:
+      DISABLE_REGISTRATION: 'true'
+      REQUIRE_SIGNIN_VIEW: 'true'
+    openid:
+      ENABLE_OPENID_SIGNIN: 'false'
+      ENABLE_OPENID_SIGNUP: 'false'
+    security:
+      PASSWORD_CHECK_PWN: 'false'
+      PASSWORD_COMPLEXITY: 'off'

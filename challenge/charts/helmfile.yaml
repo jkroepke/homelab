@@ -35,6 +35,8 @@ repositories:
     url: https://gabibbo97.github.io/charts/
   - name: loki
     url: https://grafana.github.io/loki/charts
+  - name: gitea
+    url: https://dl.gitea.io/charts
 
 releases:
   - name: permissions
@@ -196,3 +198,11 @@ releases:
     version: "1.0.2"
     values:
       - values/gangway.yaml
+
+  - name: gitea
+    namespace: gitea
+    chart: gitea/gitea
+    version: "2.0.3"
+    values:
+      - values/gitea.yaml
+      - ../.local/gitea.yaml
