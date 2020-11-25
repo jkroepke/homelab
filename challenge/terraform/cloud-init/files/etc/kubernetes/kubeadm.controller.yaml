@@ -50,6 +50,9 @@ dns:
 etcd:
   local:
     dataDir: /var/lib/etcd
+  extraArgs:
+    heartbeat-interval: 500
+    election-timeout: 5000
 imageRepository: k8s.gcr.io
 kubernetesVersion: "v${version}"
 networking:
