@@ -15,11 +15,11 @@ controller:
       effect: NoSchedule
   resources:
     limits:
-      cpu: 100m
-      memory: 128Mi
+      cpu: 200m
+      memory: 256Mi
     requests:
-      cpu: 100m
-      memory: 128Mi
+      cpu: 200m
+      memory: 256Mi
   service:
     type: NodePort
     nodePorts:
