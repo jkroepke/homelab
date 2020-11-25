@@ -23,6 +23,20 @@ prometheus:
       - secretName: prometheus-tls
         hosts:
           - prometheus.joe-k8s-sandbox.adorsys-sandbox.aws.adorsys.de
+
+  prometheusSpec:
+    resources:
+      requests:
+        memory: 400Mi
+
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 20Gi
+
 alertmanager:
   ingress:
     enabled: true
