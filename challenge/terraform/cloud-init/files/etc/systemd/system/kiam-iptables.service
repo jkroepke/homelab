@@ -1,0 +1,11 @@
+[Unit]
+After=network.target
+Before=kubelet.service
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash -c "iptables -t nat -A PREROUTING -p tcp -d 169.254.169.254 --dport 80 -j DNAT --to-destination $(hostname -i):8181 -i cali+ --wait"
+RemainAfterExit=true
+
+[Install]
+WantedBy=multi-user.target

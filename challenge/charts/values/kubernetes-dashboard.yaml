@@ -28,7 +28,5 @@ metrics-server:
   nodeSelector:
     node-role.kubernetes.io/master: ""
   tolerations:
-    - effect: NoSchedule
-      operator: Exists
-    - effect: NoExecute
-      operator: Exists
+    - key: node-role.kubernetes.io/master
+      effect: NoSchedule

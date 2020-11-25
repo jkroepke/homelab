@@ -11,10 +11,8 @@ ingressShim:
   defaultIssuerKind: "ClusterIssuer"
   defaultIssuerGroup: "cert-manager.io"
 tolerations:
-  - effect: NoSchedule
-    operator: Exists
-  - effect: NoExecute
-    operator: Exists
+  - key: node-role.kubernetes.io/master
+    effect: NoSchedule
 webhook:
   tolerations:
     - effect: NoSchedule

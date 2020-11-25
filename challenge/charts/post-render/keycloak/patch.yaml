@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: keycloak
+spec:
+  rules:
+    - host: "login-joe-k8s-sandbox.adorsys-sandbox.aws.adorsys.de"
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: ~
+              servicePort: ~
+              service:
+                name: keycloak-http
+                port:
+                  name: http

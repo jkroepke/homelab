@@ -21,9 +21,9 @@ data "template_cloudinit_config" "worker" {
   }
 
   part {
-    filename     = "99-kubeadm-join.yaml"
+    filename     = "99-kubernetes-worker.yaml"
     content_type = "text/cloud-config"
-    content      = file("cloud-init/99-kubeadm-join.yaml")
+    content      = file("cloud-init/99-kubernetes-worker.yaml")
   }
 
   part {
@@ -47,6 +47,16 @@ data "template_cloudinit_config" "worker" {
     content = templatefile("cloud-init/parts/write_file.yaml", {
       path    = "/etc/systemd/system/kubelet.service.d/10-crio.conf"
       content = file("cloud-init/files/etc/systemd/system/kubelet.service.d/10-crio.conf")
+      mode    = "0400"
+    })
+  }
+
+  part {
+    filename     = "kiam-iptables.service"
+    content_type = "text/cloud-config"
+    content = templatefile("cloud-init/parts/write_file.yaml", {
+      path    = "/etc/systemd/system/kiam-iptables.service"
+      content = file("cloud-init/files/etc/systemd/system/kiam-iptables.service")
       mode    = "0400"
     })
   }

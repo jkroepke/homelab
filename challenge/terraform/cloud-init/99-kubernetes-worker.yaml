@@ -1,6 +1,7 @@
 #cloud-config
 
 runcmd:
+  - systemctl enable --now kiam-iptables
   - kubeadm join --node-name "$(hostname -f)" --config /etc/kubernetes/kubeadm.yaml
 
 # http://cloudinit.readthedocs.io/en/latest/topics/merging.html

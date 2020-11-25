@@ -27,10 +27,23 @@ repositories:
     url: https://prometheus-community.github.io/helm-charts
   - name: uswitch
     url: https://uswitch.github.io/kiam-helm-charts/charts/
+  - name: codecentric
+    url: https://codecentric.github.io/helm-charts
+  - name: keycloak-config-cli
+    url: git+https://github.com/adorsys/keycloak-config-cli@contrib/charts?ref=v2.6.2&sparse=0
+  - name: gabibbo97
+    url: https://gabibbo97.github.io/charts/
+
 
 releases:
+  - name: permissions
+    namespace: kube-system
+    chart: ./permissions
+
   - name: kiam
     namespace: kube-system
+    needs: [ 'monitoring/monitoring' ]
+    disableValidation: true
     chart: uswitch/kiam
     version: 5.9.0
     values:
@@ -49,11 +62,13 @@ releases:
 
   - name: aws-ebs-csi-driver
     namespace: kube-system
+    needs: [ 'kube-system/cluster-autoscaler' ]
     chart: ./aws-ebs-csi-driver
     skipDeps: true
 
   - name: aws-efs-csi-driver
     namespace: kube-system
+    needs: [ 'kube-system/cluster-autoscaler' ]
     chart: aws-efs-csi-driver/aws-efs-csi-driver
     version: "0.1.0"
     values:
@@ -84,6 +99,7 @@ releases:
 
   - name: ingress-nginx
     namespace: ingress-nginx
+    needs: [ 'kube-system/cluster-autoscaler' ]
     chart: ingress-nginx/ingress-nginx
     version: "3.11.0"
     values:
@@ -91,6 +107,7 @@ releases:
 
   - name: cert-manager
     namespace: cert-manager
+    needs: [ 'kube-system/cluster-autoscaler' ]
     chart: jetstack/cert-manager
     version: "v1.0.1"
     values:
@@ -118,8 +135,54 @@ releases:
 
   - name: monitoring
     namespace: monitoring
+    needs: [ 'kube-system/cluster-autoscaler' ]
     chart: prometheus/kube-prometheus-stack
     version: "12.2.0"
     values:
       - values/kube-prometheus-stack.yaml
     disableValidation: true
+
+  - name: keycloak
+    needs: [ 'monitoring/monitoring' ]
+    namespace: keycloak
+    chart: codecentric/keycloak
+    disableValidation: true
+    version: "9.6.1"
+    values:
+      - values/keycloak.yaml
+      - ../.local/keycloak.yaml
+    strategicMergePatches:
+      # https://github.com/codecentric/helm-charts/pull/352
+      - apiVersion: networking.k8s.io/v1
+        kind: Ingress
+        metadata:
+          name: keycloak
+        spec:
+          rules:
+            - host: "login.joe-k8s-sandbox.adorsys-sandbox.aws.adorsys.de"
+              http:
+                paths:
+                  - path: /
+                    pathType: Prefix
+                    backend:
+                      service:
+                        name: keycloak-http
+                        port:
+                          name: http
+
+  - name: keycloak-config-cli
+    needs: [ 'keycloak/keycloak' ]
+    namespace: keycloak
+    chart: keycloak-config-cli/keycloak-config-cli
+    version: "2.6.2"
+    values:
+      - values/keycloak-config-cli.yaml
+      - ../.local/keycloak-config-cli.yaml
+
+  - name: gangway
+    namespace: keycloak
+    needs: [ 'kube-system/cluster-autoscaler' ]
+    chart: gabibbo97/gangway
+    version: "1.0.2"
+    values:
+      - values/gangway.yaml

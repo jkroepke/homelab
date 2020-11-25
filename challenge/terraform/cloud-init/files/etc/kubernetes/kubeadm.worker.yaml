@@ -3,7 +3,7 @@ kind: ClusterConfiguration
 apiServer:
   extraArgs:
     cloud-provider: external
-    oidc-issuer-url: "https://login.${kubernetes.api_hostname}/auth/realms/kubernetes/.well-known/openid-configuration"
+    oidc-issuer-url: "https://login.${kubernetes.api_hostname}/auth/realms/kubernetes"
     oidc-client-id: "kubernetes"
     oidc-username-claim: "sub"
     oidc-username-prefix: "oidc:"

@@ -5,10 +5,8 @@ awsRegion: eu-central-1
 autoDiscovery:
   clusterName: joe-k8s-sandbox
 tolerations:
-  - effect: NoSchedule
-    operator: Exists
-  - effect: NoExecute
-    operator: Exists
+  - key: node-role.kubernetes.io/master
+    effect: NoSchedule
 extraArgs:
   balance-similar-node-groups: true
   cluster-name: joe-k8s-sandbox

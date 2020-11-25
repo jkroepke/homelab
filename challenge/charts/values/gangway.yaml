@@ -1,0 +1,23 @@
+config:
+  clusterName: joe-k8s-sandbox
+  apiServerURL: https://joe-k8s-sandbox.adorsys-sandbox.aws.adorsys.de:6443
+  authorizeURL: https://login.joe-k8s-sandbox.adorsys-sandbox.aws.adorsys.de/auth/realms/kubernetes/protocol/openid-connect/auth
+  tokenURL: https://login.joe-k8s-sandbox.adorsys-sandbox.aws.adorsys.de/auth/realms/kubernetes/protocol/openid-connect/token
+  audience: https://login.joe-k8s-sandbox.adorsys-sandbox.aws.adorsys.de/auth/realms/kubernetes/protocol/openid-connect/userinfo
+  clientID: kubernetes
+  clientSecret: kubernetes
+  sessionSecurityKey: V8mfpxza68Ia8m1Gjr5U5FQbXb8kfJOJ
+  usernameClaim: preferred_username
+
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: kubeconfig.joe-k8s-sandbox.adorsys-sandbox.aws.adorsys.de
+      paths:
+        - /
+  tls:
+    - hosts:
+        - kubeconfig.joe-k8s-sandbox.adorsys-sandbox.aws.adorsys.de
+      secretName: "gangway-ingress-tls"

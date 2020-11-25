@@ -1,0 +1,17 @@
+ingress:
+  enabled: true
+  servicePort: http
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-buffer-size: 128k
+    kubernetes.io/tls-acme: "true"
+  rules:
+    - host: login.joe-k8s-sandbox.adorsys-sandbox.aws.adorsys.de
+      paths:
+        - /
+  tls:
+  - hosts:
+      - login.joe-k8s-sandbox.adorsys-sandbox.aws.adorsys.de
+    secretName: "keycloak-ingress-tls"
+
+serviceMonitor:
+  enabled: true

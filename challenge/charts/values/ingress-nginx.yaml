@@ -5,15 +5,14 @@ controller:
     real-ip-header: "proxy_protocol"
     set-real-ip-from: "10.0.0.0/8"
     use-proxy-protocol: "true"
+    # For Keycloak
+    # https://andrewlock.net/fixing-nginx-upstream-sent-too-big-header-error-when-running-an-ingress-controller-in-kubernetes/
+    proxy-buffer-size: "16k"
   nodeSelector:
     node-role.kubernetes.io/master: ""
   tolerations:
-    - effect: NoSchedule
-      operator: Exists
-    - key: CriticalAddonsOnly
-      operator: Exists
-    - effect: NoExecute
-      operator: Exists
+    - key: node-role.kubernetes.io/master
+      effect: NoSchedule
   resources:
     limits:
       cpu: 100m

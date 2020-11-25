@@ -1,0 +1,66 @@
+image:
+  repository: docker.io/adorsys/keycloak-config-cli
+  tag: v2.6.2-11.0.3
+
+env:
+  KEYCLOAK_URL: http://keycloak-http:80/auth/
+  KEYCLOAK_USER: ~
+
+secrets:
+  KEYCLOAK_PASSWORD: ~
+
+config:
+  kubernetes:
+    inline:
+      realm: kubernetes
+      enabled: true
+      registrationEmailAsUsername: false
+      registrationAllowed: false
+      resetPasswordAllowed: true
+      loginWithEmailAllowed: true
+
+      bruteForceProtected: true
+      permanentLockout: false
+      maxFailureWaitSeconds: 60
+      minimumQuickLoginWaitSeconds: 60
+      waitIncrementSeconds: 60
+      quickLoginCheckMilliSeconds: 1000
+      maxDeltaTimeSeconds: 54000
+      failureFactor: 5
+      roles:
+        realm:
+          - name: "k8s-admin"
+            description: "Kubernetes Administrator"
+            composite: "false"
+            clientRole: "false"
+      groups:
+        - name: admins
+          realmRoles:
+            - k8s-admin
+      clients:
+        - clientId: kubernetes
+          name: kubernetes
+          protocol: "openid-connect"
+          bearerOnly: false
+          consentRequired: false
+          standardFlowEnabled: true
+          implicitFlowEnabled: false
+          directAccessGrantsEnabled: true
+          serviceAccountsEnabled: false
+          publicClient: true
+          webOrigins:
+            - "*"
+          redirectUris:
+            - "*"
+          protocolMappers:
+            - name: groups
+              protocol: openid-connect
+              protocolMapper: oidc-usermodel-realm-role-mapper
+              consentRequired: false
+              config:
+                multivalued: "true"
+                user.attribute: "foo"
+                id.token.claim: "true"
+                access.token.claim: "true"
+                claim.name: "groups"
+                jsonType.label: "String"
