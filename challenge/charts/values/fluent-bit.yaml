@@ -11,11 +11,8 @@ resources:
 #    cpu: 100m
     memory: 256Mi
 
-service:
-  annotations:
-    prometheus.io/path: "/api/v1/metrics/prometheus"
-    prometheus.io/port: "2020"
-    prometheus.io/scrape: "true"
+serviceMonitor:
+  enabled: true
 
 tolerations:
   - key: node-role.kubernetes.io/master

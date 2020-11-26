@@ -17,8 +17,6 @@ repositories:
     url: https://kubernetes.github.io/autoscaler
   - name: deliveryhero
     url: https://charts.deliveryhero.io/
-  - name: uswitch
-    url: https://uswitch.github.io/kiam-helm-charts/charts/
 
 releases:
   - name: permissions
@@ -72,11 +70,3 @@ releases:
     version: "1.8.0"
     values:
       - ../values/node-problem-detector.yaml
-
-  - name: kiam
-    namespace: kube-system
-    disableValidation: true
-    chart: uswitch/kiam
-    version: 5.9.0
-    values:
-      - ../values/kiam.yaml

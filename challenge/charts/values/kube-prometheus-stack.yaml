@@ -117,6 +117,9 @@ prometheus:
       - name: etcd-healthcheck-client-key
         mountPath: /etc/kubernetes/pki/etcd/healthcheck-client.key
 
+    serviceMonitorSelectorNilUsesHelmValues: false
+    podMonitorSelectorNilUsesHelmValues: false
+    probeSelectorNilUsesHelmValues: false
     additionalScrapeConfigs:
 #      - job_name: 'kubernetes-apiservers'
 #
@@ -250,6 +253,9 @@ prometheus:
           - source_labels: [ __meta_kubernetes_service_annotation_prometheus_io_scrape ]
             action: keep
             regex: true
+          - source_labels: [ __meta_kubernetes_namespace ]
+            regex: monitoring|kube-system
+            action: drop
           - source_labels: [ __meta_kubernetes_service_annotation_prometheus_io_scheme ]
             action: replace
             target_label: __scheme__
@@ -384,6 +390,9 @@ prometheus:
           - source_labels: [ __meta_kubernetes_pod_annotation_prometheus_io_scrape ]
             action: keep
             regex: true
+          - source_labels: [ __meta_kubernetes_namespace ]
+            regex: monitoring|kube-system
+            action: drop
           - source_labels: [ __meta_kubernetes_pod_annotation_prometheus_io_path ]
             action: replace
             target_label: __metrics_path__

@@ -23,6 +23,10 @@ loki:
       - alert: HighThroughputLogStreams
         expr: sum by(container) (rate({job=~"loki-dev/.*"}[1m])) > 1000
         for: 2m
+  serviceMonitor:
+    enabled: true
+  podAnnotations:
+    prometheus.io/scrape: "false"
 
 promtail:
   # Add additional scrape config
