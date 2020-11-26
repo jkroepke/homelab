@@ -5,15 +5,19 @@ resource "aws_security_group" "worker" {
   dynamic "ingress" {
     # https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#check-required-ports
     for_each = {
-      10250 : "Kubelet API"
+      179 : { protocol: "tcp", description: "Calico networking (BGP)" },
+      9100 : { protocol: "tcp", description: "Prometheus: node_exporter" },
+      9620 : { protocol: "tcp", description: "Prometheus: kiam" },
+      10249 : { protocol: "tcp", description: "Prometheus: kube-proxy" },
+      10250 : { protocol: "tcp", description: "Prometheus: kubelet" },
     }
 
     content {
-      description = ingress.value
+      description = ingress.value.description
 
       from_port = ingress.key
-      protocol  = "tcp"
-      to_port   = ingress.key
+      protocol  = ingress.value.protocol
+      to_port   = ingress.value.protocol == "icmp" ? 0 : ingress.key
 
       security_groups = [aws_security_group.controller.id]
     }

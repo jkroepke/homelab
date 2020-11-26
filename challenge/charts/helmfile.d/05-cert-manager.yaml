@@ -13,7 +13,6 @@ repositories:
 releases:
   - name: cert-manager
     namespace: cert-manager
-    needs: [ 'kube-system/cluster-autoscaler' ]
     chart: jetstack/cert-manager
     version: "v1.0.1"
     values:

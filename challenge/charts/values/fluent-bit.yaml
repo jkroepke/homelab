@@ -1,11 +1,64 @@
-backend:
-  type: es
-  es:
-    host: "elasticsearch-master.logging.svc.cluster.local"
-    retry_limit: 5
-filter:
-  mergeJSONLog: true
+updateStrategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxUnavailable: 50%
 
-extraEntries:
-  filter: "Merge_Log_Key logfield"
+resources:
+  limits:
+#    cpu: 100m
+    memory: 256Mi
+  requests:
+#    cpu: 100m
+    memory: 256Mi
 
+service:
+  annotations:
+    prometheus.io/path: "/api/v1/metrics/prometheus"
+    prometheus.io/port: "2020"
+    prometheus.io/scrape: "true"
+
+tolerations:
+  - key: node-role.kubernetes.io/master
+    effect: NoSchedule
+
+extraVolumes:
+  - name: varlibfluentd
+    hostPath:
+      path: /var/lib/fluentd
+
+extraVolumeMounts:
+  - name: varlibfluentd
+    mountPath: /var/lib/fluentd
+
+
+config:
+  inputs: |
+    [INPUT]
+        Name tail
+        Path /var/log/containers/*.log
+        Parser docker
+        Tag kube.*
+        Mem_Buf_Limit 50MB
+        DB /var/lib/fluentd/containers.db
+
+    [INPUT]
+        Name systemd
+        Tag host.*
+        Read_From_Tail On
+        DB /var/lib/fluentd/systemd.db
+
+  filters: |
+    [FILTER]
+        Name kubernetes
+        Match kube.*
+        Merge_Log On
+        Keep_Log Off
+        K8S-Logging.Parser On
+        K8S-Logging.Exclude On
+    [FILTER]
+        Name unify
+        Match *
+        Merge_Log On
+        Keep_Log Off
+        K8S-Logging.Parser On
+        K8S-Logging.Exclude On

@@ -17,10 +17,7 @@ terraform apply
 export KUBECONFIG=$(terraform output kube_config)
 
 # cd challenge/charts
-#helmfile deps
-
-# First time run, concurrency required
-helmfile -i apply --concurrency 1
+helmfile -i apply
 ```
 
 ## User login

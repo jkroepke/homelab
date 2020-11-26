@@ -42,6 +42,7 @@ controlPlaneEndpoint: "${kubernetes.api_hostname}:6443"
 controllerManager:
   extraArgs:
     address: 0.0.0.0
+    bind-address: 0.0.0.0
     cloud-provider: external
     configure-cloud-routes: "false"
     feature-gates: CSIMigration=true,CSIMigrationAWS=true,CSIMigrationAWSComplete=true,EphemeralContainers=true
@@ -59,6 +60,10 @@ networking:
   dnsDomain: cluster.local
   podSubnet: "${kubernetes.pod_cidr_block}"
   serviceSubnet: "${kubernetes.service_cidr_block}"
+scheduler:
+  extraArgs:
+    address: 0.0.0.0
+    bind-address: 0.0.0.0
 ---
 apiVersion: kubeadm.k8s.io/v1beta2
 kind: JoinConfiguration
@@ -77,3 +82,7 @@ nodeRegistration:
     cgroup-driver: "systemd"
     cloud-provider: "external"
     feature-gates: CSINodeInfo=true,CSIDriverRegistry=true,CSIBlockVolume=true,CSIMigration=true,CSIMigrationAWS=true,CSIMigrationAWSComplete=true,EphemeralContainers=true
+---
+apiVersion: kubeproxy.config.k8s.io/v1alpha1
+kind: KubeProxyConfiguration
+metricsBindAddress: 0.0.0.0

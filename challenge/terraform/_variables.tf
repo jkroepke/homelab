@@ -28,5 +28,6 @@ variable "kubernetes" {
     api_hostname       = string
     service_cidr_block = string
     pod_cidr_block     = string
+    feature_gates      = list(string)
   })
 }

@@ -13,9 +13,12 @@ repositories:
     url: https://grafana.github.io/loki/charts
 
 releases:
+  - name: auth-basic
+    namespace: monitoring
+    chart: ../auth-basic
+
   - name: monitoring
     namespace: monitoring
-    needs: [ 'kube-system/cluster-autoscaler' ]
     chart: prometheus/kube-prometheus-stack
     version: "12.2.0"
     values:

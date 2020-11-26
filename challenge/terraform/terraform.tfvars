@@ -20,4 +20,13 @@ kubernetes = {
   api_hostname       = "joe-k8s-sandbox.adorsys-sandbox.aws.adorsys.de"
   service_cidr_block = "172.30.0.0/16"
   pod_cidr_block     = "10.128.0.0/14"
+  feature_gates      = [
+    "CSINodeInfo=true",
+    "CSIDriverRegistry=true",
+    "CSIBlockVolume=true",
+    "CSIMigration=true",
+    "CSIMigrationAWS=true",
+    "CSIMigrationAWSComplete=true",
+    "EphemeralContainers=true",
+  ]
 }

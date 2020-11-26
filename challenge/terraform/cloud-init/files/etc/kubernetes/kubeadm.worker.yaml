@@ -14,3 +14,7 @@ nodeRegistration:
     cgroup-driver: "systemd"
     cloud-provider: "external"
     feature-gates: CSINodeInfo=true,CSIDriverRegistry=true,CSIBlockVolume=true,CSIMigration=true,CSIMigrationAWS=true,CSIMigrationAWSComplete=true,EphemeralContainers=true
+---
+apiVersion: kubeproxy.config.k8s.io/v1alpha1
+kind: KubeProxyConfiguration
+metricsBindAddress: 0.0.0.0

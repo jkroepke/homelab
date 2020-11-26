@@ -73,6 +73,10 @@ resource "aws_autoscaling_group" "worker" {
     version = aws_launch_template.worker.latest_version
   }
 
+  lifecycle {
+    ignore_changes = [desired_capacity]
+  }
+
   # https://github.com/kubernetes/autoscaler/tree/master/charts/cluster-autoscaler-chart#aws---using-auto-discovery-of-tagged-instance-groups
   tags = [
     {

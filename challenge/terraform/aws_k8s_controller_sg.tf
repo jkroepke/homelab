@@ -3,18 +3,20 @@ resource "aws_security_group" "controller" {
   vpc_id = aws_vpc.vpc.id
 
   dynamic "ingress" {
-    # https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#check-required-ports
+    # https://docs.projectcalico.org/getting-started/kubernetes/requirements#network-requirements
     for_each = {
-      2379 : "etcd client"
-      2380 : "etcd peer"
+      2379 : { protocol: "tcp", description: "etcd client" },
+      2380 : { protocol: "tcp", description: "etcd peer" },
+      10257 : { protocol: "tcp", description: "Prometheus: kube-controller-manager" },
+      10259 : { protocol: "tcp", description: "Prometheus: kube-scheduler" },
     }
 
     content {
-      description = ingress.value
+      description = ingress.value.description
 
       from_port = ingress.key
-      protocol  = "tcp"
-      to_port   = ingress.key
+      protocol  = ingress.value.protocol
+      to_port   = ingress.value.protocol == "icmp" ? 0 : ingress.key
 
       self = true
     }

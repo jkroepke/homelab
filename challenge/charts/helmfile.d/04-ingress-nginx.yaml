@@ -13,7 +13,6 @@ repositories:
 releases:
   - name: ingress-nginx
     namespace: ingress-nginx
-    needs: [ 'kube-system/cluster-autoscaler' ]
     chart: ingress-nginx/ingress-nginx
     version: "3.11.0"
     values:
