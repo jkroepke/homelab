@@ -12,6 +12,3 @@ ingress:
   - hosts:
       - login.joe-k8s-sandbox.adorsys-sandbox.aws.adorsys.de
     secretName: "keycloak-ingress-tls"
-
-serviceMonitor:
-  enabled: true

@@ -1,0 +1,18 @@
+elasticsearchHosts: "http://elasticsearch-master.logging.svc.cluster.local:9200"
+
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: "true"
+    nginx.ingress.kubernetes.io/auth-type: "basic"
+    nginx.ingress.kubernetes.io/auth-secret: "auth-basic"
+    nginx.ingress.kubernetes.io/auth-secret-type: "auth-map"
+    nginx.ingress.kubernetes.io/auth-realm: "Authentication Required - kibana"
+  path: /
+  hosts:
+    - kibana.joe-k8s-sandbox.adorsys-sandbox.aws.adorsys.de
+  tls:
+    - secretName: kibana-ingress-tls
+      hosts:
+        - kibana.joe-k8s-sandbox.adorsys-sandbox.aws.adorsys.de

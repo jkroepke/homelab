@@ -1,0 +1,11 @@
+backend:
+  type: es
+  es:
+    host: "elasticsearch-master.logging.svc.cluster.local"
+    retry_limit: 5
+filter:
+  mergeJSONLog: true
+
+extraEntries:
+  filter: "Merge_Log_Key logfield"
+

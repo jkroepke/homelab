@@ -1,0 +1,19 @@
+---
+helmDefaults:
+  wait: true
+  timeout: 600
+  atomic: true
+  cleanupOnFail: true
+  skipDeps: false
+
+repositories:
+  - name: deliveryhero
+    url: https://charts.deliveryhero.io/
+
+releases:
+  - name: k8s-event-logger
+    namespace: k8s-event-logger
+    chart: deliveryhero/k8s-event-logger
+    version: "1.0"
+    values:
+      - ../values/k8s-event-logger.yaml

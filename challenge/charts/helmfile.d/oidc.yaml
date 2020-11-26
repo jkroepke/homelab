@@ -1,0 +1,59 @@
+---
+helmDefaults:
+  wait: true
+  timeout: 600
+  atomic: true
+  cleanupOnFail: true
+  skipDeps: false
+
+repositories:
+  - name: codecentric
+    url: https://codecentric.github.io/helm-charts
+  - name: keycloak-config-cli
+    url: git+https://github.com/adorsys/keycloak-config-cli@contrib/charts?ref=v2.6.2&sparse=0
+  - name: gabibbo97
+    url: https://gabibbo97.github.io/charts/
+
+releases:
+  - name: keycloak
+    namespace: keycloak
+    chart: codecentric/keycloak
+    disableValidation: true
+    version: "9.6.1"
+    values:
+      - ../values/keycloak.yaml
+      - ../../.local/keycloak.yaml
+    strategicMergePatches:
+      # https://github.com/codecentric/helm-charts/pull/352
+      - apiVersion: networking.k8s.io/v1
+        kind: Ingress
+        metadata:
+          name: keycloak
+        spec:
+          rules:
+            - host: "login.joe-k8s-sandbox.adorsys-sandbox.aws.adorsys.de"
+              http:
+                paths:
+                  - path: /
+                    pathType: Prefix
+                    backend:
+                      service:
+                        name: keycloak-http
+                        port:
+                          name: http
+
+  - name: keycloak-config-cli
+    needs: [ 'keycloak/keycloak' ]
+    namespace: keycloak
+    chart: keycloak-config-cli/keycloak-config-cli
+    version: "2.6.2"
+    values:
+      - ../values/keycloak-config-cli.yaml
+      - ../../.local/keycloak-config-cli.yaml
+
+  - name: gangway
+    namespace: keycloak
+    chart: gabibbo97/gangway
+    version: "1.0.2"
+    values:
+      - ../values/gangway.yaml

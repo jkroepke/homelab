@@ -1,0 +1,32 @@
+---
+helmDefaults:
+  wait: true
+  timeout: 600
+  atomic: true
+  cleanupOnFail: true
+  skipDeps: false
+
+repositories:
+  - name: prometheus
+    url: https://prometheus-community.github.io/helm-charts
+  - name: loki
+    url: https://grafana.github.io/loki/charts
+
+releases:
+  - name: monitoring
+    namespace: monitoring
+    needs: [ 'kube-system/cluster-autoscaler' ]
+    chart: prometheus/kube-prometheus-stack
+    version: "12.2.0"
+    values:
+      - ../values/kube-prometheus-stack.yaml
+    disableValidation: true
+
+  - name: loki
+    namespace: monitoring
+    needs: [ 'monitoring/monitoring' ]
+    chart: loki/loki-stack
+    version: "2.1.0"
+    values:
+      - ../values/loki-stack.yaml
+    disableValidation: true

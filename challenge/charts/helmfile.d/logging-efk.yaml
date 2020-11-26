@@ -1,0 +1,50 @@
+---
+helmDefaults:
+  wait: true
+  timeout: 600
+  atomic: true
+  cleanupOnFail: true
+  skipDeps: false
+
+repositories:
+  - name: elastic
+    url: https://helm.elastic.co
+  - name: fluent
+    url: https://fluent.github.io/helm-charts
+  - name: stable
+    url: https://charts.helm.sh/stable
+
+releases:
+  - name: auth-basic
+    namespace: logging
+    chart: ../auth-basic
+
+  - name: elasticsearch
+    namespace: logging
+    chart: elastic/elasticsearch
+    version: "7.10.0"
+    values:
+      - ../values/elasticsearch.yaml
+
+  - name: kibana
+    needs: [ 'logging/auth-basic', 'logging/elasticsearch' ]
+    namespace: logging
+    chart: elastic/kibana
+    version: "7.10.0"
+    values:
+      - ../values/kibana.yaml
+
+  - name: fluent-bit
+    needs: [ 'logging/elasticsearch' ]
+    namespace: logging
+    chart: fluent/fluent-bit
+    version: "0.7.7"
+    values:
+      - ../values/fluent-bit.yaml
+
+  - name: curator
+    namespace: logging
+    chart: stable/elasticsearch-curator
+    version: "2.2.3"
+    values:
+      - ../values/curator.yaml

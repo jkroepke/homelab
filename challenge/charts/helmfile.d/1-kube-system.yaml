@@ -1,0 +1,82 @@
+---
+helmDefaults:
+  wait: true
+  timeout: 600
+  atomic: true
+  cleanupOnFail: true
+  skipDeps: false
+
+repositories:
+  - name: flexkube
+    url: https://flexkube.github.io/charts
+  - name: aws-efs-csi-driver
+    url: https://kubernetes-sigs.github.io/aws-efs-csi-driver/
+  - name: eks
+    url: https://aws.github.io/eks-charts
+  - name: autoscaler
+    url: https://kubernetes.github.io/autoscaler
+  - name: deliveryhero
+    url: https://charts.deliveryhero.io/
+  - name: uswitch
+    url: https://uswitch.github.io/kiam-helm-charts/charts/
+
+releases:
+  - name: permissions
+    namespace: kube-system
+    chart: ../permissions
+
+  - name: cloud-provider-aws
+    namespace: kube-system
+    chart: ../cloud-provider-aws
+
+  - name: calico
+    namespace: kube-system
+    chart: flexkube/calico
+    version: 0.3.0
+    values:
+      - ../values/calico.yaml
+
+  - name: aws-ebs-csi-driver
+    namespace: kube-system
+    needs: [ 'kube-system/cluster-autoscaler' ]
+    chart: ../aws-ebs-csi-driver
+    skipDeps: true
+
+  - name: aws-efs-csi-driver
+    namespace: kube-system
+    needs: [ 'kube-system/cluster-autoscaler' ]
+    chart: aws-efs-csi-driver/aws-efs-csi-driver
+    version: "0.1.0"
+    values:
+      - ../values/aws-efs-csi-driver.yaml
+
+  - name: aws-node-termination-handler
+    namespace: kube-system
+    chart: eks/aws-node-termination-handler
+    version: "0.12.0"
+    values:
+      - ../values/aws-node-termination-handler.yaml
+
+  - name: cluster-autoscaler
+    namespace: kube-system
+    chart: autoscaler/cluster-autoscaler-chart
+    version: "1.1.1"
+    values:
+      - ../values/cluster-autoscaler.yaml
+      - image:
+          tag: v1.19.1
+
+  - name: node-problem-detector
+    namespace: kube-system
+    chart: deliveryhero/node-problem-detector
+    version: "1.8.0"
+    values:
+      - ../values/node-problem-detector.yaml
+
+  - name: kiam
+    namespace: kube-system
+    disableValidation: true
+    chart: uswitch/kiam
+    version: 5.9.0
+    values:
+      - ../values/kiam.yaml

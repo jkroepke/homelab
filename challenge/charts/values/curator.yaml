@@ -1,0 +1,11 @@
+configMaps:
+  config_yml: |-
+    ---
+    client:
+      hosts:
+        - elasticsearch-master.logging.svc.cluster.local
+      port: 9200
+      logging:
+        loglevel: INFO
+        logformat: default
+        blacklist: ['elasticsearch', 'urllib3']

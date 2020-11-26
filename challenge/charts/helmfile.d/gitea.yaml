@@ -1,0 +1,20 @@
+---
+helmDefaults:
+  wait: true
+  timeout: 600
+  atomic: true
+  cleanupOnFail: true
+  skipDeps: false
+
+repositories:
+  - name: gitea
+    url: https://dl.gitea.io/charts
+
+releases:
+  - name: gitea
+    namespace: gitea
+    chart: gitea/gitea
+    version: "2.0.3"
+    values:
+      - ../values/gitea.yaml
+      - ../../.local/gitea.yaml
