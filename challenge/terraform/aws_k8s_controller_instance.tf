@@ -3,7 +3,7 @@ resource "aws_instance" "controller" {
 
   // e2-standard-2
   ami               = data.aws_ami.ubuntu.id
-  instance_type     = lookup(each.value, "instance_type", "t3a.large")
+  instance_type     = lookup(each.value, "instance_type", "t3a.xlarge")
   availability_zone = each.value.availability_zone
   subnet_id         = each.value.subnet_id
 

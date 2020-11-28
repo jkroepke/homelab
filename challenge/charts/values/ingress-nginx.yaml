@@ -8,6 +8,8 @@ controller:
     # For Keycloak
     # https://andrewlock.net/fixing-nginx-upstream-sent-too-big-header-error-when-running-an-ingress-controller-in-kubernetes/
     proxy-buffer-size: "16k"
+
+    hsts: "false"
   nodeSelector:
     node-role.kubernetes.io/master: ""
   tolerations:

@@ -4,6 +4,8 @@ cloudProvider: aws
 awsRegion: eu-central-1
 autoDiscovery:
   clusterName: joe-k8s-sandbox
+nodeSelector:
+  node-role.kubernetes.io/master: ""
 tolerations:
   - key: node-role.kubernetes.io/master
     effect: NoSchedule

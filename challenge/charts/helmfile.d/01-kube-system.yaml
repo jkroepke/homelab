@@ -57,8 +57,8 @@ releases:
 
   - name: cluster-autoscaler
     namespace: kube-system
-    chart: autoscaler/cluster-autoscaler-chart
-    version: "1.1.1"
+    chart: autoscaler/cluster-autoscaler
+    version: "9.1.0"
     values:
       - ../values/cluster-autoscaler.yaml
       - image:
