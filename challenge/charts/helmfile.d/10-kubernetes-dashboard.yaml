@@ -9,6 +9,8 @@ helmDefaults:
 repositories:
   - name: kubernetes-dashboard
     url: https://kubernetes.github.io/dashboard/
+  - name: k8s-at-home
+    url: https://k8s-at-home.com/charts/
 
 releases:
   - name: kubernetes-dashboard
@@ -17,3 +19,21 @@ releases:
     version: "2.8.2"
     values:
       - ../values/kubernetes-dashboard.yaml
+
+  - name: oauth2-proxy
+    namespace: kubernetes-dashboard
+    chart: k8s-at-home/oauth2-proxy
+    version: "4.0.1"
+    values:
+      - ../values/oauth2-proxy.yaml
+      -
+        ingress:
+          hosts:
+            - dashboard.joe-k8s-sandbox.adorsys-sandbox.aws.adorsys.de
+          tls:
+            - secretName: kubernetes-dashboard-oauth-proxy-tls
+              hosts:
+                - dashboard.joe-k8s-sandbox.adorsys-sandbox.aws.adorsys.de
+      -
+        extraArgs:
+          upstream: https://kubernetes-dashboard.kubernetes-dashboard.svc.cluster.local
