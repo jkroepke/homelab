@@ -27,6 +27,9 @@ config:
       quickLoginCheckMilliSeconds: 1000
       maxDeltaTimeSeconds: 54000
       failureFactor: 5
+      defaultRoles:
+        - uma_authorization
+        - offline_access
       roles:
         realm:
           - name: "k8s-admin"
