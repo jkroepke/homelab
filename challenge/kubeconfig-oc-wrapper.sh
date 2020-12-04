@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# See: https://gist.github.com/jkroepke/5030b52f7e99b491c1a85f098d2d4280
+
 set -eo pipefail
 export SCOPE="kubeconfig-oc-wrapper-${CLUSTER_NAME:-default}"
 export KUBECONFIG="${HOME}/.kube/${SCOPE}.config"
