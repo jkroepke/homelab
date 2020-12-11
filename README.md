@@ -1,11 +1,6 @@
-# kubernetes-the-hard-way
+# homelab
 
-## Original
+Place for homelab projects.
 
-Based on: https://github.com/kelseyhightower/kubernetes-the-hard-way
-
-## Challenged way
-
-A more challenged Kubernetes the hard way
-
-See: https://github.com/jkroepke/kubernetes-the-hard-way/tree/main/challenge
+* [kubernetes-the-hard-way](./kubernetes-the-hard-way)
+* [vanilla-kubernetes-on-aws](./vanilla-kubernetes-on-aws)
