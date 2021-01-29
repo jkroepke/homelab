@@ -48,6 +48,9 @@ terraform taint 'aws_autoscaling_group.worker["eu-central-1c"]'
 * ArgoCD
 * Istio
 * Metric Beat
+
+* crossplane.io
+
 * Werf
 * FlexCD
 * Spinnaker
