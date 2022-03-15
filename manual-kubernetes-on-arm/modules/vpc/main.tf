@@ -1,5 +1,5 @@
 resource "aws_vpc" "this" {
-  cidr_block       = "10.110.0.0/16"
+  cidr_block       = var.vpc_cidr
   instance_tenancy = "default"
 
   assign_generated_ipv6_cidr_block = true
@@ -8,7 +8,7 @@ resource "aws_vpc" "this" {
   enable_dns_support   = true
 
   tags = {
-    Name = var.name
+    Name                                = var.name
     "kubernetes.io/cluster/${var.name}" = "owned"
   }
 }
@@ -17,7 +17,7 @@ resource "aws_internet_gateway" "this" {
   vpc_id = aws_vpc.this.id
 
   tags = {
-    Name = "main"
+    Name = var.name
   }
 }
 
@@ -43,6 +43,16 @@ resource "aws_default_route_table" "default" {
   route {
     ipv6_cidr_block = "::/0"
     gateway_id      = aws_internet_gateway.this.id
+  }
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.this.id
+  }
+
+  route {
+    ipv6_cidr_block = "64:ff9b::/96"
+    nat_gateway_id  = aws_nat_gateway.nat64.id
   }
 
   timeouts {

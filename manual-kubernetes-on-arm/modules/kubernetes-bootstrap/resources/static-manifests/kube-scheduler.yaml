@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kube-scheduler
+  namespace: kube-system
+  labels:
+    k8s-app: kube-scheduler
+    tier: control-plane
+spec:
+  hostNetwork: true
+  priorityClassName: system-cluster-critical
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 65534
+    seccompProfile:
+      type: RuntimeDefault
+  containers:
+  - name: kube-scheduler
+    image: ${kube_scheduler_image}
+    command:
+    - kube-scheduler
+    - --authentication-kubeconfig=/etc/kubernetes/pki/scheduler.conf
+    - --authorization-kubeconfig=/etc/kubernetes/pki/scheduler.conf
+    - --kubeconfig=/etc/kubernetes/pki/scheduler.conf
+    - --leader-elect=true
+    livenessProbe:
+      httpGet:
+        scheme: HTTPS
+        host: 127.0.0.1
+        path: /healthz
+        port: 10259
+      initialDelaySeconds: 15
+      timeoutSeconds: 15
+    resources:
+      requests:
+        cpu: 100m
+    volumeMounts:
+    - name: secrets
+      mountPath: /etc/kubernetes/pki/scheduler.conf
+      readOnly: true
+  volumes:
+  - name: secrets
+    hostPath:
+      path: /etc/kubernetes/pki/scheduler.conf

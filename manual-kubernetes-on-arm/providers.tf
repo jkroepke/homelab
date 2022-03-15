@@ -5,7 +5,7 @@ provider "aws" {
 
   default_tags {
     tags = {
-      project = "jkr-manual-kubernetes-on-arm"
+      project = local.project
     }
   }
 }

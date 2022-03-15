@@ -11,7 +11,7 @@ resource "aws_route53_record" "this" {
   name    = aws_route53_zone.this.name
   type    = "NS"
 
-  ttl = "86400"
+  ttl = "600"
 
   records = aws_route53_zone.this.name_servers
 }
