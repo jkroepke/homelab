@@ -17,3 +17,7 @@ variable "kubernetes_version" {
 variable "iam_instance_profile_name" {
   type = string
 }
+
+variable "route53_zone_id" {
+  type = string
+}

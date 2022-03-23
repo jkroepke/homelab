@@ -1,0 +1,18 @@
+timezone: Europe/Berlin
+locale: C.UTF-8
+
+package_update: true
+package_upgrade: true
+apt_reboot_if_required: true
+
+packages:
+  - unattended-upgrades
+  - vim
+  - rsync
+
+runcmd:
+  - systemctl restart systemd-modules-load.service systemd-sysctl.service
+
+# http://cloudinit.readthedocs.io/en/latest/topics/merging.html
+# http://jen20.com/2015/10/04/cloudconfig-merging.html
+merge_type: 'list(append)+dict(recurse_array)+str()'

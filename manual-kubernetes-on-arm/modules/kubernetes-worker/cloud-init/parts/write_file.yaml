@@ -1,0 +1,7 @@
+write_files:
+- path: '${path}'
+  permissions: '${mode}'
+  content: |
+    ${indent(4, content)}
+
+merge_type: 'list(append)+dict(recurse_array)+str()'
