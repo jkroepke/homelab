@@ -1,0 +1,28 @@
+timezone: Europe/Berlin
+locale: C.UTF-8
+
+package_update: true
+package_upgrade: true
+apt_reboot_if_required: true
+
+users:
+  - name: etcd
+    sudo: False
+    lock_passwd: true
+    no_create_home: true
+    no_log_init: true
+    system: true
+    uid: 900
+
+
+packages:
+  - unattended-upgrades
+  - vim
+  - rsync
+
+runcmd:
+  - systemctl restart systemd-modules-load.service systemd-sysctl.service
+
+# http://cloudinit.readthedocs.io/en/latest/topics/merging.html
+# http://jen20.com/2015/10/04/cloudconfig-merging.html
+merge_type: 'list(append)+dict(recurse_array)+str()'

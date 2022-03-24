@@ -1,0 +1,40 @@
+#cloud-config
+
+# https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/#letting-iptables-see-bridged-traffic
+write_files:
+  - path: /etc/sysctl.d/99-kubernetes-cri.conf
+    content: |
+      net.bridge.bridge-nf-call-iptables=1
+      net.ipv4.ip_forward=1
+      net.bridge.bridge-nf-call-ip6tables=1
+
+  - path: /etc/apt/preferences.d/kubernetes
+    content: |
+      Package: kubelet
+      Pin: version ${kubernetes_version}*
+      Pin-Priority: 1000
+
+  - path: /etc/modules-load.d/kubernetes-cri.conf
+    content: |
+      br_netfilter
+      overlay
+
+apt:
+  sources:
+    kubernetes:
+      source: "deb http://apt.kubernetes.io/ kubernetes-xenial main"
+      keyserver: "hkp://keyserver.ubuntu.com:80"
+      keyid: 7F92E05B31093BEF5A3C2D38FEEA9169307EA071
+    docker:
+      arches: arm64
+      source: "deb https://download.docker.com/linux/ubuntu focal stable"
+      keyserver: "hkp://keyserver.ubuntu.com:80"
+      keyid: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
+
+packages:
+  - kubelet
+  - kubectl
+
+# http://cloudinit.readthedocs.io/en/latest/topics/merging.html
+# http://jen20.com/2015/10/04/cloudconfig-merging.html
+merge_type: 'list(append)+dict(recurse_array)+str()'

@@ -1,6 +1,6 @@
-module "route53" {
-  source = "./modules/route53/"
+module "zone-delegation" {
+  source = "./modules/route53-zone-delegation"
 
-  name          = local.project
+  name          = var.name
   root_dns_zone = "adorsys-sandbox.aws.adorsys.de"
 }
