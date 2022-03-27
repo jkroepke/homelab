@@ -1,25 +1,3 @@
-locals {
-  files_var = [for filename, options in var.additional_files : templatefile("${path.module}/resources/ignition/parts/file_remote.yaml", {
-    path   = filename,
-    bucket = aws_s3_bucket.this.bucket
-    mode   = options.mode
-    user   = options.user
-    group  = options.group
-  })]
-
-  files_modules_list = fileset("${path.module}/files", "**/*")
-
-  files_modules = [for file in local.files_modules_list :
-    templatefile("${path.module}/resources/ignition/parts/file_remote.yaml", {
-      path   = "/${file}",
-      bucket = aws_s3_bucket.this.bucket
-      mode   = "0644"
-      user   = "root"
-      group  = "root"
-    })
-  ]
-}
-
 data "ct_config" "this" {
   content      = file("${path.module}/resources/ignition/os.yaml")
   strict       = true
@@ -29,9 +7,13 @@ data "ct_config" "this" {
     templatefile("${path.module}/resources/ignition/kubernetes.yaml", {
       version = var.kubernetes_version
     })
-  ], local.files_var, local.files_modules)
+  ], local.files_modules, local.files_additional_files, local.files_templates)
 
   platform = "ec2"
 
-  depends_on = [aws_s3_object.files_vars, aws_s3_object.files_module]
+  depends_on = [
+    aws_s3_object.module,
+    aws_s3_object.templates,
+    aws_s3_object.additional_files,
+  ]
 }

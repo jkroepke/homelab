@@ -35,35 +35,6 @@ resource "aws_s3_bucket_policy" "this" {
   policy = data.aws_iam_policy_document.this.json
 }
 
-resource "aws_s3_object" "files_vars" {
-  for_each = var.additional_files
-
-  bucket  = aws_s3_bucket.this.bucket
-  key     = each.key
-  content = each.value.content
-
-  server_side_encryption = "AES256"
-
-  etag        = md5(each.value.content)
-  source_hash = md5(each.value.content)
-}
-
-resource "aws_s3_object" "files_module" {
-  for_each = { for file in local.files_modules_list : "/${file}" => templatefile("${path.module}/files/${file}", {
-    cluster_dns = var.cluster_dns
-    pod_cidr    = var.pod_cidr
-  }) }
-
-  bucket  = aws_s3_bucket.this.bucket
-  key     = each.key
-  content = each.value
-
-  server_side_encryption = "AES256"
-
-  etag        = md5(each.value)
-  source_hash = md5(each.value)
-}
-
 data "aws_iam_policy_document" "this" {
   statement {
     principals {

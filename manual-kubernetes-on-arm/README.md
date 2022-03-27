@@ -7,6 +7,7 @@
 * Run on AWS
 * No Shell Scripts
 * Use ARM Nodes to save money
+* rootless control plane
 * ~~Use IMDSv2 only~~
   * https://github.com/flatcar-linux/Flatcar/issues/220#issuecomment-1079653927 - Waiting for Afterbrun update in Flatcar
 * Use SSM Fleet Manager
@@ -64,5 +65,6 @@
 
 ## TODO Future
 
+* Run CIS Benchmark
 * [crossplane](https://crossplane.io/)
 * [AWS Controllers for Kubernetes (ACK)](https://github.com/aws-controllers-k8s/community)

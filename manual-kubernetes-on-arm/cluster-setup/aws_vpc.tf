@@ -1,8 +1,8 @@
 module "vpc" {
   source = "./modules/vpc/"
 
-  name     = local.project
-  vpc_cidr = local.vpc_cidr
+  name     = var.name
+  vpc_cidr = var.vpc_cidr
 
   private_subnet_cidr            = local.private_subnet_cidr
   public_subnet_cidr             = local.public_subnet_cidr

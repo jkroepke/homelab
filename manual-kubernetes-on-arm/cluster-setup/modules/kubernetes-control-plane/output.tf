@@ -13,3 +13,11 @@ output "kubernetes_client_key" {
 output "kubernetes_cluster_ca_certificate" {
   value = module.pki_kubernetes.ca_crt
 }
+
+output "kubernetes_initial_bootstrap_token_id" {
+  value = module.pki_kubernetes.bootstrap_token_id
+}
+
+output "kubernetes_initial_bootstrap_token_secret" {
+  value = module.pki_kubernetes.bootstrap_token_secret
+}

@@ -27,8 +27,8 @@ systemd:
         After=network-online.target
         
         [Service]
-        ExecStart=/usr/bin/kubelet \
-          --bootstrap-kubeconfig=/etc/kubernetes/bootstrap-kubelet.conf\
+        ExecStart=/opt/bin/kubelet \
+          --bootstrap-kubeconfig=/etc/kubernetes/bootstrap-kubelet.conf \
           --kubeconfig=/var/lib/kubelet/kubeconfig \
           --config=/var/lib/kubelet/config.yaml \
           --container-runtime=remote \

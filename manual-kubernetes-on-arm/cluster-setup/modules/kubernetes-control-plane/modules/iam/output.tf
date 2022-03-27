@@ -3,5 +3,5 @@ output "iam_instance_profile_name" {
 }
 
 output "iam_role_arn" {
-  value = aws_iam_instance_profile.this.name
+  value = aws_iam_role.this.arn
 }

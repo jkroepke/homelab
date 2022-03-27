@@ -21,7 +21,7 @@ resource "aws_lb_listener" "this" {
 
 resource "aws_lb_target_group" "this" {
   name        = var.name
-  port        = var.port
+  port        = 6443
   protocol    = "TCP"
   target_type = "instance"
   vpc_id      = var.vpc_id

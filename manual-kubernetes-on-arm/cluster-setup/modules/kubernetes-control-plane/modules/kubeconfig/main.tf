@@ -6,7 +6,7 @@ locals {
     clusters = [{
       name = "kubernetes"
       cluster = {
-        server                     = var.kubernetes_ca
+        server                     = var.kubernetes_server
         certificate-authority-data = var.kubernetes_ca
       }
     }],
