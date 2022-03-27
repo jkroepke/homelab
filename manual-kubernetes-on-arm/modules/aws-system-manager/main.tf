@@ -3,7 +3,7 @@ locals {
     "AWS-GatherSoftwareInventory",
     "AWS-UpdateSSMAgent",
     #"AWS-PatchInstanceWithRollback",
-    "AmazonCloudWatch-ManageAgent"
+    #"AmazonCloudWatch-ManageAgent"
   ]
 }
 

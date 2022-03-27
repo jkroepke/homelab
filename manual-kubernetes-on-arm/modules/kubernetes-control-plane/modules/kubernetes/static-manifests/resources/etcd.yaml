@@ -1,0 +1,88 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    component: etcd
+    tier: control-plane
+  name: etcd
+  namespace: kube-system
+spec:
+  hostNetwork: true
+  priorityClassName: system-cluster-critical
+  containers:
+    - name: etcd
+      image: quay.io/coreos/etcd:v${etcd_version}
+      imagePullPolicy: IfNotPresent
+      command:
+        - etcd
+        - --name=${etcd_peer_name}
+        - --initial-advertise-peer-urls=https://${etcd_peer_name}:2380
+        - --listen-client-urls=https://$(POD_IP):2379,https://127.0.0.1:2379
+        - --listen-peer-urls=https://$(POD_IP):2380
+        - --listen-metrics-urls=http://127.0.0.1:2381
+        - --advertise-client-urls=https://${etcd_peer_name}:2379
+        - --data-dir=/var/lib/etcd/
+        - --cert-file=/etc/kubernetes/pki/etcd/server.crt
+        - --key-file=/etc/kubernetes/pki/etcd/server.key
+        - --trusted-ca-file=/etc/kubernetes/pki/etcd/ca.crt
+        - --client-cert-auth=true
+        - --peer-cert-file=/etc/kubernetes/pki/etcd/peer.crt
+        - --peer-key-file=/etc/kubernetes/pki/etcd/peer.key
+        - --peer-trusted-ca-file=/etc/kubernetes/pki/etcd/ca.crt
+        - --peer-client-cert-auth=true
+        - --snapshot-count=10000
+        - --listen-metrics-urls=http://127.0.0.1:2381
+        - --discovery-srv=${etcd_discovery_domain}
+      env:
+        - name: POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+      livenessProbe:
+        failureThreshold: 8
+        httpGet:
+          host: 127.0.0.1
+          path: /health
+          port: 2381
+          scheme: HTTP
+        initialDelaySeconds: 10
+        periodSeconds: 10
+        timeoutSeconds: 15
+      startupProbe:
+        failureThreshold: 24
+        httpGet:
+          host: 127.0.0.1
+          path: /health
+          port: 2381
+          scheme: HTTP
+        initialDelaySeconds: 10
+        periodSeconds: 10
+        timeoutSeconds: 15
+      resources:
+        requests:
+          cpu: 100m
+          memory: 100Mi
+      volumeMounts:
+        - name: etcd-certs
+          mountPath: /etc/kubernetes/pki/etcd/
+          readOnly: true
+        - name: etcd-data
+          mountPath: /var/lib/etcd/
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+            - ALL
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 232
+    runAsGroup: 232
+    seccompProfile:
+      type: RuntimeDefault
+  volumes:
+    - name: etcd-certs
+      hostPath:
+        path: /etc/kubernetes/pki/etcd/
+    - name: etcd-data
+      hostPath:
+        path: /var/lib/etcd/

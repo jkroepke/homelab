@@ -1,0 +1,37 @@
+# https://www.flatcar.org/docs/latest/provisioning/config-transpiler/configuration/
+---
+update:
+  group:  "alpha"
+  server: "https://public.update.flatcar-linux.net/v1/update/"
+
+# https://www.flatcar.org/docs/latest/setup/customization/other-settings/#tuning-sysctl-parameters
+storage:
+  files:
+    - path: /etc/modules-load.d/kubernetes-cri.conf
+      filesystem: root
+      mode: 0644
+      contents:
+        inline: |
+          br_netfilter
+          overlay
+
+    - path: /etc/sysctl.d/99-kubernetes-cri.conf
+      filesystem: root
+      mode: 0644
+      contents:
+        inline: |
+          net.bridge.bridge-nf-call-iptables=1
+          net.bridge.bridge-nf-call-ip6tables=1
+          net.ipv4.ip_forward=1
+
+    - path: /etc/sysctl.d/99-kubernetes.conf
+      filesystem: root
+      mode: 0644
+      contents:
+        inline: |         
+          kernel.panic=10
+          kernel.panic_on_oops=1
+          vm.overcommit_memory=1
+          vm.panic_on_oom=0
+
+          vm.max_map_count=262144

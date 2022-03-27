@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: aws-encryption-provider
+  namespace: kube-system
+spec:
+  containers:
+    - image: docker.io/jkroepke/aws-encryption-provider:latest
+      name: aws-encryption-provider
+      command:
+        - /aws-encryption-provider
+        - --key=${kms_secret_encryption_arn}
+        - --region=${region}
+        - --listen=/var/run/kmsplugin/socket.sock
+        - --health-port=:8083
+      ports:
+        - containerPort: 8083
+          protocol: TCP
+      livenessProbe:
+        httpGet:
+          path: /healthz
+          port: 8083
+      volumeMounts:
+        - mountPath: /var/run/kmsplugin
+          name: var-run-kmsplugin
+  hostNetwork: true
+  priorityClassName: system-node-critical
+  securityContext:
+    seccompProfile:
+      type: RuntimeDefault
+  volumes:
+    - name: var-run-kmsplugin
+      hostPath:
+        path: /var/run/kmsplugin
+        type: DirectoryOrCreate

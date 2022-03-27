@@ -5,7 +5,7 @@ resource "aws_resourcegroups_group" "test" {
     query = jsonencode({
       ResourceTypeFilters = ["AWS::AllSupported"]
       TagFilters = [{
-        Key = "project"
+        Key    = "project"
         Values = [var.name]
       }]
     })

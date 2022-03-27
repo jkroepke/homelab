@@ -1,7 +1,0 @@
-write_files:
-- path: '${path}'
-  permissions: '${mode}'
-  encoding: b64
-  content: '${base64encode(content)}'
-
-merge_type: 'list(append)+dict(recurse_array)+str()'

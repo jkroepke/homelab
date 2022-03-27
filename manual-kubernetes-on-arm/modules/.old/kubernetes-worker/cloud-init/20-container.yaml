@@ -1,6 +1,0 @@
-packages:
-  - containerd
-
-# http://cloudinit.readthedocs.io/en/latest/topics/merging.html
-# http://jen20.com/2015/10/04/cloudconfig-merging.html
-merge_type: 'list(append)+dict(recurse_array)+str()'

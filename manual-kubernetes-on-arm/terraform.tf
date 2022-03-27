@@ -11,6 +11,9 @@ terraform {
 
   required_providers {
     aws = {}
+    ct = {
+      source = "poseidon/ct"
+    }
   }
 
   required_version = ">= 1.1"

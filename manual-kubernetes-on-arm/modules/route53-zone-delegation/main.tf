@@ -9,8 +9,8 @@ resource "aws_route53_zone" "this" {
 resource "aws_route53_record" "parent" {
   zone_id = data.aws_route53_zone.parent.id
 
-  name    = aws_route53_zone.this.name
-  type    = "NS"
+  name = aws_route53_zone.this.name
+  type = "NS"
 
   ttl = "600"
 

@@ -32,7 +32,7 @@ resource "aws_route_table" "public" {
 }
 
 resource "aws_route_table_association" "public" {
-  for_each = local.subnet_availability_zones
+  for_each       = local.subnet_availability_zones
   subnet_id      = aws_subnet.public[each.key].id
   route_table_id = aws_route_table.public.id
 }
@@ -56,12 +56,24 @@ resource "aws_route_table" "private" {
   }
 
   tags = {
-    Name = "${var.name}-public"
+    Name = "${var.name}-private"
   }
 }
 
 resource "aws_route_table_association" "private" {
   for_each       = local.subnet_availability_zones
   subnet_id      = aws_subnet.private[each.key].id
+  route_table_id = aws_route_table.private.id
+}
+
+resource "aws_route_table_association" "kubernetes_service" {
+  for_each       = local.subnet_availability_zones
+  subnet_id      = aws_subnet.kubernetes_service[each.key].id
+  route_table_id = aws_route_table.private.id
+}
+
+resource "aws_route_table_association" "kubernetes_pod" {
+  for_each       = local.subnet_availability_zones
+  subnet_id      = aws_subnet.kubernetes_pod[each.key].id
   route_table_id = aws_route_table.private.id
 }
