@@ -1,0 +1,49 @@
+#https://kubernetes.io/docs/reference/config-api/kubelet-config.v1beta1/
+apiVersion: kubelet.config.k8s.io/v1beta1
+kind: KubeletConfiguration
+enableServer: true
+staticPodPath: "/etc/kubernetes/manifests"
+tlsCertFile: ""
+tlsPrivateKeyFile: ""
+rotateCertificates: true
+serverTLSBootstrap: true
+authentication:
+  anonymous:
+    enabled: false
+  webhook:
+    cacheTTL: 2m0s
+    enabled: true
+  x509:
+    clientCAFile: /etc/kubernetes/pki/ca.crt
+authorization:
+  mode: Webhook
+  webhook:
+    cacheAuthorizedTTL: 5m0s
+    cacheUnauthorizedTTL: 30s
+clusterDomain: cluster.local
+clusterDNS:
+  - "${cluster_dns}"
+cgroupDriver: systemd
+cgroupsPerQOS: true
+cpuCFSQuota: true
+cpuCFSQuotaPeriod: 100ms
+hairpinMode: promiscuous-bridge
+maxPods: 110
+podCIDR: "${pod_cidr}"
+resolvConf: /run/systemd/resolve/resolv.conf
+runOnce: false
+serializeImagePulls: false
+protectKernelDefaults: true
+featureGates:
+  SeccompDefault: true
+volumePluginDir: "/opt/libexec/kubernetes/kubelet-plugins/volume/exec/"
+kernelMemcgNotification: true
+logging:
+  format: text
+shutdownGracePeriod: 30s
+shutdownGracePeriodCriticalPods: 10s
+seccompDefault: true
+registerNode: true
+registerWithTaints:
+  - key: node.kubernetes.io/unschedulable
+    effect: NoSchedule

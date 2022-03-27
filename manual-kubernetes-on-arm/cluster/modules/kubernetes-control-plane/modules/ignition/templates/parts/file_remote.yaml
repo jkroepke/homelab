@@ -1,0 +1,12 @@
+storage:
+  files:
+    - path: "${path}"
+      filesystem: rootfs
+      mode: ${mode}
+      user:
+        name: ${user}
+      group:
+        name: ${group}
+      contents:
+        remote:
+          url: s3://${bucket}${path}
