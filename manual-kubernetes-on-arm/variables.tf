@@ -25,7 +25,7 @@ variable "kubernetes_version" {
 
 variable "kubernetes_controller_count" {
   description = "Number of Kubernetes Controller"
-  default     = 1
+  default     = 3
   type        = number
 }
 

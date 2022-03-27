@@ -64,7 +64,12 @@ resource "aws_instance" "this" {
   }
 
   subnet_id              = each.value
-  vpc_security_group_ids = [aws_security_group.this.id]
+  vpc_security_group_ids = [
+    module.security_groups.controller_security_group_id,
+    module.security_groups.worker_security_group_id,
+  ]
+
+  depends_on = [aws_route53_record.etcd_discovery, aws_lb_target_group.this]
 
   tags = {
     Name = "${var.cluster_name}-controller-${each.key}"

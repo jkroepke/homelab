@@ -15,6 +15,8 @@ data "http" "wait_for_cluster" {
   depends_on = [
     aws_instance.this,
     aws_lb_listener.this,
-    aws_lb_target_group_attachment.this
+    aws_lb_target_group_attachment.this,
+    aws_route53_record.etcd_discovery,
+    aws_route53_record.etcd_member_A
   ]
 }
