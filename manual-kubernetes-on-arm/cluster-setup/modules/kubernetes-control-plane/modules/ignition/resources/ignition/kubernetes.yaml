@@ -1,0 +1,41 @@
+---
+storage:
+  files:
+    - path: "/opt/bin/kubectl"
+      filesystem: root
+      mode: 0755
+      contents:
+        remote:
+          url: "https://dl.k8s.io/v${version}/bin/linux/arm64/kubectl"
+    - path: "/opt/bin/kubelet"
+      filesystem: root
+      mode: 0755
+      contents:
+        remote:
+          url: "https://dl.k8s.io/v${version}/bin/linux/arm64/kubelet"
+
+systemd:
+  units:
+    - name: "kubelet.service"
+      enabled: true
+      #https://raw.githubusercontent.com/kubernetes/release/master/cmd/kubepkg/templates/latest/rpm/kubelet/kubelet.service
+      contents: |
+        [Unit]
+        Description=kubelet: The Kubernetes Node Agent
+        Documentation=https://kubernetes.io/docs/
+        Wants=network-online.target
+        After=network-online.target
+        
+        [Service]
+        ExecStart=/usr/bin/kubelet \
+          --bootstrap-kubeconfig=/etc/kubernetes/bootstrap-kubelet.conf\
+          --kubeconfig=/var/lib/kubelet/kubeconfig \
+          --config=/var/lib/kubelet/config.yaml \
+          --container-runtime=remote \
+          --container-runtime-endpoint=unix:///run/containerd/containerd.sock
+        Restart=always
+        StartLimitInterval=0
+        RestartSec=10
+        
+        [Install]
+        WantedBy=multi-user.target

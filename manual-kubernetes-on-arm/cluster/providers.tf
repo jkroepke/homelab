@@ -1,14 +1,3 @@
-provider "aws" {
-  profile = "adorsys-sandbox"
-
-  region = "eu-central-1"
-
-  default_tags {
-    tags = {
-      project = local.project
-    }
-  }
-}
 
 provider "kubernetes" {
   host = module.kubernetes-control-plane.kubernetes_api_server
