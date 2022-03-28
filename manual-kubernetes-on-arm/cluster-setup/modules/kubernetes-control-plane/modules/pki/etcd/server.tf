@@ -1,12 +1,16 @@
 # etcd Server
 resource "tls_private_key" "server" {
+  for_each = var.etcd_peers
+
   algorithm   = tls_private_key.etcd-ca.algorithm
   ecdsa_curve = tls_private_key.etcd-ca.ecdsa_curve
 }
 
 resource "tls_cert_request" "server" {
-  key_algorithm   = tls_private_key.server.algorithm
-  private_key_pem = tls_private_key.server.private_key_pem
+  for_each = var.etcd_peers
+
+  key_algorithm   = tls_private_key.server[each.key].algorithm
+  private_key_pem = tls_private_key.server[each.key].private_key_pem
 
   subject {
     common_name  = "etcd-server"
@@ -17,11 +21,13 @@ resource "tls_cert_request" "server" {
     "127.0.0.1"
   ]
 
-  dns_names = concat(["localhost"])
+  dns_names = concat(["localhost", each.value])
 }
 
 resource "tls_locally_signed_cert" "server" {
-  cert_request_pem = tls_cert_request.server.cert_request_pem
+  for_each = var.etcd_peers
+
+  cert_request_pem = tls_cert_request.server[each.key].cert_request_pem
 
   ca_key_algorithm   = tls_self_signed_cert.etcd-ca.key_algorithm
   ca_private_key_pem = tls_private_key.etcd-ca.private_key_pem

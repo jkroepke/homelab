@@ -1,5 +1,15 @@
+# https://www.flatcar.org/docs/latest/provisioning/config-transpiler/configuration/
 ---
 storage:
+  directories:
+    - filesystem: root
+      path: /var/lib/etcd/
+      mode: 0700
+      user:
+        name: etcd
+      group:
+        name: etcd
+
   files:
     - path: "/opt/bin/kubectl"
       filesystem: root
@@ -7,13 +17,20 @@ storage:
       contents:
         remote:
           url: "https://dl.k8s.io/v${version}/bin/linux/arm64/kubectl"
+          verification:
+            hash:
+              function: sha512
+              sum: f06216fc596b831cee2a4946e5442454685838c1542f3aa93d0f52bb25433f670a3451e0188ddf2049f37026d1cf5bbfe8ec6eb2866daf81cfbe3073a9984ea9
     - path: "/opt/bin/kubelet"
       filesystem: root
       mode: 0755
       contents:
         remote:
           url: "https://dl.k8s.io/v${version}/bin/linux/arm64/kubelet"
-
+          verification:
+            hash:
+              function: sha512
+              sum: 3a103d584fff10d3f2378f6f654aee761977514f4a995f8f58966e5ffaa4a7dfbb24aeed33ef9fa09280c43ba8b87b8772e1f349ef529c67822dcfa68941a688
 systemd:
   units:
     - name: "kubelet.service"

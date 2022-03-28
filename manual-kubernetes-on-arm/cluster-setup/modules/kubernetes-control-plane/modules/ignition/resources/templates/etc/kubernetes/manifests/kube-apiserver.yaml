@@ -12,16 +12,25 @@ spec:
         - kube-apiserver
         - --advertise-address=$(POD_IP)
         - --allow-privileged=true
+        - --anonymous-auth=false
+        - --audit-log-compress
+        - --audit-log-path=/var/log/apiserver/audit.log
+        - --audit-log-maxage=30
+        - --audit-log-maxbackup=10
+        - --audit-log-maxsize=100
+        - --audit-log-mode=batch
         - --authorization-mode=Node,RBAC
         - --client-ca-file=/etc/kubernetes/pki/ca.crt
         - --cloud-provider=external
-        - --enable-admission-plugins=NodeRestriction
+        - --enable-admission-plugins=NodeRestriction,DenyServiceExternalIPs,OwnerReferencesPermissionEnforcement,PodNodeSelector
         - --enable-bootstrap-token-auth=true
         - --encryption-provider-config=/etc/kubernetes/aws-encryption-provider.yaml
         - --etcd-cafile=/etc/kubernetes/pki/etcd/ca.crt
         - --etcd-certfile=/etc/kubernetes/pki/apiserver-etcd-client.crt
         - --etcd-keyfile=/etc/kubernetes/pki/apiserver-etcd-client.key
         - --etcd-servers=https://127.0.0.1:2379
+        - --insecure-port=0
+        - --kubelet-certificate-authority=/etc/kubernetes/pki/ca.crt
         - --kubelet-client-certificate=/etc/kubernetes/pki/apiserver-kubelet-client.crt
         - --kubelet-client-key=/etc/kubernetes/pki/apiserver-kubelet-client.key
         - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
@@ -31,8 +40,10 @@ spec:
         - --oidc-issuer-url=${oidc_issuer_url}
         - --oidc-username-claim=sub
         - --oidc-username-prefix="oidc:"
+        - --profiling=false
         - --proxy-client-cert-file=/etc/kubernetes/pki/front-proxy-client.crt
         - --proxy-client-key-file=/etc/kubernetes/pki/front-proxy-client.key
+        - --request-timeout=300s
         - --requestheader-allowed-names=front-proxy-client
         - --requestheader-client-ca-file=/etc/kubernetes/pki/front-proxy-ca.crt
         - --requestheader-extra-headers-prefix=X-Remote-Extra-
@@ -49,6 +60,7 @@ spec:
         - --strict-transport-security-directives=max-age=31536000,includeSubDomains
         - --tls-cert-file=/etc/kubernetes/pki/apiserver.crt
         - --tls-private-key-file=/etc/kubernetes/pki/apiserver.key
+        - --tls-cipher-suites=TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384
       env:
         - name: POD_IP
           valueFrom:
@@ -101,6 +113,8 @@ spec:
           readOnly: true
         - mountPath: /var/run/kmsplugin
           name: var-run-kmsplugin
+        - mountPath: /var/log/apiserver
+          name: var-log-apiserver
         - mountPath: /etc/kubernetes/aws-encryption-provider.yaml
           name: etc-kubernetes
           subPath: aws-encryption-provider.yaml
@@ -130,6 +144,10 @@ spec:
     - hostPath:
         path: /var/run/kmsplugin
       name: var-run-kmsplugin
+    - hostPath:
+        path: /var/log/apiserver/
+        type: DirectoryOrCreate
+      name: var-log-apiserver
     - hostPath:
         path: /etc/kubernetes/
       name: etc-kubernetes

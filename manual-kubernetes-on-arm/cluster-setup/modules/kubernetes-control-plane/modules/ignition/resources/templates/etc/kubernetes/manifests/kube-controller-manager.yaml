@@ -23,10 +23,12 @@ spec:
         - --flex-volume-plugin-dir=/opt/libexec/kubernetes/kubelet-plugins/volume/exec/
         - --kubeconfig=/etc/kubernetes/controller-manager.conf
         - --leader-elect=true
+        - --profiling=false
         - --requestheader-client-ca-file=/etc/kubernetes/pki/front-proxy-ca.crt
         - --root-ca-file=/etc/kubernetes/pki/ca.crt
         - --service-account-private-key-file=/etc/kubernetes/pki/sa.key
         - --use-service-account-credentials=true
+        - --terminated-pod-gc-threshold=10
       image: k8s.gcr.io/kube-controller-manager:v${kubernetes_version}
       imagePullPolicy: IfNotPresent
       livenessProbe:

@@ -19,11 +19,11 @@ output "healthcheck_client_crt" {
 }
 
 output "server_key" {
-  value = tls_private_key.server.private_key_pem
+  value = { for name, cert in tls_private_key.server : name => cert.private_key_pem }
 }
 
 output "server_crt" {
-  value = tls_locally_signed_cert.server.cert_pem
+  value = { for name, cert in tls_locally_signed_cert.server : name => cert.cert_pem }
 }
 
 output "peer_key" {

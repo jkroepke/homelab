@@ -3,10 +3,20 @@ apiVersion: kubelet.config.k8s.io/v1beta1
 kind: KubeletConfiguration
 enableServer: true
 staticPodPath: "/etc/kubernetes/manifests"
-tlsCertFile: ""
-tlsPrivateKeyFile: ""
+#tlsCertFile: ""
+#tlsPrivateKeyFile: ""
+tLSCipherSuites:
+  - TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256
+  - TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+  - TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305
+  - TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+  - TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305
+  - TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384
+  - TLS_RSA_WITH_AES_256_GCM_SHA384
+  - TLS_RSA_WITH_AES_128_GCM_SHA256
 rotateCertificates: true
 serverTLSBootstrap: true
+eventRecordQPS: 0
 authentication:
   anonymous:
     enabled: false

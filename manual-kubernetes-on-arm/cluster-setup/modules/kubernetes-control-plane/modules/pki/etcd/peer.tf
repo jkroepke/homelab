@@ -17,7 +17,7 @@ resource "tls_cert_request" "peer" {
     organization = tls_self_signed_cert.etcd-ca.subject[0].organization
   }
 
-  dns_names = [each.value, var.etcd_domain]
+  dns_names = [each.value]
 }
 
 resource "tls_locally_signed_cert" "peer" {

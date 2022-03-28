@@ -21,6 +21,7 @@
 * [Flatcar Container Linux](https://www.flatcar.org/)
 * [aws-encryption-provider](https://github.com/kubernetes-sigs/aws-encryption-provider)
   * See: https://aws.amazon.com/de/blogs/containers/using-eks-encryption-provider-support-for-defense-in-depth/
+* [Run CIS Benchmark](./docs/CIS.md)
 
 ## TODO Infrastructure
 
@@ -65,6 +66,5 @@
 
 ## TODO Future
 
-* Run CIS Benchmark
 * [crossplane](https://crossplane.io/)
 * [AWS Controllers for Kubernetes (ACK)](https://github.com/aws-controllers-k8s/community)
