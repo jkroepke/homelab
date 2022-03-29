@@ -38,8 +38,8 @@ variable "service_cidr" {
   type = string
 }
 
-variable "iam_additional_policy_arns" {
-  type = list(string)
+variable "ssm_policy_arn" {
+  type = string
 }
 
 variable "kubernetes_api_hostname" {

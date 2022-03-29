@@ -4,6 +4,7 @@ locals {
   files_templates_rendered = {for filename in local.files_templates_list: "/${filename}" => templatefile("${path.module}/resources/templates/${filename}", {
     region                    = data.aws_region.current.name
     kms_secret_encryption_arn = var.kms_secret_encryption_arn
+    controller_count          = var.controller_count
 
     etcd_discovery_domain = var.etcd_discovery_domain
     etcd_peer_name        = var.etcd_peer_name
@@ -15,8 +16,8 @@ locals {
     service_cidr       = var.service_cidr
     pod_cidr           = var.pod_cidr
 
-    cluster_name       = var.cluster_name
-    cluster_dns        = var.cluster_dns
+    cluster_name = var.cluster_name
+    cluster_dns  = var.cluster_dns
   })}
 
   files_templates = [for filename in local.files_templates_list : templatefile("${path.module}/resources/ignition/parts/file_remote.yaml", {

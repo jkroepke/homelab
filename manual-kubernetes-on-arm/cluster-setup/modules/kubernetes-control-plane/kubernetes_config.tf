@@ -47,3 +47,13 @@ module "kubeconfig" {
   user              = each.value.user
   user_auth         = each.value.user_auth
 }
+
+resource "local_file" "admin_kubeconfig" {
+  filename = pathexpand("~/.kube/admin_${var.cluster_name}")
+  content = module.kubeconfig["admin"].rendered
+  file_permission = "0600"
+
+  lifecycle {
+    ignore_changes = [filename]
+  }
+}

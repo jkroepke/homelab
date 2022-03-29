@@ -18,7 +18,7 @@ module "zone-delegation" {
 module "kubernetes-control-plane" {
   source = "./modules/kubernetes-control-plane"
 
-  cluster_name = var.name
+  cluster_name = local.cluster_name
 
   vpc_id              = module.vpc.id
   vpc_private_subnets = module.vpc.private_subnets
@@ -39,5 +39,5 @@ module "kubernetes-control-plane" {
   pod_cidr     = local.pod_cidr
   cluster_dns  = local.cluster_dns
 
-  iam_additional_policy_arns = [module.aws-system-manager.iam_role_policy_arn]
+  ssm_policy_arn = module.aws-system-manager.iam_role_policy_arn
 }

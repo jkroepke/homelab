@@ -50,6 +50,9 @@ variable "kms_secret_encryption_arn" {
   type = string
 }
 
+variable "controller_count" {
+  type = number
+}
 
 variable "additional_files" {
   type = map(object({ content = string, user = string, group = string, mode = string }))

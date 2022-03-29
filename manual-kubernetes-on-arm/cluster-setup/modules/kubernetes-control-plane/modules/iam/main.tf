@@ -10,10 +10,8 @@ resource "aws_iam_role" "this" {
   assume_role_policy = data.aws_iam_policy_document.instance-assume-role-policy.json
 }
 
-resource "aws_iam_role_policy_attachment" "this" {
-  for_each = toset(var.additional_policy_arns)
-
-  policy_arn = each.key
+resource "aws_iam_role_policy_attachment" "ssm" {
+  policy_arn = var.ssm_policy_arn
   role       = aws_iam_role.this.name
 }
 

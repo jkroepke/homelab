@@ -11,8 +11,8 @@ module "api_loadbalancer" {
 module "iam" {
   source = "./modules/iam"
 
-  additional_policy_arns = var.iam_additional_policy_arns
-  cluster_name           = var.cluster_name
+  ssm_policy_arn = var.ssm_policy_arn
+  cluster_name   = var.cluster_name
 }
 
 module "kms" {

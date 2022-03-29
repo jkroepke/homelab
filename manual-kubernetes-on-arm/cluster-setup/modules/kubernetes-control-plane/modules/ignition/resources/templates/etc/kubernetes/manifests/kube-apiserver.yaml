@@ -10,9 +10,11 @@ spec:
   containers:
     - command:
         - kube-apiserver
-        - --advertise-address=$(POD_IP)
         - --allow-privileged=true
-        - --anonymous-auth=false
+        - --apiserver-count=${controller_count}
+        # CIS say, this needs to be false. But probes require this flag to true.
+        # https://github.com/kubernetes/kubeadm/issues/798#issuecomment-470579937
+        - --anonymous-auth=true
         - --audit-log-compress
         - --audit-log-path=/var/log/apiserver/audit.log
         - --audit-log-maxage=30
@@ -61,11 +63,6 @@ spec:
         - --tls-cert-file=/etc/kubernetes/pki/apiserver.crt
         - --tls-private-key-file=/etc/kubernetes/pki/apiserver.key
         - --tls-cipher-suites=TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384
-      env:
-        - name: POD_IP
-          valueFrom:
-            fieldRef:
-              fieldPath: status.podIP
       image: k8s.gcr.io/kube-apiserver:v${kubernetes_version}
       imagePullPolicy: IfNotPresent
       livenessProbe:

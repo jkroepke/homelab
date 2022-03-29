@@ -20,6 +20,7 @@ module "ignition" {
 
   iam_instance_role         = module.iam.iam_role_arn
   kms_secret_encryption_arn = module.kms.arn
+  controller_count          = length(local.controllers)
 
   additional_files = merge(
     local.files_pki_etcd[each.key],
