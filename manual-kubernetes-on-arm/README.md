@@ -66,5 +66,6 @@
 
 ## TODO Future
 
+* https://goteleport.com/pricing/
 * [crossplane](https://crossplane.io/)
 * [AWS Controllers for Kubernetes (ACK)](https://github.com/aws-controllers-k8s/community)
