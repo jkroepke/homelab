@@ -7,7 +7,7 @@
 * Run on AWS
 * No Shell Scripts
 * Use ARM Nodes to save money
-* rootless control plane
+* Route 53 with DNSSEC signed Zones
 * ~~Use IMDSv2 only~~
   * https://github.com/flatcar-linux/Flatcar/issues/220#issuecomment-1079653927 - Waiting for Afterbrun update in Flatcar
 * Use SSM Fleet Manager
@@ -28,7 +28,7 @@
 * Use ASG/spot instances for Control Plane, including etcd, persist data across restart
 
 ## TODO Cluster
-
+* rootless control plane
 * CoreDNS
 * IAM Roles for Service Accounts ([IRSA](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html))
   * Using [Service Account Token Volume Projection](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#service-account-token-volume-projection)
@@ -69,3 +69,9 @@
 * https://goteleport.com/pricing/
 * [crossplane](https://crossplane.io/)
 * [AWS Controllers for Kubernetes (ACK)](https://github.com/aws-controllers-k8s/community)
+
+# Issues & Comments created for this homelab
+
+* https://github.com/coreos/ignition/issues/1340
+  * https://github.com/coreos/ignition/pull/1341
+* https://github.com/coreos/afterburn/issues/726

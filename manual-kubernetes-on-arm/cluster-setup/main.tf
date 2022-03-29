@@ -9,6 +9,10 @@ module "zone-delegation" {
 
   name          = var.name
   root_dns_zone = var.parent_dns_zone
+
+  providers = {
+    aws.us-east-1 = aws.us-east-1
+  }
 }
 
 module "kubernetes-control-plane" {
