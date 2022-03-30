@@ -3,10 +3,10 @@ data "aws_region" "current" {}
 resource "helm_release" "this" {
   repository = "https://aws.github.io/eks-charts"
 
-  chart     = "aws-vpc-cni"
-  version   = "1.1.14"
-  name      = "aws-vpc-cni"
-  namespace = "kube-system"
+  chart       = "aws-vpc-cni"
+  version     = "1.1.14"
+  name        = "aws-vpc-cni"
+  namespace   = "kube-system"
   max_history = 10
 
   wait            = true

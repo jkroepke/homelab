@@ -3,9 +3,9 @@ resource "helm_release" "this" {
   name       = "coredns"
   repository = "https://coredns.github.io/helm"
   # https://coredns.github.io/helm/index.yaml
-  version    = "1.19.0"
+  version = "1.19.0"
 
-  namespace = "kube-system"
+  namespace   = "kube-system"
   max_history = 10
 
   lint    = true

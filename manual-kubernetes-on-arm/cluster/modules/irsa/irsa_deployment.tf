@@ -1,6 +1,6 @@
 resource "kubernetes_deployment" "this" {
   metadata {
-    name = "pod-identity-webhook"
+    name      = "pod-identity-webhook"
     namespace = local.namespace
   }
 
@@ -20,7 +20,7 @@ resource "kubernetes_deployment" "this" {
       spec {
         service_account_name = kubernetes_service_account.this.metadata[0].name
         container {
-          name = "pod-identity-webhook"
+          name  = "pod-identity-webhook"
           image = "IMAGE"
           command = [
             "/webhook",

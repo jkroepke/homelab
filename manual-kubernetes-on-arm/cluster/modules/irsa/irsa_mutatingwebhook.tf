@@ -1,3 +1,4 @@
+/*
 resource "kubernetes_mutating_webhook_configuration" "this" {
   metadata {}
   webhook {
@@ -11,3 +12,4 @@ resource "kubernetes_mutating_webhook_configuration" "this" {
     }
   }
 }
+*/

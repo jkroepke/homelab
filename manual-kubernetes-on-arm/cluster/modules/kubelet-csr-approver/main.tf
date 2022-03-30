@@ -11,7 +11,7 @@ resource "helm_release" "this" {
   atomic  = true
   timeout = 300
 
-  namespace = "kube-system"
+  namespace   = "kube-system"
   max_history = 10
 
   values = [

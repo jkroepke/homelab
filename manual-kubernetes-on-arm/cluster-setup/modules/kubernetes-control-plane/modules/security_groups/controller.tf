@@ -22,7 +22,7 @@ resource "aws_security_group_rule" "controller-ssh" {
 }
 
 resource "aws_security_group_rule" "controller-dns" {
-  for_each = toset(["TCP", "UDP"])
+  for_each          = toset(["TCP", "UDP"])
   security_group_id = aws_security_group.controller.id
   description       = "DNS ${each.key}"
 

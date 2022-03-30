@@ -14,7 +14,7 @@ data "aws_ssm_parameter" "cluster_credentials" {
     "bootstrap_token_id", "bootstrap_token_secret"
   ])
 
-  name  = "/${var.name}/kubernetes/cluster/credentials/${each.key}"
+  name = "/${var.name}/kubernetes/cluster/credentials/${each.key}"
 }
 
 data "aws_ssm_parameter" "cluster_config" {
@@ -23,5 +23,5 @@ data "aws_ssm_parameter" "cluster_config" {
     "pod_cidr", "service_cidr"
   ])
 
-  name  = "/${var.name}/kubernetes/cluster/config/${each.key}"
+  name = "/${var.name}/kubernetes/cluster/config/${each.key}"
 }

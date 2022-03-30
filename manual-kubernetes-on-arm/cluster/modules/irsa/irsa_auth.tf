@@ -2,14 +2,14 @@
 
 resource "kubernetes_service_account" "this" {
   metadata {
-    name = "pod-identity-webhook"
+    name      = "pod-identity-webhook"
     namespace = local.namespace
   }
 }
 
 resource "kubernetes_role" "this" {
   metadata {
-    name = "pod-identity-webhook"
+    name      = "pod-identity-webhook"
     namespace = local.namespace
   }
 
@@ -19,9 +19,9 @@ resource "kubernetes_role" "this" {
     verbs      = ["create"]
   }
   rule {
-    api_groups = [""]
-    resources  = ["secrets"]
-    verbs      = ["get", "update", "patch"]
+    api_groups     = [""]
+    resources      = ["secrets"]
+    verbs          = ["get", "update", "patch"]
     resource_names = ["pod-identity-webhook"]
   }
 }
@@ -37,8 +37,8 @@ resource "kubernetes_role_binding" "this" {
     name      = kubernetes_role.this.metadata[0].name
   }
   subject {
-    kind = "ServiceAccount"
-    name = kubernetes_service_account.this.metadata[0].name
+    kind      = "ServiceAccount"
+    name      = kubernetes_service_account.this.metadata[0].name
     namespace = local.namespace
   }
 }

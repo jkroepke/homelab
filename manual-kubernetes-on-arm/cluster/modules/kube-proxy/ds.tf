@@ -17,7 +17,7 @@ resource "kubernetes_daemonset" "this" {
       }
       spec {
         container {
-          name = "kube-proxy"
+          name  = "kube-proxy"
           image = "k8s.gcr.io/kube-proxy:v${var.kubernetes_version}"
 
           command = [
@@ -54,11 +54,11 @@ resource "kubernetes_daemonset" "this" {
           volume_mount {
             mount_path = "/lib/modules"
             name       = "lib-modules"
-            read_only = true
+            read_only  = true
           }
         }
-        host_network = true
-        priority_class_name = "system-node-critical"
+        host_network         = true
+        priority_class_name  = "system-node-critical"
         service_account_name = kubernetes_service_account.this.metadata[0].name
 
         toleration {

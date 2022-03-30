@@ -5,7 +5,7 @@ resource "aws_iam_role_policy_attachment" "aws_cloud_controller_manager" {
 
 resource "aws_iam_policy" "aws_cloud_controller_manager" {
   name   = "${var.cluster_name}-aws-cloud-controller-manager"
-  path = "/${var.cluster_name}/kubernetes/"
+  path   = "/${var.cluster_name}/kubernetes/"
   policy = data.aws_iam_policy_document.aws_cloud_controller_manager.json
 }
 

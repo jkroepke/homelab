@@ -10,7 +10,7 @@ resource "helm_release" "this" {
   name       = "cert-manager"
   version    = "v1.7.2"
 
-  namespace = kubernetes_namespace.this.metadata[0].name
+  namespace   = kubernetes_namespace.this.metadata[0].name
   max_history = 10
 
   lint    = true

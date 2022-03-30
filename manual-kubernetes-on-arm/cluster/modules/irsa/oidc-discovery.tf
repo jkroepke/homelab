@@ -1,6 +1,6 @@
 # https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#service-account-issuer-discovery
 
-resource "kubernetes_cluster_role_binding" "this" {
+resource "kubernetes_cluster_role_binding" "allow-public-oidc-discovery" {
   metadata {
     name = "allow-public-oidc-discovery"
   }

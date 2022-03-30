@@ -13,8 +13,8 @@ variable "vpc_cidr" {
 variable "etcd_version" {
   description = "Version of etcd"
   # https://github.com/kubernetes/kubernetes/blob/02f7f0b66a8ae3f24ab1f9b072b8f9d1201a7ced/cmd/kubeadm/app/constants/constants.go#L304
-  default     = "3.5.1"
-  type        = string
+  default = "3.5.1"
+  type    = string
 }
 
 variable "kubernetes_version" {

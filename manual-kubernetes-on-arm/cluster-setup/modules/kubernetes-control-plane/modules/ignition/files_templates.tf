@@ -1,7 +1,7 @@
 locals {
-  files_templates_list  = fileset("${path.module}/resources/templates/", "**/*")
+  files_templates_list = fileset("${path.module}/resources/templates/", "**/*")
 
-  files_templates_rendered = {for filename in local.files_templates_list: "/${filename}" => templatefile("${path.module}/resources/templates/${filename}", {
+  files_templates_rendered = { for filename in local.files_templates_list : "/${filename}" => templatefile("${path.module}/resources/templates/${filename}", {
     region                    = data.aws_region.current.name
     kms_secret_encryption_arn = var.kms_secret_encryption_arn
     controller_count          = var.controller_count
@@ -18,7 +18,7 @@ locals {
 
     cluster_name = var.cluster_name
     cluster_dns  = var.cluster_dns
-  })}
+  }) }
 
   files_templates = [for filename in local.files_templates_list : templatefile("${path.module}/resources/ignition/parts/file_remote.yaml", {
     path   = "/${filename}"
