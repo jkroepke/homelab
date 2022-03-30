@@ -1,6 +1,7 @@
 module "pki_kubernetes" {
   source                  = "./modules/pki/kubernetes"
   kubernetes_api_hostname = var.kubernetes_api_hostname
+  kubernetes_service_cidr = var.service_cidr
 }
 
 locals {

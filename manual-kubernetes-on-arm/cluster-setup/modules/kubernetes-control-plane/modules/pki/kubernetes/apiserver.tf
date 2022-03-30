@@ -19,6 +19,9 @@ resource "tls_cert_request" "apiserver" {
     "kubernetes.default.svc",
     "kubernetes.default.svc.cluster.local",
   ])
+
+  # Needed for in-cluster configs
+  ip_addresses = [cidrhost(var.kubernetes_service_cidr, 1)]
 }
 
 resource "tls_locally_signed_cert" "apiserver" {

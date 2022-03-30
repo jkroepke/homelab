@@ -1,6 +1,6 @@
 resource "aws_ssm_parameter" "cluster_credentials" {
   for_each = {
-    host                   = module.kubernetes-control-plane.kubernetes_api_server
+    kubernetes_api_server  = module.kubernetes-control-plane.kubernetes_api_server
     client_certificate     = module.kubernetes-control-plane.kubernetes_client_certificate
     client_key             = module.kubernetes-control-plane.kubernetes_client_key
     cluster_ca_certificate = module.kubernetes-control-plane.kubernetes_cluster_ca_certificate
@@ -19,11 +19,11 @@ resource "aws_ssm_parameter" "cluster_credentials" {
 
 resource "aws_ssm_parameter" "cluster_config" {
   for_each = {
-    version      = local.kubernetes_api_hostname
-    cluster_name = local.cluster_name
-    pod_cidr     = local.pod_cidr
-    service_cidr = local.service_cidr
-    cluster_dns  = local.cluster_dns
+    kubernetes_version = var.kubernetes_version
+    cluster_name       = local.cluster_name
+    pod_cidr           = local.pod_cidr
+    service_cidr       = local.service_cidr
+    cluster_dns        = local.cluster_dns
   }
 
   name  = "/${var.name}/kubernetes/cluster/config/${each.key}"

@@ -1,10 +1,12 @@
 locals {
-  cluster_name = data.aws_ssm_parameter.cluster_config["cluster_name"].value
+  cluster_name          = data.aws_ssm_parameter.cluster_config["cluster_name"].value
+  kubernetes_api_server = data.aws_ssm_parameter.cluster_credentials["kubernetes_api_server"].value
+  kubernetes_version    = data.aws_ssm_parameter.cluster_config["kubernetes_version"].value
 }
 
 data "aws_ssm_parameter" "cluster_credentials" {
   for_each = toset([
-    "host", "cluster_ca_certificate",
+    "kubernetes_api_server", "cluster_ca_certificate",
     "client_certificate", "client_key",
     "bootstrap_token_id", "bootstrap_token_secret"
   ])
@@ -14,7 +16,7 @@ data "aws_ssm_parameter" "cluster_credentials" {
 
 data "aws_ssm_parameter" "cluster_config" {
   for_each = toset([
-    "version", "cluster_name", "cluster_dns",
+    "kubernetes_version", "cluster_name", "cluster_dns",
     "pod_cidr", "service_cidr"
   ])
 
