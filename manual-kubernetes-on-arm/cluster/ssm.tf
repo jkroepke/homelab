@@ -2,6 +2,9 @@ locals {
   cluster_name          = data.aws_ssm_parameter.cluster_config["cluster_name"].value
   kubernetes_api_server = data.aws_ssm_parameter.cluster_credentials["kubernetes_api_server"].value
   kubernetes_version    = data.aws_ssm_parameter.cluster_config["kubernetes_version"].value
+  service_cidr          = data.aws_ssm_parameter.cluster_config["service_cidr"].value
+  pod_cidr              = data.aws_ssm_parameter.cluster_config["pod_cidr"].value
+  cluster_dns           = data.aws_ssm_parameter.cluster_config["cluster_dns"].value
 }
 
 data "aws_ssm_parameter" "cluster_credentials" {

@@ -19,3 +19,31 @@ module "vpc-cni-k8s" {
   depends_on = [module.bootstrap]
 }
 
+module "coredns" {
+  source = "./modules/coredns"
+
+  cluster_dns = local.cluster_dns
+
+  depends_on = [module.vpc-cni-k8s]
+}
+
+module "kubelet-csr-approver" {
+  source = "./modules/kubelet-csr-approver"
+
+  depends_on = [module.coredns]
+}
+
+module "cert-manager" {
+  source = "./modules/cert-manager"
+
+  depends_on = [module.coredns]
+}
+
+module "irsa" {
+  source = "./modules/irsa"
+
+  name                  = var.name
+  kubernetes_api_server = local.kubernetes_api_server
+
+  depends_on = [module.cert-manager]
+}

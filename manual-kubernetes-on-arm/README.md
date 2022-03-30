@@ -21,7 +21,7 @@
 * [Flatcar Container Linux](https://www.flatcar.org/)
 * [aws-encryption-provider](https://github.com/kubernetes-sigs/aws-encryption-provider)
   * See: https://aws.amazon.com/de/blogs/containers/using-eks-encryption-provider-support-for-defense-in-depth/
-* [Run CIS Benchmark](./docs/CIS.md)
+
 
 ## TODO Infrastructure
 
@@ -29,17 +29,18 @@
 
 ## TODO Cluster
 * rootless control plane
-* CoreDNS
+* ✅ CoreDNS
+* ✅ [Run CIS Benchmark](./docs/CIS.md)
 * IAM Roles for Service Accounts ([IRSA](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html))
   * Using [Service Account Token Volume Projection](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#service-account-token-volume-projection)
   * [amazon-eks-pod-identity-webhook](https://github.com/aws/amazon-eks-pod-identity-webhook)
 * Kubernetes CNI
   * kube-proxy in IPVS mode
-  * [amazon-vpc-cni-k8s](https://github.com/aws/amazon-vpc-cni-k8s) for Networking
+  * ✅ [amazon-vpc-cni-k8s](https://github.com/aws/amazon-vpc-cni-k8s) for Networking
   * [calico](https://projectcalico.docs.tigera.io/getting-started/kubernetes/self-managed-public-cloud/aws#amazon-vpc-cni-plugin) for NetworkPolicy
 * Cloud Provider
   * [cloud-provider-aws](https://github.com/kubernetes/cloud-provider-aws)
-* [kubelet-csr-approver](https://github.com/postfinance/kubelet-csr-approver) to automatically approve kubelet server crts
+  * ✅ [kubelet-csr-approver](https://github.com/postfinance/kubelet-csr-approver) to automatically approve kubelet server crts
 * Storage
   * [aws-ebs-csi-driver](https://github.com/kubernetes-sigs/aws-ebs-csi-driver)
 * Node Scaling

@@ -15,11 +15,11 @@ output "apiserver_crt" {
 }
 
 output "apiserver_kubelet_client_key" {
-  value = tls_private_key.apiserver.private_key_pem
+  value = tls_private_key.apiserver_kubelet_client.private_key_pem
 }
 
 output "apiserver_kubelet_client_crt" {
-  value = tls_locally_signed_cert.apiserver.cert_pem
+  value = tls_locally_signed_cert.apiserver_kubelet_client.cert_pem
 }
 
 output "front_proxy_ca_key" {

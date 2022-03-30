@@ -54,7 +54,7 @@ spec:
         - --shutdown-delay-duration=10s
         - --shutdown-send-retry-after=true
         - --secure-port=6443
-        - --service-account-jwks-uri=https://${api_hostname}
+        - --service-account-jwks-uri=https://${api_hostname}/openid/v1/jwks
         - --service-account-issuer=https://${api_hostname}
         - --service-account-key-file=/etc/kubernetes/pki/sa.pub
         - --service-account-signing-key-file=/etc/kubernetes/pki/sa.key

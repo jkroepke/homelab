@@ -7,6 +7,7 @@ resource "helm_release" "this" {
   version   = "1.1.14"
   name      = "aws-vpc-cni"
   namespace = "kube-system"
+  max_history = 10
 
   wait            = true
   atomic          = true
@@ -15,7 +16,7 @@ resource "helm_release" "this" {
   timeout         = 300
 
   values = [
-    yamlencode({
+    jsonencode({
       init = {
         image = {
           # https://docs.aws.amazon.com/eks/latest/userguide/add-ons-images.html
