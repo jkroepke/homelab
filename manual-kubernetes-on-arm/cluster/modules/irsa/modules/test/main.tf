@@ -1,12 +1,12 @@
 resource "kubernetes_namespace" "this" {
   metadata {
-    name = "irsa-test"
+    name = var.name
   }
 }
 
 resource "kubernetes_service_account" "this" {
   metadata {
-    name      = "irsa-test"
+    name      = var.name
     namespace = kubernetes_namespace.this.metadata[0].name
     annotations = {
       "eks.amazonaws.com/role-arn" = aws_iam_role.this.arn
@@ -18,19 +18,19 @@ resource "kubernetes_deployment" "this" {
   wait_for_rollout = false
 
   metadata {
-    name      = "irsa-test"
+    name      = var.name
     namespace = kubernetes_namespace.this.metadata[0].name
   }
   spec {
     selector {
       match_labels = {
-        app = "irsa-test"
+        app = var.name
       }
     }
     template {
       metadata {
         labels = {
-          app = "irsa-test"
+          app = var.name
         }
       }
       spec {

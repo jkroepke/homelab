@@ -48,6 +48,7 @@ resource "helm_release" "this" {
 module "tests" {
   source = "./modules/test/"
 
+  name              = "irsa-test"
   oidc_provider_arn = aws_iam_openid_connect_provider.this.arn
   issuer            = aws_iam_openid_connect_provider.this.url
 
