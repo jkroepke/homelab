@@ -1,0 +1,75 @@
+resource "kubernetes_namespace" "this" {
+  metadata {
+    name = "irsa-test"
+  }
+}
+
+resource "kubernetes_service_account" "this" {
+  metadata {
+    name      = "irsa-test"
+    namespace = kubernetes_namespace.this.metadata[0].name
+    annotations = {
+      "eks.amazonaws.com/role-arn" = aws_iam_role.this.arn
+    }
+  }
+}
+
+resource "kubernetes_deployment" "this" {
+  wait_for_rollout = false
+
+  metadata {
+    name      = "irsa-test"
+    namespace = kubernetes_namespace.this.metadata[0].name
+  }
+  spec {
+    selector {
+      match_labels = {
+        app = "irsa-test"
+      }
+    }
+    template {
+      metadata {
+        labels = {
+          app = "irsa-test"
+        }
+      }
+      spec {
+        service_account_name = kubernetes_service_account.this.metadata[0].name
+        container {
+          name    = "aws"
+          image   = "registry.ipv6.docker.com/amazon/aws-cli:latest"
+          command = ["sh", "-c", "aws sts get-caller-identity && sleep 60"]
+        }
+      }
+    }
+  }
+}
+
+resource "aws_iam_role" "this" {
+  assume_role_policy = data.aws_iam_policy_document.trust.json
+}
+
+data "aws_iam_policy_document" "trust" {
+  statement {
+    effect = "Allow"
+
+    principals {
+      identifiers = [var.oidc_provider_arn]
+      type        = "Federated"
+    }
+
+    actions = ["sts:AssumeRoleWithWebIdentity"]
+
+    condition {
+      test     = "StringEquals"
+      values   = ["sts.amazonaws.com"]
+      variable = "${var.issuer}:aud"
+    }
+
+    condition {
+      test     = "StringEquals"
+      values   = ["system:serviceaccount:${kubernetes_namespace.this.metadata[0].name}:irsa-test"]
+      variable = "${var.issuer}:sub"
+    }
+  }
+}

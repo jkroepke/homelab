@@ -16,3 +16,41 @@ resource "aws_iam_openid_connect_provider" "this" {
     Name = "${var.name}-kubernetes"
   }
 }
+
+data "aws_region" "current" {}
+
+resource "helm_release" "this" {
+  repository = "https://jkroepke.github.io/helm-charts/"
+  chart      = "amazon-eks-pod-identity-webhook"
+  name       = "amazon-eks-pod-identity-webhook"
+
+  version = "0.1.0"
+
+  lint            = true
+  atomic          = true
+  cleanup_on_fail = true
+  timeout         = 300
+
+  values = [
+    jsonencode({
+      image = {
+        repository = "registry.ipv6.docker.com/amazon/amazon-eks-pod-identity-webhook"
+      }
+
+      config = {
+        defaultAwsRegion = data.aws_region.current.name
+      }
+    })
+  ]
+}
+
+
+module "tests" {
+  source = "./modules/test/"
+
+  oidc_provider_arn = aws_iam_openid_connect_provider.this.arn
+  issuer            = aws_iam_openid_connect_provider.this.url
+
+  depends_on = [helm_release.this]
+}
+
