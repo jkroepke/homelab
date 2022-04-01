@@ -15,6 +15,7 @@ spec:
         - --authorization-kubeconfig=/etc/kubernetes/controller-manager.conf
         - --bind-address=127.0.0.1
         - --client-ca-file=/etc/kubernetes/pki/ca.crt
+        - --cloud-provider=external
         - --cluster-name=${cluster_name}
         - --cluster-signing-cert-file=/etc/kubernetes/pki/ca.crt
         - --cluster-signing-key-file=/etc/kubernetes/pki/ca.key

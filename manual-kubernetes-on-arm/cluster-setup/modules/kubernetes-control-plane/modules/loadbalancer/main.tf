@@ -31,7 +31,8 @@ resource "aws_lb_target_group" "this" {
 
 resource "aws_route53_record" "this" {
   # Test w/o IPv4
-  for_each = toset(["AAAA"])
+  # Test not successful. AWS IAM needs A Record
+  for_each = toset(["A", "AAAA"])
 
   name    = var.hostname
   type    = each.key

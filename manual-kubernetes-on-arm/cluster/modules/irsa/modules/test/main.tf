@@ -38,7 +38,7 @@ resource "kubernetes_deployment" "this" {
         container {
           name    = "aws"
           image   = "registry.ipv6.docker.com/amazon/aws-cli:latest"
-          command = ["sh", "-c", "aws sts get-caller-identity && sleep 60"]
+          command = ["sh", "-c", "cat $AWS_WEB_IDENTITY_TOKEN_FILE && echo && echo '-----' && aws sts get-caller-identity && sleep 60"]
         }
       }
     }
@@ -46,7 +46,12 @@ resource "kubernetes_deployment" "this" {
 }
 
 resource "aws_iam_role" "this" {
+  name               = var.name
   assume_role_policy = data.aws_iam_policy_document.trust.json
+
+  tags = {
+    Name = var.name
+  }
 }
 
 data "aws_iam_policy_document" "trust" {

@@ -32,8 +32,8 @@
 * ✅ CoreDNS
 * ✅ [Run CIS Benchmark](./docs/CIS.md)
 * IAM Roles for Service Accounts ([IRSA](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html))
-  * Using [Service Account Token Volume Projection](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#service-account-token-volume-projection)
-  * [amazon-eks-pod-identity-webhook](https://github.com/aws/amazon-eks-pod-identity-webhook)
+  * ✅ Using [Service Account Token Volume Projection](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#service-account-token-volume-projection)
+  * ✅ [amazon-eks-pod-identity-webhook](https://github.com/aws/amazon-eks-pod-identity-webhook)
 * Kubernetes CNI
   * kube-proxy in IPVS mode
   * ✅ [amazon-vpc-cni-k8s](https://github.com/aws/amazon-vpc-cni-k8s) for Networking

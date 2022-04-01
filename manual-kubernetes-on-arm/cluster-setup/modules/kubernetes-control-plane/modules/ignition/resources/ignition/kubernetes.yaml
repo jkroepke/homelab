@@ -35,6 +35,8 @@ systemd:
   units:
     - name: "kubelet.service"
       enabled: true
+      # --cloud-provider=external is deprecated but there is no replacement?
+      ## ref: https://github.com/kubernetes/kops/issues/11546
       #https://raw.githubusercontent.com/kubernetes/release/master/cmd/kubepkg/templates/latest/rpm/kubelet/kubelet.service
       contents: |
         [Unit]
@@ -48,6 +50,7 @@ systemd:
           --bootstrap-kubeconfig=/etc/kubernetes/bootstrap-kubelet.conf \
           --kubeconfig=/var/lib/kubelet/kubeconfig \
           --config=/var/lib/kubelet/config.yaml \
+          --cloud-provider=external \
           --container-runtime=remote \
           --container-runtime-endpoint=unix:///run/containerd/containerd.sock
         Restart=always

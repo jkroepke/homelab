@@ -24,7 +24,7 @@ resource "helm_release" "this" {
   chart      = "amazon-eks-pod-identity-webhook"
   name       = "amazon-eks-pod-identity-webhook"
 
-  version = "0.1.0"
+  version = "1.0.1"
 
   lint            = true
   atomic          = true
@@ -34,7 +34,7 @@ resource "helm_release" "this" {
   values = [
     jsonencode({
       image = {
-        repository = "registry.ipv6.docker.com/amazon/amazon-eks-pod-identity-webhook"
+        registry = "registry.ipv6.docker.com"
       }
 
       config = {
