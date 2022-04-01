@@ -20,7 +20,6 @@ spec:
         - --cluster-signing-cert-file=/etc/kubernetes/pki/ca.crt
         - --cluster-signing-key-file=/etc/kubernetes/pki/ca.key
         - --controllers=*,bootstrapsigner,tokencleaner
-        - --external-cloud-volume-plugin=aws
         - --flex-volume-plugin-dir=/opt/libexec/kubernetes/kubelet-plugins/volume/exec/
         - --kubeconfig=/etc/kubernetes/controller-manager.conf
         - --leader-elect=true

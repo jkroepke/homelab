@@ -14,9 +14,14 @@ resource "helm_release" "this" {
   namespace   = "kube-system"
   max_history = 10
 
-  values = [
-    jsonencode({
-      providerRegex = "^i-\\w+\\.${data.aws_region.current.name}\\.compute\\.internal$"
-    })
-  ]
+  values = [jsonencode({
+    providerRegex = "^i-\\w+\\.${data.aws_region.current.name}\\.compute\\.internal$"
+
+    tolerations = [{
+      key      = "node.cloudprovider.kubernetes.io/uninitialized"
+      operator = "Equal"
+      value    = "true"
+      effect   = "NoSchedule"
+    }]
+  })]
 }

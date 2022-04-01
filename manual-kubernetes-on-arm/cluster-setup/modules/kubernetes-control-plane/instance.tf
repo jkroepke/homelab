@@ -42,7 +42,8 @@ resource "aws_instance" "this" {
   depends_on = [aws_route53_record.etcd_discovery, module.api_loadbalancer]
 
   tags = {
-    Name = "${var.cluster_name}-controller-${each.key}"
+    Name                                        = "${var.cluster_name}-controller-${each.key}"
+    "kubernetes.io/cluster/${var.cluster_name}" = "owned"
   }
 }
 

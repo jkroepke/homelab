@@ -76,3 +76,4 @@
 * https://github.com/coreos/ignition/issues/1340
   * https://github.com/coreos/ignition/pull/1341
 * https://github.com/coreos/afterburn/issues/726
+* https://github.com/kubernetes/cloud-provider-aws/issues/327

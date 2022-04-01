@@ -5,7 +5,7 @@ enableServer: true
 staticPodPath: "/etc/kubernetes/manifests"
 #tlsCertFile: ""
 #tlsPrivateKeyFile: ""
-tLSCipherSuites:
+tlsCipherSuites:
   - TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256
   - TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
   - TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305
