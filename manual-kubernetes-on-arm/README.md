@@ -57,6 +57,7 @@
 * Cluster Policies
   * https://kyverno.io/
   * https://kubevious.io/
+* Node local DNS cache
 
 ## TODO Application Side
 
