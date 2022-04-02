@@ -22,7 +22,6 @@
 * [aws-encryption-provider](https://github.com/kubernetes-sigs/aws-encryption-provider)
   * See: https://aws.amazon.com/de/blogs/containers/using-eks-encryption-provider-support-for-defense-in-depth/
 
-
 ## TODO Infrastructure
 
 * Use ASG/spot instances for Control Plane, including etcd, persist data across restart
@@ -57,7 +56,9 @@
 * Cluster Policies
   * https://kyverno.io/
   * https://kubevious.io/
-* Node local DNS cache
+* [Node local DNS cache](https://kubernetes.io/docs/tasks/administer-cluster/nodelocaldns/)
+* [Node Problem Detector](https://github.com/kubernetes/node-problem-detector)
+
 
 ## TODO Application Side
 
