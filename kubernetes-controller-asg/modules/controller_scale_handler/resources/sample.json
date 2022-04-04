@@ -1,0 +1,17 @@
+{
+  "version": "0",
+  "id": "6a7e8feb-b491-4cf7-a9f1-bf3703467718",
+  "detail-type": "EC2 Instance-launch Lifecycle Action",
+  "source": "aws.autoscaling",
+  "account": "123456789012",
+  "time": "2015-12-22T18:43:48Z",
+  "region": "eu-central-1",
+  "resources": ["arn:aws:autoscaling:eu-central-1:571075516563:autoScalingGroup:0eef3270-b93f-49e8-9352-01e4a789ccdc:autoScalingGroupName/jkr-k8s-controller-asg-controller-eu-central-1a"],
+  "detail": {
+    "LifecycleActionToken": "c613620e-07e2-4ed2-a9e2-ef8258911ade",
+    "AutoScalingGroupName": "jkr-k8s-controller-asg-controller-eu-central-1a",
+    "LifecycleHookName": "SampleLifecycleHook-12345",
+    "EC2InstanceId": "i-0dffc60ccd32c92b0",
+    "LifecycleTransition": "autoscaling:EC2_INSTANCE_LAUNCHING"
+  }
+}
