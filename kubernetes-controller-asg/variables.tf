@@ -1,8 +1,8 @@
 variable "project" {
-  default = "jkr-k8s-controller-asg"
+  default = "jkr-k8s-asg-lambda"
 }
 
 variable "worker_count" {
-  default = 1
+  default = 3
   type    = number
 }
