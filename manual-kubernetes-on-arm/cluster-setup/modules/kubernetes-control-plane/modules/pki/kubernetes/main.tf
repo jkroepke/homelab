@@ -7,7 +7,6 @@ resource "tls_private_key" "kubernetes-ca" {
 }
 
 resource "tls_self_signed_cert" "kubernetes-ca" {
-  key_algorithm   = tls_private_key.kubernetes-ca.algorithm
   private_key_pem = tls_private_key.kubernetes-ca.private_key_pem
 
   subject {

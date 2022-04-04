@@ -1,3 +1,15 @@
+locals {
+  etcd_domain = "${var.cluster_name}.etcd.internal"
+  controllers = {
+    for index in range(0, var.controller_count) : keys(var.vpc_private_subnets)[index] => {
+      name           = "${var.cluster_name}-controller-${keys(var.vpc_private_subnets)[index]}"
+      subnet_id      = values(var.vpc_private_subnets)[index]
+      etcd_peer_name = "etcd-${keys(var.vpc_private_subnets)[index]}.${local.etcd_domain}"
+    }
+  }
+  etcd_peer_names = {for availability_zone, properties in local.controllers : availability_zone => properties.etcd_peer_name}
+}
+
 module "api_loadbalancer" {
   source = "./modules/loadbalancer"
 
@@ -8,6 +20,7 @@ module "api_loadbalancer" {
   subnets         = var.vpc_public_subnets
   vpc_id          = var.vpc_id
 }
+
 module "iam" {
   source = "./modules/iam"
 

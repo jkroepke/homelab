@@ -1,3 +1,4 @@
+
 # Kubernetes on ARM
 
 ![](./docs/img.png)
@@ -7,6 +8,7 @@
 * Run on AWS
 * No Shell Scripts
 * Use ARM Nodes to save money
+* Use ASG/spot instances for Control Plane, including etcd, persist data across restart
 * Route 53 with DNSSEC signed Zones
 * ~~Use IMDSv2 only~~
   * https://github.com/flatcar-linux/Flatcar/issues/220#issuecomment-1079653927 - Waiting for Afterbrun update in Flatcar
@@ -21,10 +23,6 @@
 * [Flatcar Container Linux](https://www.flatcar.org/)
 * [aws-encryption-provider](https://github.com/kubernetes-sigs/aws-encryption-provider)
   * See: https://aws.amazon.com/de/blogs/containers/using-eks-encryption-provider-support-for-defense-in-depth/
-
-## TODO Infrastructure
-
-* Use ASG/spot instances for Control Plane, including etcd, persist data across restart
 
 ## TODO Cluster
 * rootless control plane
@@ -58,7 +56,7 @@
   * https://kubevious.io/
 * [Node local DNS cache](https://kubernetes.io/docs/tasks/administer-cluster/nodelocaldns/)
 * [Node Problem Detector](https://github.com/kubernetes/node-problem-detector)
-
+* gVisor
 
 ## TODO Application Side
 
@@ -75,7 +73,10 @@
 
 # Issues & Comments created for this homelab
 
+* https://github.com/etcd-io/etcd/pull/13847
 * https://github.com/coreos/ignition/issues/1340
   * https://github.com/coreos/ignition/pull/1341
 * https://github.com/coreos/afterburn/issues/726
 * https://github.com/kubernetes/cloud-provider-aws/issues/327
+* https://github.com/hashicorp/terraform-provider-aws/issues/24009
+* https://github.com/hashicorp/terraform-provider-tls/issues/181

@@ -7,7 +7,6 @@ resource "tls_private_key" "kubernetes_front_proxy_ca" {
 }
 
 resource "tls_self_signed_cert" "kubernetes_front_proxy_ca" {
-  key_algorithm   = tls_private_key.kubernetes_front_proxy_ca.algorithm
   private_key_pem = tls_private_key.kubernetes_front_proxy_ca.private_key_pem
 
   subject {
@@ -31,7 +30,6 @@ resource "tls_private_key" "front_proxy_client" {
 }
 
 resource "tls_cert_request" "front_proxy_client" {
-  key_algorithm   = tls_private_key.front_proxy_client.algorithm
   private_key_pem = tls_private_key.front_proxy_client.private_key_pem
 
   subject {
@@ -42,7 +40,6 @@ resource "tls_cert_request" "front_proxy_client" {
 resource "tls_locally_signed_cert" "front_proxy_client" {
   cert_request_pem = tls_cert_request.front_proxy_client.cert_request_pem
 
-  ca_key_algorithm   = tls_self_signed_cert.kubernetes_front_proxy_ca.key_algorithm
   ca_private_key_pem = tls_private_key.kubernetes_front_proxy_ca.private_key_pem
   ca_cert_pem        = tls_self_signed_cert.kubernetes_front_proxy_ca.cert_pem
 

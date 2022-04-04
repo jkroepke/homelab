@@ -1,0 +1,36 @@
+# https://www.flatcar.org/docs/latest/provisioning/config-transpiler/configuration/
+---
+storage:
+  filesystems:
+    - name: etcd
+      mount:
+        label: ETCD_DATA
+        device: /dev/nvme1n1
+        format: xfs
+        wipe_filesystem: false
+
+systemd:
+  units:
+    - name: "var-lib-etcd.mount"
+      enable: true
+      contents: |
+        [Unit]
+        Before=local-fs.target
+        [Mount]
+        What=/dev/nvme1n1
+        Where=/var/lib/etcd
+        Type=xfs
+        [Install]
+        WantedBy=local-fs.target
+    - name: "var-lib-etcd.automount"
+      enable: true
+      contents: |
+        [Unit]
+        Description=Automount /var/lib/etcd
+  
+        [Automount]
+        Where=/var/lib/etcd
+        
+        [Install]
+        WantedBy=multi-user.target
+

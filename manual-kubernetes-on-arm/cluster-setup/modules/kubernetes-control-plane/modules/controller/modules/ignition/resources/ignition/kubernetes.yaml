@@ -43,7 +43,7 @@ systemd:
         Description=kubelet: The Kubernetes Node Agent
         Documentation=https://kubernetes.io/docs/
         Wants=network-online.target
-        After=network-online.target
+        After=network-online.target var-lib-etcd.mount 
         
         [Service]
         ExecStart=/opt/bin/kubelet \

@@ -11,8 +11,8 @@ locals {
     etcd_version          = var.etcd_version
 
     kubernetes_version = var.kubernetes_version
-    api_hostname       = var.api_hostname
-    oidc_issuer_url    = var.oidc_issuer_url
+    api_hostname       = var.kubernetes_api_hostname
+    oidc_issuer_url    = var.kubernetes_oidc_issuer_url
     service_cidr       = var.service_cidr
     pod_cidr           = var.pod_cidr
 

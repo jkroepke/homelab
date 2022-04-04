@@ -4,6 +4,13 @@ module "bootstrap" {
   bootstrap_token_secret = data.aws_ssm_parameter.cluster_credentials["bootstrap_token_secret"].value
 }
 
+module "iam-oidc-provider" {
+  source = "./modules/iam-oidc-provider"
+
+  cluster_name          = local.cluster_name
+  kubernetes_api_server = module.kubernetes-control-plane.kubernetes_api_server
+}
+
 module "kube-proxy" {
   source = "./modules/kube-proxy"
 

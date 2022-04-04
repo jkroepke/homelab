@@ -5,7 +5,6 @@ resource "tls_private_key" "apiserver" {
 }
 
 resource "tls_cert_request" "apiserver" {
-  key_algorithm   = tls_private_key.apiserver.algorithm
   private_key_pem = tls_private_key.apiserver.private_key_pem
 
   subject {
@@ -27,7 +26,6 @@ resource "tls_cert_request" "apiserver" {
 resource "tls_locally_signed_cert" "apiserver" {
   cert_request_pem = tls_cert_request.apiserver.cert_request_pem
 
-  ca_key_algorithm   = tls_self_signed_cert.kubernetes-ca.key_algorithm
   ca_private_key_pem = tls_private_key.kubernetes-ca.private_key_pem
   ca_cert_pem        = tls_self_signed_cert.kubernetes-ca.cert_pem
 

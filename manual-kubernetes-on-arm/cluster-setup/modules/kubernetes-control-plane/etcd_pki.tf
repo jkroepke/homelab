@@ -1,12 +1,12 @@
 module "pki_etcd" {
-  source      = "./modules/pki/etcd"
-  etcd_domain = local.etcd_domain
-  etcd_peers  = local.etcd_peers
+  source          = "./modules/pki/etcd"
+  etcd_domain     = local.etcd_domain
+  etcd_peer_names = local.etcd_peer_names
 }
 
 locals {
   files_pki_etcd = {
-    for name, options in local.controllers : name => {
+    for index in keys(local.controllers): index => {
       "/etc/kubernetes/pki/etcd/ca.crt" = {
         content = module.pki_etcd.ca
         user    = "etcd"
@@ -14,25 +14,25 @@ locals {
         mode    = "0600"
       }
       "/etc/kubernetes/pki/etcd/server.key" = {
-        content = module.pki_etcd.server_key[name]
+        content = module.pki_etcd.server_key[index]
         user    = "etcd"
         group   = "etcd"
         mode    = "0600"
       }
       "/etc/kubernetes/pki/etcd/server.crt" = {
-        content = module.pki_etcd.server_crt[name]
+        content = module.pki_etcd.server_crt[index]
         user    = "etcd"
         group   = "etcd"
         mode    = "0600"
       }
       "/etc/kubernetes/pki/etcd/peer.key" = {
-        content = module.pki_etcd.peer_key[name]
+        content = module.pki_etcd.peer_key[index]
         user    = "etcd"
         group   = "etcd"
         mode    = "0600"
       }
       "/etc/kubernetes/pki/etcd/peer.crt" = {
-        content = module.pki_etcd.peer_crt[name]
+        content = module.pki_etcd.peer_crt[index]
         user    = "etcd"
         group   = "etcd"
         mode    = "0600"

@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "this" {
-  bucket = "${var.cluster_name}-ignition-configs-controller${var.index}"
+  bucket = var.name
 }
 
 resource "aws_s3_bucket_acl" "this" {

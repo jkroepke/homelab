@@ -1,5 +1,5 @@
-variable "index" {
-  type = number
+variable "name" {
+  type = string
 }
 
 variable "iam_instance_role" {
@@ -34,7 +34,7 @@ variable "pod_cidr" {
   type = string
 }
 
-variable "api_hostname" {
+variable "kubernetes_api_hostname" {
   type = string
 }
 
@@ -42,7 +42,7 @@ variable "kubernetes_version" {
   type = string
 }
 
-variable "oidc_issuer_url" {
+variable "kubernetes_oidc_issuer_url" {
   type = string
 }
 
