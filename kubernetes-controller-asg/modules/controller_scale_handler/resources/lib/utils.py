@@ -83,7 +83,7 @@ def detach_ebs_volume(instance, volume) -> None:
 
 def wait_until_volume_is_available(volume) -> None:
     if volume.state == 'in-use':
-        logger.warning("[EC2] Volume is attached on '%s'.", volume.attachments[0]['InstanceId'])
+        logger.info("[EC2] Volume is attached on '%s'. Detaching...", volume.attachments[0]['InstanceId'])
         volume.detach_from_instance(
             Device='/dev/xvdf',
             InstanceId=volume.attachments[0]['InstanceId'],
@@ -93,7 +93,7 @@ def wait_until_volume_is_available(volume) -> None:
         if volume.state == 'available':
             return
 
-        logger.warning("[EC2] Volume is in state '%s'. Waiting...", volume.state)
+        logger.info("[EC2] Volume is in state '%s'. Waiting...", volume.state)
         time.sleep(0.25)
         volume.reload()
 

@@ -58,6 +58,7 @@ resource "aws_launch_template" "this" {
       etcd_peer_name       = var.etcd_peer_name
       etcd_volume_id       = aws_ebs_volume.this.id
       etcd_route53_zone_id = var.route53_zone_id
+      trigger              = "value2"
     }
   }
 
