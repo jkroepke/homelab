@@ -12,6 +12,7 @@ ec2 = boto3.resource('ec2')
 
 def lambda_handler(event, context) -> None:
     logger.info('[Main] LogAutoScalingEvent: %s', json.dumps(event))
+    logger.info('[Main] %s', event['detail-type'])
 
     instance_id = event['detail']['EC2InstanceId']
     event_type = utils.EVENT_MAP[event['detail-type']]

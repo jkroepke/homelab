@@ -1,6 +1,6 @@
 resource "aws_cloudwatch_log_group" "this" {
   name              = "/aws/lambda/${var.name}"
-  retention_in_days = 7
+  retention_in_days = 1
 }
 
 resource "aws_lambda_function" "this" {
@@ -11,9 +11,9 @@ resource "aws_lambda_function" "this" {
   runtime          = "python3.9"
   source_code_hash = data.archive_file.this.output_base64sha256
   description      = "Handles DNS for autoscaling groups by receiving autoscaling notifications and setting/deleting records from route53"
-  timeout          = 10
+  timeout          = 60
 
-  depends_on = [aws_cloudwatch_log_group.this]
+  depends_on = [aws_cloudwatch_log_group.this, aws_iam_role_policy.lambda]
 }
 
 resource "aws_lambda_permission" "this" {

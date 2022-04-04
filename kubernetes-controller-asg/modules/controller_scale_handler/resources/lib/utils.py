@@ -46,6 +46,7 @@ def complete_lifecycle_action(event: dict) -> None:
 
 def attach_ebs_volume(instance, volume) -> None:
     wait_until_volume_is_available(volume)
+    logger.info("[EC2] Volume '%s' is in state '%s'.", volume.volume_id, volume.state)
 
     try:
         instance.wait_until_running()
@@ -65,7 +66,8 @@ def detach_ebs_volume(instance, volume) -> None:
         return
 
     if instance.instance_id != volume.attachments[0]['InstanceId']:
-        logger.info("[EC2] Volume '%s' is attached on different instance. Actual: '%s'. Excepted: '%s'.", instance.instance_id, volume.attachments[0]['InstanceId'])
+        logger.info("[EC2] Volume '%s' is attached on different instance. Actual: '%s'. Excepted: '%s'.",
+                    volume.volume_id, instance.instance_id, volume.attachments[0]['InstanceId'])
         return
 
     try:

@@ -4,7 +4,7 @@ resource "aws_cloudwatch_event_rule" "this" {
 
   event_pattern = jsonencode({
     source      = ["aws.autoscaling"]
-    detail-type = ["EC2 Instance-launch Lifecycle Action", "EC2 Instance-terminate Lifecycle Action"]
+    detail-type = ["EC2 Instance-launch Lifecycle Action"]
     detail = {
       AutoScalingGroupName = var.autoscale_group_names
     }
