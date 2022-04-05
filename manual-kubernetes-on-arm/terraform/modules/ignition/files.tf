@@ -1,20 +1,11 @@
 locals {
-  file_snippets = [for filename, options in var.files : jsonencode({
-    storage = {
-      files = [
-        {
-          path       = filename
-          filesystem = "rootfs"
-          mode       = options.mode
-          user       = { name = options.user }
-          group      = { name = options.group }
-          contents = { remote = {
-            url          = "s3://${aws_s3_bucket.this.bucket}${filename}",
-            verification = { hash = { function = "sha512", sum = sha512(options.content) } }
-          } }
-        }
-      ]
-    }
+  file_snippets = [for filename, options in var.files : templatefile("${path.module}/snippets/files_url.yaml", {
+    path   = filename,
+    mode   = options.mode,
+    user   = options.user,
+    group  = options.group,
+    bucket = aws_s3_bucket.this.bucket,
+    hash   = sha512(options.content)
   })]
 }
 

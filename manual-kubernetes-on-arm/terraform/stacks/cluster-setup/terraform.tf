@@ -20,7 +20,7 @@ terraform {
       version = "~> 3.1"
     }
     tls = {
-      version = "~> 3.1"
+      version = "~> 3.2.0"
     }
   }
 

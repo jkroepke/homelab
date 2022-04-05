@@ -56,5 +56,5 @@ module "kubernetes-control-plane" {
 resource "local_file" "admin_kubeconfig" {
   filename        = pathexpand("~/.kube/admin_${local.cluster_name}")
   content         = module.kubernetes-control-plane.kubernetes_admin_config
-  file_permission = 600
+  file_permission = "0600"
 }

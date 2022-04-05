@@ -2,7 +2,7 @@ variable "cluster_name" {
   type = string
 }
 
-variable "cluster_dns" {
+variable "kubernetes_cluster_dns" {
   type = string
 }
 

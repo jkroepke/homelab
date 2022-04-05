@@ -21,6 +21,7 @@ resource "aws_iam_role" "this" {
 }
 
 resource "aws_iam_role_policy_attachment" "this" {
+  # https://github.com/petur/terraform-aws-iam/commit/a09426c06cfae7cf2984e31156d4d3ddede9cc49
   count = length(var.policy_arns)
 
   policy_arn = var.policy_arns[count.index]

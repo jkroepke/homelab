@@ -10,8 +10,8 @@ output "files_controller_configs" {
   value = local.files_controller_configs
 }
 
-output "files_kubelet_bootstrap_config" {
-  value = local.files_kubelet_bootstrap_config
+output "files_worker_configs" {
+  value = local.files_worker_configs
 }
 
 output "kubernetes_client_certificate" {

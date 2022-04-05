@@ -7,5 +7,5 @@ variable "snippets" {
 }
 
 variable "files" {
-  type = map(object({ content = string, user = string, group = string, mode = number }))
+  type = map(object({ content = string, user = string, group = string, mode = string }))
 }

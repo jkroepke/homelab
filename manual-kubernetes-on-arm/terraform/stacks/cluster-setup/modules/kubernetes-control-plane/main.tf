@@ -39,7 +39,7 @@ module "etcd_dns_discovery_zone" {
 module "cluster_config_files" {
   source = "./modules/cluster_config_files"
 
-  cluster_dns               = var.cluster_dns
+  kubernetes_cluster_dns    = var.cluster_dns
   cluster_name              = var.cluster_name
   etcd_discovery_domain     = local.etcd_domain
   etcd_version              = var.etcd_version
@@ -62,6 +62,7 @@ module "controller_user_data" {
     module.cluster_config_files.files_pki_etcd[each.key],
     module.cluster_config_files.files_pki_kubernetes,
     module.cluster_config_files.files_controller_configs[each.key],
+    module.cluster_config_files.files_worker_configs,
   )
 }
 

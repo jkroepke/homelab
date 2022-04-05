@@ -1,7 +1,7 @@
 locals {
   files_rendered = {
     for filename in fileset("${path.module}/resources/files/", "**/*") : "/${filename}" => {
-      mode  = 644
+      mode  = "0644"
       user  = "root"
       group = "root"
 
