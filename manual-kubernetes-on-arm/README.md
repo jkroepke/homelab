@@ -63,11 +63,12 @@
 * ArgoCD
 * Reloader
 * SealedSecrets
-* cert-manager
+✅ cert-manager
 
 ## TODO Future
 
 * https://goteleport.com/pricing/
+* https://litmuschaos.io/
 * [crossplane](https://crossplane.io/)
 * [AWS Controllers for Kubernetes (ACK)](https://github.com/aws-controllers-k8s/community)
 
@@ -78,5 +79,7 @@
   * https://github.com/coreos/ignition/pull/1341
 * https://github.com/coreos/afterburn/issues/726
 * https://github.com/kubernetes/cloud-provider-aws/issues/327
+  * https://github.com/kubernetes/cloud-provider-aws/pull/328
 * https://github.com/hashicorp/terraform-provider-aws/issues/24009
 * https://github.com/hashicorp/terraform-provider-tls/issues/181
+* https://github.com/aws/eks-charts/pull/721 / https://github.com/aws/amazon-vpc-cni-k8s/pull/1949
