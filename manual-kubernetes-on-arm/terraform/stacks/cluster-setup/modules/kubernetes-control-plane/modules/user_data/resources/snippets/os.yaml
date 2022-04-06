@@ -4,6 +4,13 @@ update:
   group:  "alpha"
   server: "https://public.update.flatcar-linux.net/v1/update/"
 
+systemd:
+  units:
+    - name: locksmithd.service
+      mask: true
+    - name: update-engine.service
+      enabled: true
+
 # https://www.flatcar.org/docs/latest/setup/customization/other-settings/#tuning-sysctl-parameters
 storage:
   files:

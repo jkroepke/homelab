@@ -59,6 +59,9 @@ resource "aws_launch_template" "this" {
       etcd_volume_id                              = aws_ebs_volume.this.id
       etcd_route53_zone_id                        = var.etcd_route53_zone_id
       "kubernetes.io/cluster/${var.cluster_name}" = "owned"
+
+      # https://github.com/kubernetes/cloud-provider-aws/blob/8d2f0fd2b1b574bde3239a344bd0a9a4f244cdb0/pkg/providers/v1/aws.go#L303
+      "kubernetes.io/role/master" = "true"
     }
   }
 }

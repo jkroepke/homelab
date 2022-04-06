@@ -18,16 +18,23 @@ module "kube-proxy" {
   kubernetes_version    = local.kubernetes_version
 }
 
+module "cloud-provider-aws" {
+  source = "./modules/cloud-provider-aws"
+
+  cluster_name = local.cluster_name
+}
+
 module "vpc-cni-k8s" {
   source = "./modules/vpc-cni-k8s"
 
   kubernetes_api_server = local.kubernetes_api_server
   cluster_name          = local.cluster_name
-
-  depends_on = [module.bootstrap]
 }
 
-/*
+module "eks-pod-identity-webhook" {
+  source = "./modules/eks-pod-identity-webhook"
+}
+
 module "coredns" {
   source = "./modules/coredns"
 
@@ -42,18 +49,10 @@ module "kubelet-csr-approver" {
   depends_on = [module.coredns]
 }
 
+/*
 module "cert-manager" {
   source = "./modules/cert-manager"
 
   depends_on = [module.coredns]
-}
-
-module "irsa" {
-  source = "./modules/irsa"
-
-  name                  = var.name
-  kubernetes_api_server = local.kubernetes_api_server
-
-  depends_on = [module.cert-manager]
 }
 */

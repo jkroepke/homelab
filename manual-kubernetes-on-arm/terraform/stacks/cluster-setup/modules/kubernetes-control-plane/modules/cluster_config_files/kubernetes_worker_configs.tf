@@ -11,6 +11,7 @@ locals {
       group = "root"
       mode  = "0600"
       content = templatefile("${path.module}/resources/var/lib/kubelet/config.yaml", {
+        controller             = false
         kubernetes_cluster_dns = var.kubernetes_cluster_dns
         kubernetes_pod_cidr    = var.kubernetes_pod_cidr
       })

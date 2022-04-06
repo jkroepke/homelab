@@ -5,9 +5,15 @@ locals {
 }
 
 resource "aws_iam_role" "this" {
-  name                = var.name
-  assume_role_policy  = data.aws_iam_policy_document.trust.json
-  managed_policy_arns = [var.policy_arns]
+  name               = var.name
+  assume_role_policy = data.aws_iam_policy_document.trust.json
+}
+
+resource "aws_iam_role_policy_attachment" "this" {
+  count = length(var.policy_arns)
+
+  policy_arn = var.policy_arns[count.index]
+  role       = aws_iam_role.this.name
 }
 
 data "aws_iam_policy_document" "trust" {

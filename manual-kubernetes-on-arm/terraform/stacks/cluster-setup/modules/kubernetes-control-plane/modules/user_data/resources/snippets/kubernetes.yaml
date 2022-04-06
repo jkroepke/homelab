@@ -1,15 +1,6 @@
 # https://www.flatcar.org/docs/latest/provisioning/config-transpiler/configuration/
 ---
 storage:
-  directories:
-    - filesystem: root
-      path: /var/lib/etcd/
-      mode: 0700
-      user:
-        name: etcd
-      group:
-        name: etcd
-
   files:
     - path: "/opt/bin/kubectl"
       filesystem: root

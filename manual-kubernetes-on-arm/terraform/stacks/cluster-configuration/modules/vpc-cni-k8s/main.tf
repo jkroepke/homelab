@@ -7,7 +7,7 @@ resource "helm_release" "this" {
   version     = "1.1.14"
   name        = "aws-vpc-cni"
   namespace   = "kube-system"
-  max_history = 10
+  max_history = 3
 
   wait            = true
   atomic          = true
@@ -38,11 +38,12 @@ resource "helm_release" "this" {
         ENABLE_PREFIX_DELEGATION      = "true"
 
         # https://github.com/aws/amazon-eks-pod-identity-webhook
-        AWS_DEFAULT_REGION          = data.aws_region.current.name
-        AWS_REGION                  = data.aws_region.current.name
-        AWS_ROLE_ARN                = module.iam_role.role_arn
-        AWS_WEB_IDENTITY_TOKEN_FILE = "/var/run/secrets/eks.amazonaws.com/serviceaccount/token"
-        AWS_STS_REGIONAL_ENDPOINTS  = "regional"
+        # https://github.com/aws/amazon-vpc-cni-k8s/pull/1949
+        # AWS_DEFAULT_REGION          = data.aws_region.current.name
+        # AWS_REGION                  = data.aws_region.current.name
+        # AWS_ROLE_ARN                = module.iam_role.role_arn
+        # AWS_WEB_IDENTITY_TOKEN_FILE = "/var/run/secrets/eks.amazonaws.com/serviceaccount/token"
+        # AWS_STS_REGIONAL_ENDPOINTS  = "regional"
       }
       cniConfig = {
         region = data.aws_region.current.name
@@ -51,6 +52,9 @@ resource "helm_release" "this" {
         hostPath = {
           path = "/var/run/containerd/containerd.sock"
         }
+      }
+      serviceAccount = {
+        name = "aws-vpc-cni"
       }
     })
   ]

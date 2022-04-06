@@ -57,6 +57,7 @@
 * [Node local DNS cache](https://kubernetes.io/docs/tasks/administer-cluster/nodelocaldns/)
 * [Node Problem Detector](https://github.com/kubernetes/node-problem-detector)
 * gVisor
+* https://github.com/flatcar-linux/flatcar-linux-update-operator/
 
 ## TODO Application Side
 

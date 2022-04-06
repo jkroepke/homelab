@@ -62,7 +62,6 @@ module "controller_user_data" {
     module.cluster_config_files.files_pki_etcd[each.key],
     module.cluster_config_files.files_pki_kubernetes,
     module.cluster_config_files.files_controller_configs[each.key],
-    module.cluster_config_files.files_worker_configs,
   )
 }
 

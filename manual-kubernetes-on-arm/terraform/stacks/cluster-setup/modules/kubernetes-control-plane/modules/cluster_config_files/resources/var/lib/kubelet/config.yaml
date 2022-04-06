@@ -55,3 +55,7 @@ registerNode: true
 registerWithTaints:
   - key: node.kubernetes.io/unschedulable
     effect: NoSchedule
+%{ if controller == true }
+  - key: node-role.kubernetes.io/master
+    effect: NoSchedule
+%{ endif }

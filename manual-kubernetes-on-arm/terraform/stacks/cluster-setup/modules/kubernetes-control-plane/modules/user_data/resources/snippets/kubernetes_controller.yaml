@@ -1,0 +1,36 @@
+# https://www.flatcar.org/docs/latest/provisioning/config-transpiler/configuration/
+---
+storage:
+  directories:
+    - filesystem: root
+      path: /var/lib/etcd/
+      mode: 0700
+      user:
+        name: etcd
+      group:
+        name: etcd
+
+systemd:
+  units:
+    - name: "kubernetes-controller-node-labeler.service"
+      enabled: true
+      # https://www.freedesktop.org/software/systemd/man/systemd.unit.html
+      contents: |
+        [Unit]
+        Description=Label own node
+        Wants=network-online.target
+        After=network-online.target kubelet.service
+        
+        [Service]
+        Type=oneshot
+        ExecStart=/opt/bin/kubectl --kubeconfig /etc/kubernetes/admin.conf label nodes/%H node-role.kubernetes.io/master= --overwrite
+        ExecStart=/opt/bin/kubectl --kubeconfig /etc/kubernetes/admin.conf label nodes/%H node-role.kubernetes.io/control-plane= --overwrite
+        ExecStop=/opt/bin/kubectl --kubeconfig /etc/kubernetes/admin.conf label nodes/%H node-role.kubernetes.io/master- --overwrite
+        ExecStop=/opt/bin/kubectl --kubeconfig /etc/kubernetes/admin.conf label nodes/%H node-role.kubernetes.io/control-plane- --overwrite
+        RemainAfterExit=yes
+        Restart=on-failure
+        StartLimitInterval=0
+        RestartSec=5
+        
+        [Install]
+        WantedBy=multi-user.target
