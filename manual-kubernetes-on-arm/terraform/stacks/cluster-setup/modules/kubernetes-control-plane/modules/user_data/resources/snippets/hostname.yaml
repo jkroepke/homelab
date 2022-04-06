@@ -1,0 +1,26 @@
+# https://www.flatcar.org/docs/latest/provisioning/config-transpiler/configuration/
+---
+# https://www.flatcar.org/docs/latest/setup/customization/other-settings/#tuning-sysctl-parameters
+# https://github.com/flatcar-linux/Flatcar/issues/707
+systemd:
+  units:
+    - name: "fix-hostname.service"
+      enabled: true
+      # https://superuser.com/a/1005804
+      contents: |
+        [Unit]
+        Description=Fix Hostname
+        Before=network-pre.target
+        Wants=network-pre.target
+        
+        DefaultDependencies=no
+        Requires=local-fs.target
+        After=local-fs.target
+        
+        [Service]
+        Type=oneshot
+        ExecStart=/usr/bin/rm /etc/hostname
+        RemainAfterExit=yes
+        
+        [Install]
+        WantedBy=network.target

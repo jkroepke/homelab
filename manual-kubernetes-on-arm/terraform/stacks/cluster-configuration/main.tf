@@ -45,8 +45,6 @@ module "coredns" {
 
 module "kubelet-csr-approver" {
   source = "./modules/kubelet-csr-approver"
-
-  depends_on = [module.coredns]
 }
 
 /*

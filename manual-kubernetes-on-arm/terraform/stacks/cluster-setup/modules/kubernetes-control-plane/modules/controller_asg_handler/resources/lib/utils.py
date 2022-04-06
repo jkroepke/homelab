@@ -94,7 +94,7 @@ def wait_until_volume_is_available(volume) -> None:
             return
 
         logger.info("[EC2] Volume is in state '%s'. Waiting...", volume.state)
-        time.sleep(0.25)
+        time.sleep(2)
         volume.reload()
 
 
@@ -136,6 +136,7 @@ def get_ip_address_from_ec2_instance(instance) -> str:
     except Exception as error:
         logger.error("[EC2] Error while describe instance-id '%s': %s", instance.instance_id, str(error))
         raise error
+
 
 # ROUTE53 START ##################################################
 

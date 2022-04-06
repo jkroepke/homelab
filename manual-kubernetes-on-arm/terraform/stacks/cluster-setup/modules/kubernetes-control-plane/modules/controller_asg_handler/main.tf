@@ -11,7 +11,7 @@ resource "aws_lambda_function" "this" {
   runtime          = "python3.9"
   source_code_hash = data.archive_file.this.output_base64sha256
   description      = "Handles DNS for autoscaling groups by receiving autoscaling notifications and setting/deleting records from route53"
-  timeout          = 60
+  timeout          = 300
 
   depends_on = [aws_cloudwatch_log_group.this, aws_iam_role_policy.lambda]
 }

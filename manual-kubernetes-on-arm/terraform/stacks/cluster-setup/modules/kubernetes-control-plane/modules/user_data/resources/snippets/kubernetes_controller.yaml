@@ -23,10 +23,10 @@ systemd:
         
         [Service]
         Type=oneshot
-        ExecStart=/opt/bin/kubectl --kubeconfig /etc/kubernetes/admin.conf label nodes/%H node-role.kubernetes.io/master= --overwrite
-        ExecStart=/opt/bin/kubectl --kubeconfig /etc/kubernetes/admin.conf label nodes/%H node-role.kubernetes.io/control-plane= --overwrite
-        ExecStop=/opt/bin/kubectl --kubeconfig /etc/kubernetes/admin.conf label nodes/%H node-role.kubernetes.io/master- --overwrite
-        ExecStop=/opt/bin/kubectl --kubeconfig /etc/kubernetes/admin.conf label nodes/%H node-role.kubernetes.io/control-plane- --overwrite
+        ExecStart=/opt/bin/kubectl --kubeconfig /etc/kubernetes/admin.conf label nodes/%l node-role.kubernetes.io/master= --overwrite
+        ExecStart=/opt/bin/kubectl --kubeconfig /etc/kubernetes/admin.conf label nodes/%l node-role.kubernetes.io/control-plane= --overwrite
+        ExecStop=/opt/bin/kubectl --kubeconfig /etc/kubernetes/admin.conf label nodes/%l node-role.kubernetes.io/master- --overwrite
+        ExecStop=/opt/bin/kubectl --kubeconfig /etc/kubernetes/admin.conf label nodes/%l node-role.kubernetes.io/control-plane- --overwrite
         RemainAfterExit=yes
         Restart=on-failure
         StartLimitInterval=0

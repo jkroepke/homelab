@@ -62,6 +62,8 @@ resource "aws_launch_template" "this" {
 
       # https://github.com/kubernetes/cloud-provider-aws/blob/8d2f0fd2b1b574bde3239a344bd0a9a4f244cdb0/pkg/providers/v1/aws.go#L303
       "kubernetes.io/role/master" = "true"
+
+      trigger = "tag"
     }
   }
 }
@@ -97,14 +99,14 @@ resource "aws_autoscaling_group" "this" {
   initial_lifecycle_hook {
     name                 = "lifecycle-launching"
     default_result       = "ABANDON"
-    heartbeat_timeout    = 120
+    heartbeat_timeout    = 300
     lifecycle_transition = "autoscaling:EC2_INSTANCE_LAUNCHING"
   }
 
   initial_lifecycle_hook {
     name                 = "lifecycle-terminating"
     default_result       = "ABANDON"
-    heartbeat_timeout    = 120
+    heartbeat_timeout    = 300
     lifecycle_transition = "autoscaling:EC2_INSTANCE_TERMINATING"
   }
 

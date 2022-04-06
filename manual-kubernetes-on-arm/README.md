@@ -84,3 +84,5 @@
 * https://github.com/hashicorp/terraform-provider-aws/issues/24009
 * https://github.com/hashicorp/terraform-provider-tls/issues/181
 * https://github.com/aws/eks-charts/pull/721 / https://github.com/aws/amazon-vpc-cni-k8s/pull/1949
+* https://github.com/kubernetes/cloud-provider-aws/issues/335
+* https://github.com/flatcar-linux/Flatcar/issues/707

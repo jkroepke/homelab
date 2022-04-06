@@ -49,8 +49,6 @@ module "kubernetes-control-plane" {
   cluster_dns             = local.cluster_dns
 
   iam_role_policy_attachments = module.aws-system-manager.iam_role_policy_arns
-
-  depends_on = [module.zone-delegation, module.vpc, module.security-groups]
 }
 
 resource "local_file" "admin_kubeconfig" {

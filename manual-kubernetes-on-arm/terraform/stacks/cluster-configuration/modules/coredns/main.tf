@@ -6,7 +6,7 @@ resource "helm_release" "this" {
   version = "1.19.0"
 
   namespace   = "kube-system"
-  max_history = 10
+  max_history = 3
 
   lint    = true
   wait    = true
@@ -19,5 +19,11 @@ resource "helm_release" "this" {
     service = {
       clusterIP = var.cluster_dns
     }
+    tolerations = [
+      {
+        key    = "node-role.kubernetes.io/master"
+        effect = "NoSchedule"
+      }
+    ]
   })]
 }

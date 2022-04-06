@@ -1,5 +1,3 @@
-data "aws_region" "current" {}
-
 resource "helm_release" "this" {
   chart      = "kubelet-csr-approver"
   name       = "kubelet-csr-approver"
@@ -15,13 +13,13 @@ resource "helm_release" "this" {
   max_history = 10
 
   values = [jsonencode({
-    providerRegex = "^i-\\w+\\.${data.aws_region.current.name}\\.compute\\.internal$"
+    providerRegex = "^i-\\w+$"
 
-    tolerations = [{
-      key      = "node.cloudprovider.kubernetes.io/uninitialized"
-      operator = "Equal"
-      value    = "true"
-      effect   = "NoSchedule"
-    }]
+    tolerations = [
+      {
+        key    = "node-role.kubernetes.io/master"
+        effect = "NoSchedule"
+      }
+    ]
   })]
 }
