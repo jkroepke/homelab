@@ -3,7 +3,13 @@ variable "name" {
 }
 
 variable "policy_arns" {
-  type = list(string)
+  default = []
+  type    = list(string)
+}
+
+variable "policy_json" {
+  default = ""
+  type    = string
 }
 
 variable "issuer" {

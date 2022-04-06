@@ -11,7 +11,7 @@ resource "helm_release" "this" {
   version    = "v1.7.2"
 
   namespace   = kubernetes_namespace.this.metadata[0].name
-  max_history = 10
+  max_history = 3
 
   lint    = true
   wait    = true
@@ -21,6 +21,55 @@ resource "helm_release" "this" {
   values = [
     jsonencode({
       installCRDs = true
+
+      nodeSelector = {
+        "node-role.kubernetes.io/master" = ""
+      }
+
+      extraArgs = ["--enable-certificate-owner-ref=true"]
+
+      tolerations = [
+        {
+          key    = "node-role.kubernetes.io/master"
+          effect = "NoSchedule"
+        }
+      ]
+
+      webhook = {
+        nodeSelector = {
+          "node-role.kubernetes.io/master" = ""
+        }
+        tolerations = [
+          {
+            key    = "node-role.kubernetes.io/master"
+            effect = "NoSchedule"
+          }
+        ]
+      }
+
+      cainjector = {
+        nodeSelector = {
+          "node-role.kubernetes.io/master" = ""
+        }
+        tolerations = [
+          {
+            key    = "node-role.kubernetes.io/master"
+            effect = "NoSchedule"
+          }
+        ]
+      }
+
+      startupapicheck = {
+        nodeSelector = {
+          "node-role.kubernetes.io/master" = ""
+        }
+        tolerations = [
+          {
+            key    = "node-role.kubernetes.io/master"
+            effect = "NoSchedule"
+          }
+        ]
+      }
     })
   ]
 }

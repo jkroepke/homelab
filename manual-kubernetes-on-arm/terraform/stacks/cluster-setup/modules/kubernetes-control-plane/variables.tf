@@ -50,7 +50,7 @@ variable "kubernetes_api_hostname" {
   type = string
 }
 
-variable "kubernetes_oidc_issuer_url" {
+variable "kubernetes_oidc_issuer" {
   type = string
 }
 

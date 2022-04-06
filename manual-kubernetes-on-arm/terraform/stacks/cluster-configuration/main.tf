@@ -47,10 +47,15 @@ module "kubelet-csr-approver" {
   source = "./modules/kubelet-csr-approver"
 }
 
-/*
 module "cert-manager" {
   source = "./modules/cert-manager"
-
-  depends_on = [module.coredns]
 }
-*/
+
+module "aws-load-balancer-controller" {
+  source = "./modules/aws-load-balancer-controller"
+
+  cluster_name          = local.cluster_name
+  kubernetes_api_server = local.kubernetes_api_server
+
+  depends_on = [module.cert-manager]
+}

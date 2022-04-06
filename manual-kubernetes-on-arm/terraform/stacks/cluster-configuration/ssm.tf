@@ -5,6 +5,7 @@ locals {
   service_cidr          = data.aws_ssm_parameter.cluster_config["service_cidr"].value
   pod_cidr              = data.aws_ssm_parameter.cluster_config["pod_cidr"].value
   cluster_dns           = data.aws_ssm_parameter.cluster_config["cluster_dns"].value
+  vpc_id                = data.aws_ssm_parameter.cluster_config["vpc_id"].value
 }
 
 data "aws_ssm_parameter" "cluster_credentials" {
@@ -21,7 +22,7 @@ data "aws_ssm_parameter" "cluster_credentials" {
 data "aws_ssm_parameter" "cluster_config" {
   for_each = toset([
     "kubernetes_version", "cluster_name", "cluster_dns",
-    "pod_cidr", "service_cidr"
+    "pod_cidr", "service_cidr", "vpc_id"
   ])
 
   name            = "/${var.name}/kubernetes/cluster/config/${each.key}"

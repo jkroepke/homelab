@@ -10,6 +10,10 @@ variable "kubernetes_api_hostname" {
   type = string
 }
 
+variable "kubernetes_oidc_issuer" {
+  type = string
+}
+
 variable "kubernetes_controllers" {
   type = map(object({ availability_zone = string, etcd_peer_name = string, name = string, subnet_id = string }))
 }

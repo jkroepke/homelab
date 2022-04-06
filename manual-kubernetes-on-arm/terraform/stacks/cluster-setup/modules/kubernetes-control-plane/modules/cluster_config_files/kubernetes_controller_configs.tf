@@ -18,6 +18,7 @@ locals {
 
         kubernetes_version      = var.kubernetes_version
         kubernetes_api_hostname = var.kubernetes_api_hostname
+        kubernetes_oidc_issuer  = var.kubernetes_oidc_issuer
         kubernetes_service_cidr = var.kubernetes_service_cidr
         kubernetes_pod_cidr     = var.kubernetes_pod_cidr
       })

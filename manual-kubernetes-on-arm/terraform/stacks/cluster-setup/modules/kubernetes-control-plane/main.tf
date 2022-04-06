@@ -45,6 +45,7 @@ module "cluster_config_files" {
   etcd_version              = var.etcd_version
   kms_secret_encryption_arn = module.kms_etcd_secrets.arn
   kubernetes_api_hostname   = var.kubernetes_api_hostname
+  kubernetes_oidc_issuer    = var.kubernetes_oidc_issuer
   kubernetes_controllers    = local.kubernetes_controllers
   kubernetes_pod_cidr       = var.kubernetes_pod_cidr
   kubernetes_service_cidr   = var.kubernetes_service_cidr

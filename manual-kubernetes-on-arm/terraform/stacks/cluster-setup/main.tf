@@ -36,10 +36,10 @@ module "kubernetes-control-plane" {
   vpc_security_group_ids = [module.security-groups.controller_security_group_id]
   key_name               = var.key_name
 
-  controller_count           = var.kubernetes_controller_count
-  instance_type              = var.kubernetes_controller_instance_type
-  kubernetes_api_hostname    = local.kubernetes_api_hostname
-  kubernetes_oidc_issuer_url = local.kubernetes_oidc_issuer_url
+  controller_count        = var.kubernetes_controller_count
+  instance_type           = var.kubernetes_controller_instance_type
+  kubernetes_api_hostname = local.kubernetes_api_hostname
+  kubernetes_oidc_issuer  = local.kubernetes_oidc_issuer
 
   etcd_version       = var.etcd_version
   kubernetes_version = var.kubernetes_version

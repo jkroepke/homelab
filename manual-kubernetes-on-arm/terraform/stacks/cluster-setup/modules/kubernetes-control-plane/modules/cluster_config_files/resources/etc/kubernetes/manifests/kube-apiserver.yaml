@@ -39,7 +39,7 @@ spec:
         - --oidc-client-id=kubernetes
         - --oidc-groups-claim=groups
         - --oidc-groups-prefix="oidc:"
-        - --oidc-issuer-url=https://${kubernetes_api_hostname}
+        - --oidc-issuer-url=https://${kubernetes_oidc_issuer}
         - --oidc-username-claim=sub
         - --oidc-username-prefix="oidc:"
         - --profiling=false

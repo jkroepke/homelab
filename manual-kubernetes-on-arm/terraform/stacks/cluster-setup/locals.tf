@@ -11,6 +11,6 @@ locals {
   service_ipv6_net_id = 16
   pod_ipv6_net_id     = 24
 
-  kubernetes_api_hostname    = "api.${module.zone-delegation.name}"
-  kubernetes_oidc_issuer_url = "https://auth.${module.zone-delegation.name}"
+  kubernetes_api_hostname = "api.${module.zone-delegation.name}"
+  kubernetes_oidc_issuer  = "auth.${module.zone-delegation.name}"
 }

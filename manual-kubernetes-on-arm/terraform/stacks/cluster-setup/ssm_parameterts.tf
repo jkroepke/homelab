@@ -24,6 +24,7 @@ resource "aws_ssm_parameter" "cluster_config" {
     pod_cidr           = local.pod_cidr
     service_cidr       = local.service_cidr
     cluster_dns        = local.cluster_dns
+    vpc_id             = module.vpc.id
   }
 
   name  = "/${var.project_name}/kubernetes/cluster/config/${each.key}"
