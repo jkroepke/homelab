@@ -1,9 +1,9 @@
 resource "helm_release" "this" {
-  repository = "https://aws.github.io/eks-charts"
-  chart      = "aws-load-balancer-controller"
-  name       = "aws-load-balancer-controller"
+  repository = "https://kubernetes-sigs.github.io/external-dns/"
+  chart      = "external-dns"
+  name       = "external-dns"
+  version    = "1.7.1"
   namespace  = "kube-system"
-  version    = "1.4.1"
 
   max_history     = 3
   lint            = true
@@ -14,14 +14,9 @@ resource "helm_release" "this" {
 
   values = [
     jsonencode({
-      enableCertManager = true
-      clusterName       = var.cluster_name
-      defaultSSLPolicy  = "ELBSecurityPolicy-FS-1-2-Res-2020-10"
-      defaultTags = {
-        project = var.cluster_name
-      }
+      provider = "aws"
       serviceAccount = {
-        name = "aws-load-balancer-controller"
+        name = "external-dns"
         annotations = {
           "eks.amazonaws.com/role-arn" : module.iam-role-for-service-account.role_arn
         }
@@ -32,6 +27,9 @@ resource "helm_release" "this" {
           effect = "NoSchedule"
         }
       ]
+
+      domainFilters = [replace(var.kubernetes_api_server, "https://api.", "apps.")]
+      extraArgs     = ["--aws-zone-type=public", "--txt-owner-id=${var.cluster_name}"]
     })
   ]
 }
@@ -39,8 +37,8 @@ resource "helm_release" "this" {
 module "iam-role-for-service-account" {
   source      = "../../../../modules/iam-role-for-service-account"
   issuer      = replace(var.kubernetes_api_server, "https://", "")
-  name        = "${var.cluster_name}-aws-load-balancer-controller"
+  name        = "${var.cluster_name}-external-dns"
   policy_json = file("${path.module}/resources/iam-policy.json")
 
-  sub = ["system:serviceaccount:kube-system:aws-load-balancer-controller"]
+  sub = ["system:serviceaccount:kube-system:external-dns"]
 }

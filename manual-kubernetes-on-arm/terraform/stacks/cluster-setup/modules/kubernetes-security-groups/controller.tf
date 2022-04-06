@@ -34,14 +34,13 @@ resource "aws_security_group_rule" "controller-dns" {
   source_security_group_id = aws_security_group.worker.id
 }
 
-resource "aws_security_group_rule" "controller-dns-self" {
-  for_each          = toset(["TCP", "UDP"])
+resource "aws_security_group_rule" "controller-self" {
   security_group_id = aws_security_group.controller.id
-  description       = "DNS ${each.key}"
+  description       = "self"
 
-  from_port = 53
-  protocol  = each.key
-  to_port   = 53
+  from_port = 0
+  protocol  = "-1"
+  to_port   = 0
   type      = "ingress"
 
   self = true

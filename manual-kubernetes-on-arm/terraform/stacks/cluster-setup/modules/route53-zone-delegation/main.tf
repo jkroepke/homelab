@@ -4,6 +4,8 @@ data "aws_route53_zone" "parent" {
 
 resource "aws_route53_zone" "this" {
   name = "${var.name}.${data.aws_route53_zone.parent.name}"
+
+  force_destroy = true
 }
 
 resource "aws_route53_record" "parent_NS" {

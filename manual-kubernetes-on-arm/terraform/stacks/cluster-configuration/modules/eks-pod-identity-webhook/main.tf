@@ -12,7 +12,9 @@ resource "helm_release" "this" {
   namespace  = local.namespace
   version    = "1.0.3"
 
+  max_history     = 3
   lint            = true
+  wait            = true
   atomic          = true
   cleanup_on_fail = true
   timeout         = 300
@@ -27,15 +29,6 @@ resource "helm_release" "this" {
 
       image = {
         registry = "registry.ipv6.docker.com"
-      }
-
-      pki = {
-        certManager = {
-          enabled = false
-        }
-        caBundle = tls_self_signed_cert.ca.cert_pem
-        cert     = tls_locally_signed_cert.server.cert_pem
-        key      = tls_private_key.server.private_key_pem
       }
 
       nodeSelector = {

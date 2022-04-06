@@ -42,7 +42,9 @@ data "aws_iam_policy_document" "trust" {
 }
 
 resource "aws_iam_role_policy" "this" {
-  count  = var.policy_json != "" ? 1 : 0
+  count = var.policy_json != "" ? 1 : 0
+
+  name   = var.name
   policy = var.policy_json
   role   = aws_iam_role.this.id
 }

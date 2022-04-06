@@ -12,5 +12,6 @@ locals {
   pod_ipv6_net_id     = 24
 
   kubernetes_api_hostname = "api.${module.zone-delegation.name}"
-  kubernetes_oidc_issuer  = "auth.${module.zone-delegation.name}"
+  kubernetes_apps_domain  = "apps.${module.zone-delegation.name}"
+  kubernetes_oidc_issuer  = "auth.${local.kubernetes_apps_domain}"
 }

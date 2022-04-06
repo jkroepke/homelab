@@ -31,10 +31,6 @@ module "vpc-cni-k8s" {
   cluster_name          = local.cluster_name
 }
 
-module "eks-pod-identity-webhook" {
-  source = "./modules/eks-pod-identity-webhook"
-}
-
 module "coredns" {
   source = "./modules/coredns"
 
@@ -50,6 +46,11 @@ module "kubelet-csr-approver" {
 module "cert-manager" {
   source = "./modules/cert-manager"
 }
+module "eks-pod-identity-webhook" {
+  source = "./modules/eks-pod-identity-webhook"
+
+  depends_on = [module.cert-manager]
+}
 
 module "aws-load-balancer-controller" {
   source = "./modules/aws-load-balancer-controller"
@@ -58,4 +59,26 @@ module "aws-load-balancer-controller" {
   kubernetes_api_server = local.kubernetes_api_server
 
   depends_on = [module.cert-manager]
+}
+
+module "external-dns" {
+  source = "./modules/external-dns"
+
+  cluster_name          = local.cluster_name
+  kubernetes_api_server = local.kubernetes_api_server
+}
+
+module "node-problem-detector" {
+  source = "./modules/node-problem-detector"
+}
+
+module "aws-node-termination-handler" {
+  source = "./modules/aws-node-termination-handler"
+}
+
+module "aws-ebs-csi-driver" {
+  source = "./modules/aws-ebs-csi-driver"
+
+  cluster_name          = local.cluster_name
+  kubernetes_api_server = local.kubernetes_api_server
 }

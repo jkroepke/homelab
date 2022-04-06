@@ -36,16 +36,16 @@
   * ✅ [amazon-vpc-cni-k8s](https://github.com/aws/amazon-vpc-cni-k8s) for Networking
   * [calico](https://projectcalico.docs.tigera.io/getting-started/kubernetes/self-managed-public-cloud/aws#amazon-vpc-cni-plugin) for NetworkPolicy
 * Cloud Provider
-  * [cloud-provider-aws](https://github.com/kubernetes/cloud-provider-aws)
+  * ✅ [cloud-provider-aws](https://github.com/kubernetes/cloud-provider-aws)
   * ✅ [kubelet-csr-approver](https://github.com/postfinance/kubelet-csr-approver) to automatically approve kubelet server crts
 * Storage
-  * [aws-ebs-csi-driver](https://github.com/kubernetes-sigs/aws-ebs-csi-driver)
+  * ✅ [aws-ebs-csi-driver](https://github.com/kubernetes-sigs/aws-ebs-csi-driver)
 * Node Scaling
   * [karpenter](https://karpenter.sh/)
-  * [node-termination-handler](https://github.com/aws/aws-node-termination-handler)
+  * ✅ [node-termination-handler](https://github.com/aws/aws-node-termination-handler)
 * Ingress Controller
-  * [aws-load-balancer-controller](https://github.com/kubernetes-sigs/aws-load-balancer-controller)
-  * [external-dns](https://github.com/kubernetes-sigs/external-dns)
+  * ✅ [aws-load-balancer-controller](https://github.com/kubernetes-sigs/aws-load-balancer-controller)
+  * ✅ [external-dns](https://github.com/kubernetes-sigs/external-dns)
 * Authentication
   * [OIDC/Login with Github](https://kubernetes.io/docs/reference/access-authn-authz/authentication/#openid-connect-tokens)
   * [aws-iam-authenticator](https://github.com/kubernetes-sigs/aws-iam-authenticator)

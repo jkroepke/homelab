@@ -8,15 +8,15 @@ resource "helm_release" "this" {
   repository = "https://charts.jetstack.io"
   chart      = "cert-manager"
   name       = "cert-manager"
+  namespace  = kubernetes_namespace.this.metadata[0].name
   version    = "v1.7.2"
 
-  namespace   = kubernetes_namespace.this.metadata[0].name
-  max_history = 3
-
-  lint    = true
-  wait    = true
-  atomic  = true
-  timeout = 300
+  max_history     = 3
+  lint            = true
+  wait            = true
+  atomic          = true
+  cleanup_on_fail = true
+  timeout         = 300
 
   values = [
     jsonencode({
@@ -73,3 +73,4 @@ resource "helm_release" "this" {
     })
   ]
 }
+

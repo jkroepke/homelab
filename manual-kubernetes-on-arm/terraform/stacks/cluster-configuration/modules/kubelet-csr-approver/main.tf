@@ -7,12 +7,12 @@ resource "helm_release" "this" {
   version    = "0.2.0"
   namespace  = "kube-system"
 
-  max_history = 10
-  lint        = true
-  wait        = true
-  atomic      = true
-  timeout     = 300
-
+  max_history     = 3
+  lint            = true
+  wait            = true
+  atomic          = true
+  cleanup_on_fail = true
+  timeout         = 300
 
   values = [
     jsonencode({

@@ -2,14 +2,15 @@ resource "helm_release" "this" {
   repository = "https://kubernetes.github.io/cloud-provider-aws"
   chart      = "aws-cloud-controller-manager"
   name       = "aws-cloud-controller-manager"
-  version    = "0.0.6"
   namespace  = "kube-system"
+  version    = "0.0.6"
 
-  max_history = 3
-  lint        = true
-  wait        = true
-  atomic      = true
-  timeout     = 300
+  max_history     = 3
+  lint            = true
+  wait            = true
+  atomic          = true
+  cleanup_on_fail = true
+  timeout         = 300
 
   values = [
     jsonencode({

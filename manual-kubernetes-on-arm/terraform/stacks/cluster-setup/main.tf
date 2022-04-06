@@ -22,6 +22,14 @@ module "security-groups" {
   vpc_id      = module.vpc.id
 }
 
+module "kubernetes_ingress_acm" {
+  source = "../../modules/acm"
+
+  domain_name               = local.kubernetes_apps_domain
+  subject_alternative_names = ["*.${local.kubernetes_apps_domain}"]
+  zone_id                   = module.zone-delegation.zone_id
+}
+
 module "kubernetes-control-plane" {
   source = "./modules/kubernetes-control-plane"
 
