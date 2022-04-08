@@ -8,9 +8,9 @@ resource "aws_default_route_table" "default" {
     update = "5m"
   }
 
-  tags = {
+  tags = merge(var.tags, {
     Name = "${var.name}-default"
-  }
+  })
 }
 
 resource "aws_route_table" "public" {
@@ -26,9 +26,9 @@ resource "aws_route_table" "public" {
     gateway_id = aws_internet_gateway.this.id
   }
 
-  tags = {
+  tags = merge(var.tags, {
     Name = "${var.name}-public"
-  }
+  })
 }
 
 resource "aws_route_table_association" "public" {
@@ -55,9 +55,9 @@ resource "aws_route_table" "private" {
     nat_gateway_id  = aws_nat_gateway.this.id
   }
 
-  tags = {
+  tags = merge(var.tags, {
     Name = "${var.name}-private"
-  }
+  })
 }
 
 resource "aws_route_table_association" "private" {

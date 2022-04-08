@@ -13,7 +13,7 @@ resource "aws_nat_gateway" "this" {
 
   depends_on = [aws_internet_gateway.this]
 
-  tags = {
+  tags = merge(var.tags, {
     Name = "${var.name}-nat"
-  }
+  })
 }

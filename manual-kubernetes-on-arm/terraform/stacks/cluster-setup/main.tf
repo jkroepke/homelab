@@ -59,6 +59,13 @@ module "kubernetes-control-plane" {
   iam_role_policy_attachments = module.aws-system-manager.iam_role_policy_arns
 }
 
+module "kubernetes-worker" {
+  source = "./modules/kubernetes-worker"
+
+  cluster_name                = local.cluster_name
+  iam_role_policy_attachments = module.aws-system-manager.iam_role_policy_arns
+}
+
 resource "local_file" "admin_kubeconfig" {
   filename        = pathexpand("~/.kube/admin_${local.cluster_name}")
   content         = module.kubernetes-control-plane.kubernetes_admin_config

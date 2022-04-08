@@ -8,8 +8,6 @@ locals {
 
   private_ipv6_net_id = 0
   public_ipv6_net_id  = 8
-  service_ipv6_net_id = 16
-  pod_ipv6_net_id     = 24
 
   kubernetes_api_hostname = "api.${module.zone-delegation.name}"
   kubernetes_apps_domain  = "apps.${module.zone-delegation.name}"

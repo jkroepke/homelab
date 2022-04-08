@@ -11,26 +11,25 @@ resource "aws_vpc" "this" {
   enable_dns_hostnames = true
   enable_dns_support   = true
 
-  tags = {
-    Name                                = var.name
-    "kubernetes.io/cluster/${var.name}" = "owned"
-  }
+  tags = merge(var.tags, {
+    Name = var.name
+  })
 }
 
 resource "aws_internet_gateway" "this" {
   vpc_id = aws_vpc.this.id
 
-  tags = {
+  tags = merge(var.tags, {
     Name = var.name
-  }
+  })
 }
 
 resource "aws_egress_only_internet_gateway" "this" {
   vpc_id = aws_vpc.this.id
 
-  tags = {
+  tags = merge(var.tags, {
     Name = var.name
-  }
+  })
 }
 
 resource "aws_default_security_group" "this" {
@@ -44,7 +43,7 @@ resource "aws_default_security_group" "this" {
     ipv6_cidr_blocks = [aws_vpc.this.ipv6_cidr_block]
   }
 
-  tags = {
+  tags = merge(var.tags, {
     Name = var.name
-  }
+  })
 }

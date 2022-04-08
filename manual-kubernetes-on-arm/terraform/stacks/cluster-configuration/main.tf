@@ -43,6 +43,13 @@ module "coredns" {
   depends_on = [module.vpc-cni-k8s]
 }
 
+module "karpenter" {
+  source = "./modules/karpenter"
+
+  kubernetes_api_server = local.kubernetes_api_server
+  cluster_name          = local.cluster_name
+}
+
 module "cert-manager" {
   source = "./modules/cert-manager"
 }

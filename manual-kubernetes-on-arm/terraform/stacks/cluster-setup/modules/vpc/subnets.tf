@@ -16,11 +16,10 @@ resource "aws_subnet" "private" {
   cidr_block      = cidrsubnet(var.private_subnet_cidr, 2, each.value)
   ipv6_cidr_block = cidrsubnet(aws_vpc.this.ipv6_cidr_block, 8, var.private_ipv6_net_id + each.value)
 
-  tags = {
-    Name                                = "${var.name}-private-${each.key}"
-    "kubernetes.io/cluster/${var.name}" = "owned"
-    "kubernetes.io/role/internal-elb"   = "1"
-  }
+  tags = merge(var.tags, {
+    Name                              = "${var.name}-private-${each.key}"
+    "kubernetes.io/role/internal-elb" = "1"
+  })
 }
 
 resource "aws_subnet" "public" {
@@ -41,9 +40,8 @@ resource "aws_subnet" "public" {
   cidr_block      = cidrsubnet(var.public_subnet_cidr, 2, each.value)
   ipv6_cidr_block = cidrsubnet(aws_vpc.this.ipv6_cidr_block, 8, var.public_ipv6_net_id + each.value)
 
-  tags = {
-    Name                                = "${var.name}-public-${each.key}"
-    "kubernetes.io/cluster/${var.name}" = "owned"
-    "kubernetes.io/role/elb"            = "1"
-  }
+  tags = merge(var.tags, {
+    Name                     = "${var.name}-public-${each.key}"
+    "kubernetes.io/role/elb" = "1"
+  })
 }

@@ -102,7 +102,7 @@ data "aws_iam_policy_document" "aws-cloud-controller-manager" {
 module "iam-instance-profile" {
   source = "../../../../modules/iam-instance-profile"
 
-  name = var.cluster_name
+  name = "${var.cluster_name}-controller"
   policy_arns = concat(var.iam_role_policy_attachments, [
     aws_iam_policy.user_data_s3.arn,
     data.aws_iam_policy.AmazonEC2ContainerRegistryReadOnly.arn,
