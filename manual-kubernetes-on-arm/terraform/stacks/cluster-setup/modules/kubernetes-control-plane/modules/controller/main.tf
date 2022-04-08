@@ -119,12 +119,14 @@ resource "aws_autoscaling_group" "this" {
     lifecycle_transition = "autoscaling:EC2_INSTANCE_LAUNCHING"
   }
 
+  /*
   initial_lifecycle_hook {
     name                 = "lifecycle-terminating"
-    default_result       = "ABANDON"
+    default_result       = "CONTINUE"
     heartbeat_timeout    = 300
     lifecycle_transition = "autoscaling:EC2_INSTANCE_TERMINATING"
   }
+  */
 
   tag {
     key                 = "kubernetes.io/cluster/${var.cluster_name}"
