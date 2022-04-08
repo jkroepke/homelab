@@ -1,3 +1,7 @@
+variable "index" {
+  type = number
+}
+
 variable "cluster_name" {
   type = string
 }

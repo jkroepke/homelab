@@ -4,7 +4,7 @@ resource "helm_release" "this" {
   chart      = "kubelet-csr-approver"
   name       = "kubelet-csr-approver"
   repository = "https://postfinance.github.io/kubelet-csr-approver"
-  version    = "0.2.0"
+  version    = "0.2.1"
   namespace  = "kube-system"
 
   max_history     = 3
@@ -16,6 +16,7 @@ resource "helm_release" "this" {
 
   values = [
     jsonencode({
+      dnsPolicy     = "Default"
       providerRegex = "^i-\\w+(\\.${data.aws_region.current.name}\\.compute\\.internal)?$"
 
       tolerations = [

@@ -79,6 +79,8 @@ module "controller" {
 
   source = "./modules/controller"
 
+  index = each.key
+
   name                      = each.value.name
   availability_zone         = each.value.availability_zone
   cluster_name              = var.cluster_name

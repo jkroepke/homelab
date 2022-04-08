@@ -1,3 +1,7 @@
+data "aws_availability_zones" "available" {
+  state = "available"
+}
+
 resource "aws_launch_template" "this" {
   name                   = var.name
   update_default_version = true
@@ -68,6 +72,18 @@ resource "aws_launch_template" "this" {
   }
 }
 
+resource "time_sleep" "refresh_delay" {
+  depends_on = [aws_launch_template.this]
+
+  create_duration = "${30 * (var.index % length(data.aws_availability_zones.available.names))}s"
+
+  triggers = {
+    subnet_id                      = var.subnet_id
+    launch_template_id             = aws_launch_template.this.id
+    launch_template_latest_version = aws_launch_template.this.latest_version
+  }
+}
+
 resource "aws_autoscaling_group" "this" {
   name = var.name
 
@@ -80,11 +96,11 @@ resource "aws_autoscaling_group" "this" {
   max_instance_lifetime = 0
 
   launch_template {
-    id      = aws_launch_template.this.id
-    version = aws_launch_template.this.latest_version
+    id      = time_sleep.refresh_delay.triggers["launch_template_id"]
+    version = time_sleep.refresh_delay.triggers["launch_template_latest_version"]
   }
 
-  vpc_zone_identifier = [var.subnet_id]
+  vpc_zone_identifier = [time_sleep.refresh_delay.triggers["subnet_id"]]
 
   health_check_type = "ELB"
 

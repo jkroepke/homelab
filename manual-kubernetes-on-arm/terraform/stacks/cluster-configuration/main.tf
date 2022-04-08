@@ -31,6 +31,10 @@ module "vpc-cni-k8s" {
   cluster_name          = local.cluster_name
 }
 
+module "kubelet-csr-approver" {
+  source = "./modules/kubelet-csr-approver"
+}
+
 module "coredns" {
   source = "./modules/coredns"
 
@@ -39,13 +43,10 @@ module "coredns" {
   depends_on = [module.vpc-cni-k8s]
 }
 
-module "kubelet-csr-approver" {
-  source = "./modules/kubelet-csr-approver"
-}
-
 module "cert-manager" {
   source = "./modules/cert-manager"
 }
+
 module "eks-pod-identity-webhook" {
   source = "./modules/eks-pod-identity-webhook"
 
