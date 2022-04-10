@@ -11,82 +11,20 @@ module "iam-oidc-provider" {
   kubernetes_api_server = local.kubernetes_api_server
 }
 
-module "kube-proxy" {
-  source = "./modules/kube-proxy"
-
+module "stage_1" {
+  source                = "./modules/stage-1"
+  cluster_dns           = local.cluster_dns
+  cluster_name          = local.cluster_name
   kubernetes_api_server = local.kubernetes_api_server
   kubernetes_version    = local.kubernetes_version
+
+  depends_on = [module.iam-oidc-provider]
 }
 
-module "cloud-provider-aws" {
-  source = "./modules/cloud-provider-aws"
-
-  cluster_name = local.cluster_name
-}
-
-module "vpc-cni-k8s" {
-  source = "./modules/vpc-cni-k8s"
-
-  kubernetes_api_server = local.kubernetes_api_server
-  cluster_name          = local.cluster_name
-}
-
-module "kubelet-csr-approver" {
-  source = "./modules/kubelet-csr-approver"
-}
-
-module "coredns" {
-  source = "./modules/coredns"
-
-  cluster_dns = local.cluster_dns
-
-  depends_on = [module.vpc-cni-k8s]
-}
-
-module "karpenter" {
-  source = "./modules/karpenter"
-
-  kubernetes_api_server = local.kubernetes_api_server
-  cluster_name          = local.cluster_name
-}
-
-module "cert-manager" {
-  source = "./modules/cert-manager"
-}
-
-module "eks-pod-identity-webhook" {
-  source = "./modules/eks-pod-identity-webhook"
-
-  depends_on = [module.cert-manager]
-}
-
-module "aws-load-balancer-controller" {
-  source = "./modules/aws-load-balancer-controller"
-
+module "stage_2" {
+  source                = "./modules/stage-2"
   cluster_name          = local.cluster_name
   kubernetes_api_server = local.kubernetes_api_server
 
-  depends_on = [module.cert-manager]
-}
-
-module "external-dns" {
-  source = "./modules/external-dns"
-
-  cluster_name          = local.cluster_name
-  kubernetes_api_server = local.kubernetes_api_server
-}
-
-module "node-problem-detector" {
-  source = "./modules/node-problem-detector"
-}
-
-module "aws-node-termination-handler" {
-  source = "./modules/aws-node-termination-handler"
-}
-
-module "aws-ebs-csi-driver" {
-  source = "./modules/aws-ebs-csi-driver"
-
-  cluster_name          = local.cluster_name
-  kubernetes_api_server = local.kubernetes_api_server
+  depends_on = [module.stage_1]
 }

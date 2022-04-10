@@ -1,4 +1,5 @@
 data "aws_caller_identity" "current" {}
+data "aws_region" "current" {}
 
 locals {
   oidc_provider_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:oidc-provider/${var.issuer}"
@@ -42,7 +43,7 @@ data "aws_iam_policy_document" "trust" {
 }
 
 resource "aws_iam_role_policy" "this" {
-  count = var.policy_json != "" ? 1 : 0
+  count = var.create_policy == true ? 1 : 0
 
   name   = var.name
   policy = var.policy_json

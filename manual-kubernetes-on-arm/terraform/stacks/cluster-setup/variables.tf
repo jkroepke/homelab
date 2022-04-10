@@ -36,7 +36,7 @@ variable "kubernetes_controller_count" {
 
 variable "kubernetes_controller_instance_type" {
   description = "Instance type of Kubernetes Controller"
-  default     = "t4g.small"
+  default     = "t4g.medium"
   type        = string
 }
 

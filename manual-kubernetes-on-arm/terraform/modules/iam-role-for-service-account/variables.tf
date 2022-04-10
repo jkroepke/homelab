@@ -7,6 +7,11 @@ variable "policy_arns" {
   type    = list(string)
 }
 
+variable "create_policy" {
+  default = false
+  type    = bool
+}
+
 variable "policy_json" {
   default = ""
   type    = string

@@ -55,7 +55,7 @@
   * https://kyverno.io/
   * https://kubevious.io/
 * [Node local DNS cache](https://kubernetes.io/docs/tasks/administer-cluster/nodelocaldns/)
-* [Node Problem Detector](https://github.com/kubernetes/node-problem-detector)
+✅ [Node Problem Detector](https://github.com/kubernetes/node-problem-detector)
 * gVisor
 * https://github.com/flatcar-linux/flatcar-linux-update-operator/
 
@@ -89,3 +89,4 @@
 * https://github.com/flatcar-linux/Flatcar/issues/707
 * https://github.com/aws/karpenter/issues/1652
   * https://github.com/aws/karpenter/pull/1653
+* https://github.com/kubernetes-sigs/aws-ebs-csi-driver/pull/1204
