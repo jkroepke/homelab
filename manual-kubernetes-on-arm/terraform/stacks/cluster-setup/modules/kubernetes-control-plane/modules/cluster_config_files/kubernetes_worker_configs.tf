@@ -1,10 +1,16 @@
 locals {
   files_worker_configs = {
+    "/etc/kubernetes/pki/ca.crt" = {
+      content = module.pki_kubernetes.ca_crt
+      user    = "root"
+      group   = "root"
+      mode    = "0644"
+    }
     "/etc/kubernetes/bootstrap-kubelet.conf" = {
+      content = module.kubeconfig["bootstrap-kubelet"].rendered
       user    = "root"
       group   = "root"
       mode    = "0600"
-      content = module.kubeconfig["bootstrap-kubelet"].rendered
     }
     "/var/lib/kubelet/config.yaml" = {
       user  = "root"

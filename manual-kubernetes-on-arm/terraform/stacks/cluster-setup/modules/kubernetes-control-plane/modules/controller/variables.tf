@@ -27,10 +27,6 @@ variable "etcd_volume_size" {
   type    = number
 }
 
-variable "key_name" {
-  type = string
-}
-
 variable "iam_instance_profile_name" {
   type = string
 }
@@ -59,3 +55,12 @@ variable "volume_size" {
 variable "vpc_security_group_ids" {
   type = list(string)
 }
+
+variable "key_name" {
+  type = string
+}
+
+variable "ami_image_id" {
+  type = string
+}
+

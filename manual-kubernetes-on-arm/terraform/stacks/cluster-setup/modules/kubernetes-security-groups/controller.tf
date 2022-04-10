@@ -31,7 +31,7 @@ resource "aws_security_group_rule" "controller-dns" {
   to_port   = 53
   type      = "ingress"
 
-  source_security_group_id = aws_security_group.worker.id
+  source_security_group_id = aws_security_group.node.id
 }
 
 resource "aws_security_group_rule" "controller-self" {

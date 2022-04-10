@@ -2,17 +2,17 @@
 
 # https://kubernetes.io/docs/reference/ports-and-protocols/
 
-resource "aws_security_group" "worker" {
-  name = "${var.name_prefix}-worker"
+resource "aws_security_group" "node" {
+  name = "${var.name_prefix}-node"
 
   vpc_id = var.vpc_id
   tags = {
-    Name = "${var.name_prefix}-worker"
+    Name = "${var.name_prefix}-node"
   }
 }
 
-resource "aws_security_group_rule" "worker-to-worker" {
-  security_group_id = aws_security_group.worker.id
+resource "aws_security_group_rule" "node-to-node" {
+  security_group_id = aws_security_group.node.id
   description       = "inter-node communication"
 
   from_port = 0
@@ -23,8 +23,8 @@ resource "aws_security_group_rule" "worker-to-worker" {
   self = true
 }
 
-resource "aws_security_group_rule" "worker-kubelet" {
-  security_group_id = aws_security_group.worker.id
+resource "aws_security_group_rule" "node-kubelet" {
+  security_group_id = aws_security_group.node.id
   description       = "kubelet"
 
   from_port = 10250
@@ -35,8 +35,8 @@ resource "aws_security_group_rule" "worker-kubelet" {
   source_security_group_id = aws_security_group.controller.id
 }
 
-resource "aws_security_group_rule" "worker-egress" {
-  security_group_id = aws_security_group.worker.id
+resource "aws_security_group_rule" "node-egress" {
+  security_group_id = aws_security_group.node.id
 
   from_port = 0
   protocol  = "-1"

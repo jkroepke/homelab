@@ -18,16 +18,15 @@ spec:
       values: ["arm64"]
   limits:
     resources:
-      cpu: 1k
+      cpu: 10
   provider:
-    amiFamily: Bottlerocket
+    launchTemplate: ${var.cluster_name}-node
     subnetSelector:
       project: ${var.cluster_name}
       karpenter.sh/discovery: ${var.cluster_name}
       kubernetes.io/role/internal-elb: "1"
-    securityGroupSelector:
-      project: ${var.cluster_name}
-      Name: ${var.cluster_name}-worker
+    tags:
+      Name: ${var.cluster_name}-node-default
   ttlSecondsAfterEmpty: 30
   ttlSecondsUntilExpired: 2592000
 EOF

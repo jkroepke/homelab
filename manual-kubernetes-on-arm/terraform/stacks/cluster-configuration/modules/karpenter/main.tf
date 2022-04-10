@@ -16,7 +16,7 @@ resource "helm_release" "this" {
   wait            = true
   atomic          = true
   cleanup_on_fail = true
-  timeout         = 60
+  timeout         = 600
 
   values = [
     jsonencode({
@@ -32,6 +32,12 @@ resource "helm_release" "this" {
       ]
 
       controller = {
+        env = [
+          {
+            name  = "AWS_NODE_NAME_CONVENTION"
+            value = "resource-name"
+          }
+        ]
         resources = {
           requests = {
             cpu    = "100m"

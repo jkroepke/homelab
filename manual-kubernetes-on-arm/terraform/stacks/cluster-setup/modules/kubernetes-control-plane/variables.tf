@@ -18,10 +18,6 @@ variable "kubernetes_version" {
   type = string
 }
 
-variable "key_name" {
-  type = string
-}
-
 variable "controller_count" {
   type = number
 }
@@ -35,6 +31,14 @@ variable "iam_role_policy_attachments" {
 }
 
 variable "instance_type" {
+  type = string
+}
+
+variable "key_name" {
+  type = string
+}
+
+variable "ami_image_id" {
   type = string
 }
 

@@ -25,3 +25,7 @@ output "kubernetes_initial_bootstrap_token_secret" {
 output "kubernetes_admin_config" {
   value = module.cluster_config_files.kubernetes_admin_config
 }
+
+output "files_worker_configs" {
+  value = module.cluster_config_files.files_worker_configs
+}

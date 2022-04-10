@@ -41,7 +41,7 @@
 * Storage
   * ✅ [aws-ebs-csi-driver](https://github.com/kubernetes-sigs/aws-ebs-csi-driver)
 * Node Scaling
-  * [karpenter](https://karpenter.sh/)
+  * ✅ [karpenter](https://karpenter.sh/)
   * ✅ [node-termination-handler](https://github.com/aws/aws-node-termination-handler)
 * Ingress Controller
   * ✅ [aws-load-balancer-controller](https://github.com/kubernetes-sigs/aws-load-balancer-controller)
@@ -81,8 +81,11 @@
 * https://github.com/coreos/afterburn/issues/726
 * https://github.com/kubernetes/cloud-provider-aws/issues/327
   * https://github.com/kubernetes/cloud-provider-aws/pull/328
+  * https://github.com/kubernetes/cloud-provider-aws/pull/333
+* https://github.com/kubernetes/cloud-provider-aws/issues/335
 * https://github.com/hashicorp/terraform-provider-aws/issues/24009
 * https://github.com/hashicorp/terraform-provider-tls/issues/181
 * https://github.com/aws/eks-charts/pull/721 / https://github.com/aws/amazon-vpc-cni-k8s/pull/1949
-* https://github.com/kubernetes/cloud-provider-aws/issues/335
 * https://github.com/flatcar-linux/Flatcar/issues/707
+* https://github.com/aws/karpenter/issues/1652
+  * https://github.com/aws/karpenter/pull/1653

@@ -29,14 +29,14 @@ resource "aws_launch_template" "this" {
     name = var.iam_instance_profile_name
   }
 
-  image_id = data.aws_ami.flatcar.id
+  image_id = var.ami_image_id
 
   instance_market_options {
     market_type = "spot"
   }
 
   instance_type = var.instance_type
-  key_name      = data.aws_key_pair.jkr.key_name
+  key_name      = var.key_name
 
   metadata_options {
     http_endpoint               = "enabled"

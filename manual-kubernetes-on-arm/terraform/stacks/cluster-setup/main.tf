@@ -43,6 +43,7 @@ module "kubernetes-control-plane" {
   route53_zone_id        = module.zone-delegation.zone_id
   vpc_security_group_ids = [module.security-groups.controller_security_group_id]
   key_name               = var.key_name
+  ami_image_id           = data.aws_ami.flatcar.id
 
   controller_count        = var.kubernetes_controller_count
   instance_type           = var.kubernetes_controller_instance_type
@@ -60,10 +61,17 @@ module "kubernetes-control-plane" {
 }
 
 module "kubernetes-worker" {
-  source = "./modules/kubernetes-worker"
+  source = "./modules/kubernetes-node"
 
   cluster_name                = local.cluster_name
+  files                       = module.kubernetes-control-plane.files_worker_configs
   iam_role_policy_attachments = module.aws-system-manager.iam_role_policy_arns
+  key_name                    = var.key_name
+  ami_image_id                = data.aws_ami.flatcar.id
+  vpc_security_group_ids      = [module.security-groups.node_security_group_id]
+  kubernetes_version          = var.kubernetes_version
+
+  volume_size = 30
 }
 
 resource "local_file" "admin_kubeconfig" {

@@ -16,11 +16,24 @@ resource "kubernetes_cluster_role" "karpenter_fix" {
     verbs          = ["delete"]
     resource_names = ["defaulting.webhook.provisioners.karpenter.sh"]
   }
+
   rule {
     api_groups     = [""]
     resources      = ["namespaces/finalizers"]
     verbs          = ["update"]
     resource_names = [kubernetes_namespace.this.metadata[0].name]
+  }
+
+  rule {
+    api_groups     = ["apps"]
+    resources      = ["statefulsets/finalizers","replicasets/finalizers"]
+    verbs          = ["update"]
+  }
+
+  rule {
+    api_groups     = ["batch"]
+    resources      = ["jobs/finalizers"]
+    verbs          = ["update"]
   }
 }
 

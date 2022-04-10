@@ -82,6 +82,7 @@ module "controller" {
   index = each.key
 
   name                      = each.value.name
+  ami_image_id              = var.ami_image_id
   availability_zone         = each.value.availability_zone
   cluster_name              = var.cluster_name
   etcd_peer_name            = each.value.etcd_peer_name

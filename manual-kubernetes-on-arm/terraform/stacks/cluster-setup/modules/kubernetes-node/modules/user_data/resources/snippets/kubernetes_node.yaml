@@ -1,0 +1,6 @@
+---
+storage:
+  directories:
+    - filesystem: root
+      path: /etc/kubernetes/manifests
+      mode: 0700
