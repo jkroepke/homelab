@@ -13,12 +13,39 @@ resource "helm_release" "this" {
   timeout         = 300
 
   values = [jsonencode({
+    args = [
+      "--requestheader-client-ca-file=/var/run/kubernetes.io/extension-apiserver-authentication/requestheader-client-ca-file"
+    ]
+
+    nodeSelector = {
+      "role" = "infra"
+    }
+
     tolerations = [
       {
-        key    = "node-role.kubernetes.io/master"
+        key    = "node-role.kubernetes.io/infra"
         effect = "NoSchedule"
       }
     ]
+
+    resources = {
+      requests = {
+        cpu    = "100m"
+        memory = "200Mi"
+      }
+    }
+
+    # https://github.com/kubernetes-sigs/metrics-server/blob/master/KNOWN_ISSUES.md#incorrectly-configured-front-proxy-certificate
+    extraVolumes = [{
+      name = "front-proxy-ca"
+      configMap = {
+        name = "extension-apiserver-authentication"
+      }
+    }]
+    extraVolumeMounts = [{
+      name      = "front-proxy-ca"
+      mountPath = "/var/run/kubernetes.io/extension-apiserver-authentication/"
+    }]
   })]
 }
 

@@ -37,6 +37,17 @@ resource "kubernetes_daemonset" "this" {
             }
           }
 
+          resources {
+            limits = {
+              cpu    = "100m"
+              memory = "50Mi"
+            }
+            requests = {
+              cpu    = "50m"
+              memory = "20Mi"
+            }
+          }
+
           security_context {
             privileged = true
           }

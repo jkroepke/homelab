@@ -26,6 +26,10 @@ output "kubernetes_cluster_ca_certificate" {
   value = module.pki_kubernetes.ca_crt
 }
 
+output "kubernetes_cluster_front_proxy_ca_certificate" {
+  value = module.pki_kubernetes.front_proxy_ca_crt
+}
+
 output "kubernetes_initial_bootstrap_token_id" {
   value = module.pki_kubernetes.bootstrap_token_id
 }

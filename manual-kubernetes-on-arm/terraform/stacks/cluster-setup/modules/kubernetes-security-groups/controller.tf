@@ -50,7 +50,7 @@ resource "aws_security_group_rule" "controller-etcd" {
   security_group_id = aws_security_group.controller.id
   description       = "etcd"
 
-  from_port = 2380
+  from_port = 2379
   protocol  = "TCP"
   to_port   = 2380
   type      = "ingress"
@@ -81,6 +81,90 @@ resource "aws_security_group_rule" "controller-kubelet" {
   type      = "ingress"
 
   self = true
+}
+
+resource "aws_security_group_rule" "controller-etcd-pods" {
+  security_group_id = aws_security_group.controller.id
+  description       = "etcd from pod"
+
+  from_port = 2379
+  protocol  = "TCP"
+  to_port   = 2379
+  type      = "ingress"
+
+  source_security_group_id = aws_security_group.pod.id
+}
+
+resource "aws_security_group_rule" "controller-calico-typha-node" {
+  security_group_id = aws_security_group.controller.id
+  description       = "calico-typha"
+
+  from_port = 5473
+  protocol  = "TCP"
+  to_port   = 5473
+  type      = "ingress"
+
+  source_security_group_id = aws_security_group.node.id
+}
+
+resource "aws_security_group_rule" "controller-node_exporter-pods" {
+  security_group_id = aws_security_group.controller.id
+  description       = "node_exporter from pod"
+
+  from_port = 9100
+  protocol  = "TCP"
+  to_port   = 9100
+  type      = "ingress"
+
+  source_security_group_id = aws_security_group.node.id
+}
+
+resource "aws_security_group_rule" "controller-kube-proxy-pods" {
+  security_group_id = aws_security_group.controller.id
+  description       = "kube-proxy from pod"
+
+  from_port = 10249
+  protocol  = "TCP"
+  to_port   = 10249
+  type      = "ingress"
+
+  source_security_group_id = aws_security_group.pod.id
+}
+
+resource "aws_security_group_rule" "controller-kubelet-pods" {
+  security_group_id = aws_security_group.controller.id
+  description       = "kubelet from pod"
+
+  from_port = 10250
+  protocol  = "TCP"
+  to_port   = 10250
+  type      = "ingress"
+
+  source_security_group_id = aws_security_group.pod.id
+}
+
+resource "aws_security_group_rule" "controller-kube-controller-manager-pods" {
+  security_group_id = aws_security_group.controller.id
+  description       = "kube-controller-manager from pod"
+
+  from_port = 10257
+  protocol  = "TCP"
+  to_port   = 10257
+  type      = "ingress"
+
+  source_security_group_id = aws_security_group.pod.id
+}
+
+resource "aws_security_group_rule" "controller-kube-scheduler-pods" {
+  security_group_id = aws_security_group.controller.id
+  description       = "kube-scheduler from pod"
+
+  from_port = 10259
+  protocol  = "TCP"
+  to_port   = 10259
+  type      = "ingress"
+
+  source_security_group_id = aws_security_group.pod.id
 }
 
 resource "aws_security_group_rule" "controller-egress" {

@@ -1,11 +1,12 @@
 resource "aws_ssm_parameter" "cluster_credentials" {
   for_each = {
-    kubernetes_api_server  = module.kubernetes-control-plane.kubernetes_api_server
-    client_certificate     = module.kubernetes-control-plane.kubernetes_client_certificate
-    client_key             = module.kubernetes-control-plane.kubernetes_client_key
-    cluster_ca_certificate = module.kubernetes-control-plane.kubernetes_cluster_ca_certificate
-    bootstrap_token_id     = module.kubernetes-control-plane.kubernetes_initial_bootstrap_token_id
-    bootstrap_token_secret = module.kubernetes-control-plane.kubernetes_initial_bootstrap_token_secret
+    kubernetes_api_server              = module.kubernetes-control-plane.kubernetes_api_server
+    client_certificate                 = module.kubernetes-control-plane.kubernetes_client_certificate
+    client_key                         = module.kubernetes-control-plane.kubernetes_client_key
+    cluster_ca_certificate             = module.kubernetes-control-plane.kubernetes_cluster_ca_certificate
+    cluster_front_proxy_ca_certificate = module.kubernetes-control-plane.kubernetes_cluster_front_proxy_ca_certificate
+    bootstrap_token_id                 = module.kubernetes-control-plane.kubernetes_initial_bootstrap_token_id
+    bootstrap_token_secret             = module.kubernetes-control-plane.kubernetes_initial_bootstrap_token_secret
   }
 
   name  = "/${var.project_name}/kubernetes/cluster/credentials/${each.key}"

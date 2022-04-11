@@ -4,6 +4,11 @@ update:
   group:  "alpha"
   server: "https://public.update.flatcar-linux.net/v1/update/"
 
+passwd:
+  users:
+    - name: core
+      password_hash: '$y$j9T$BVpF0rplTGhvym2g/fKfK1$fnF.PnFxz3soDDP7aW8naNl/hZBwa7nQMWbq6HO1ec.'
+
 systemd:
   units:
     - name: locksmithd.service

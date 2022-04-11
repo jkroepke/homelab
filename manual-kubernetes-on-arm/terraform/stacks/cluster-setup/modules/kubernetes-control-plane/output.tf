@@ -14,6 +14,10 @@ output "kubernetes_cluster_ca_certificate" {
   value = module.cluster_config_files.kubernetes_cluster_ca_certificate
 }
 
+output "kubernetes_cluster_front_proxy_ca_certificate" {
+  value = module.cluster_config_files.kubernetes_cluster_front_proxy_ca_certificate
+}
+
 output "kubernetes_initial_bootstrap_token_id" {
   value = module.cluster_config_files.kubernetes_initial_bootstrap_token_id
 }

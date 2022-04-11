@@ -1,0 +1,90 @@
+prometheusOperator:
+  resources:
+    limits:
+      cpu: 200m
+      memory: 200Mi
+    requests:
+      cpu: 100m
+      memory: 50Mi
+
+  nodeSelector:
+    role: infra
+  tolerations:
+    - key: "node-role.kubernetes.io/infra"
+      effect: "NoSchedule"
+
+alertmanager:
+  alertmanagerSpec:
+    nodeSelector:
+      role: infra
+    tolerations:
+    - key: "node-role.kubernetes.io/infra"
+      effect: "NoSchedule"
+    resources:
+      limits:
+        cpu: 100m
+        memory: 50Mi
+      requests:
+        cpu: 50m
+        memory: 20Mi
+
+prometheus:
+  prometheusSpec:
+    nodeSelector:
+      role: infra
+    tolerations:
+      - key: "node-role.kubernetes.io/infra"
+        effect: "NoSchedule"
+    resources:
+      limits:
+        cpu: 2
+        memory: 2Gi
+      requests:
+        cpu: 1
+        memory: 1Gi
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: aws-ebs
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 10Gi
+
+grafana:
+  nodeSelector:
+    role: infra
+  tolerations:
+    - key: "node-role.kubernetes.io/infra"
+      effect: "NoSchedule"
+  resources:
+    limits:
+      cpu: 200m
+      memory: 250Mi
+    requests:
+      cpu: 50m
+      memory: 150Mi
+
+kube-state-metrics:
+  resources:
+    limits:
+      cpu: 50m
+      memory: 50Mi
+    requests:
+      cpu: 10m
+      memory: 20Mi
+
+  nodeSelector:
+    role: infra
+  tolerations:
+    - key: "node-role.kubernetes.io/infra"
+      effect: "NoSchedule"
+
+prometheus-node-exporter:
+  resource:
+    limits:
+      cpu: 200m
+      memory: 50Mi
+    requests:
+      cpu: 100m
+      memory: 30Mi

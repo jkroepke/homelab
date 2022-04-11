@@ -19,7 +19,7 @@ systemd:
         
         [Service]
         Type=oneshot
-        ExecStart=/usr/bin/rm /etc/hostname
+        ExecStart=/usr/bin/rm -f /etc/hostname
         RemainAfterExit=yes
         
         [Install]

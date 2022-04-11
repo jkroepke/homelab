@@ -14,8 +14,9 @@ locals {
 module "cloud-provider-aws" {
   source = "./modules/cloud-provider-aws"
 
-  cluster_name  = var.cluster_name
-  chart_version = local.version_cloud_provider_aws
+  chart_version         = local.version_cloud_provider_aws
+  cluster_name          = var.cluster_name
+  kubernetes_api_server = var.kubernetes_api_server
 }
 
 module "kube-proxy" {

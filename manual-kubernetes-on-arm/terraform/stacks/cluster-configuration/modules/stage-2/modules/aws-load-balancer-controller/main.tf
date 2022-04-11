@@ -22,9 +22,13 @@ resource "helm_release" "this" {
         project = var.cluster_name
       }
 
+      nodeSelector = {
+        role = "infra"
+      }
+
       tolerations = [
         {
-          key    = "node-role.kubernetes.io/master"
+          key    = "node-role.kubernetes.io/infra"
           effect = "NoSchedule"
         }
       ]

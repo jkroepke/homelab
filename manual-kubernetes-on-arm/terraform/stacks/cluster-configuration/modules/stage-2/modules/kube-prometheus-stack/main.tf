@@ -18,5 +18,5 @@ resource "helm_release" "this" {
   cleanup_on_fail = true
   timeout         = 300
 
-  values = []
+  values = [file("${path.module}/values/kube-prometheus-stack.yaml")]
 }

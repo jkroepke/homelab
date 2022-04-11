@@ -35,28 +35,51 @@ resource "helm_release" "this" {
         }
       ]
 
+      resources = {
+        requests = {
+          cpu    = "10m"
+          memory = "32Mi"
+        }
+      }
+
       webhook = {
         nodeSelector = {
           "node-role.kubernetes.io/master" = ""
         }
+
         tolerations = [
           {
             key    = "node-role.kubernetes.io/master"
             effect = "NoSchedule"
           }
         ]
+
+        resources = {
+          requests = {
+            cpu    = "10m"
+            memory = "32Mi"
+          }
+        }
       }
 
       cainjector = {
         nodeSelector = {
           "node-role.kubernetes.io/master" = ""
         }
+
         tolerations = [
           {
             key    = "node-role.kubernetes.io/master"
             effect = "NoSchedule"
           }
         ]
+
+        resources = {
+          requests = {
+            cpu    = "10m"
+            memory = "32Mi"
+          }
+        }
       }
 
       startupapicheck = {

@@ -56,6 +56,34 @@ resource "helm_release" "this" {
       serviceAccount = {
         name = "aws-vpc-cni"
       }
+      }), jsonencode({
+      eniConfig = {
+        create = true
+        region = data.aws_region.current.name
+        subnets = {
+          for az in data.aws_availability_zones.available.names : replace(az, data.aws_region.current.name, "") => {
+            id             = data.aws_subnet.private[az].id
+            securityGroups = [data.aws_security_group.pods.id]
+          }
+        }
+      }
     })
   ]
+}
+
+data "aws_security_group" "pods" {
+  name = "${var.cluster_name}-pod"
+}
+
+data "aws_availability_zones" "available" {
+  state = "available"
+}
+
+data "aws_subnet" "private" {
+  for_each = toset(data.aws_availability_zones.available.names)
+
+  filter {
+    name   = "tag:Name"
+    values = ["${var.cluster_name}-private-${each.key}"]
+  }
 }
