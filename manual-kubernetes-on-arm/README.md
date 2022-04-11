@@ -88,6 +88,9 @@
 * https://github.com/hashicorp/terraform-provider-tls/issues/181
 * https://github.com/aws/eks-charts/pull/721 / https://github.com/aws/amazon-vpc-cni-k8s/pull/1949
 * https://github.com/flatcar-linux/Flatcar/issues/707
+* https://github.com/flatcar-linux/coreos-overlay/pull/1800
 * https://github.com/aws/karpenter/issues/1652
   * https://github.com/aws/karpenter/pull/1653
+* https://github.com/aws/amazon-ssm-agent/issues/442
+  * https://github.com/aws/amazon-ssm-agent/pull/439
 * https://github.com/kubernetes-sigs/aws-ebs-csi-driver/pull/1204
