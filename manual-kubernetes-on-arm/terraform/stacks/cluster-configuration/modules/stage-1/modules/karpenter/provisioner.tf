@@ -1,3 +1,4 @@
+/*
 resource "kubernetes_manifest" "provisioner_infra" {
   manifest = yamldecode(<<EOF
 ---
@@ -76,3 +77,4 @@ EOF
 
   depends_on = [helm_release.this]
 }
+*/
