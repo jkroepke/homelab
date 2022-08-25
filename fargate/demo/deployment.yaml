@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-app
+spec:
+  selector:
+    matchLabels:
+      app: demo-app
+  template:
+    metadata:
+      labels:
+        WorkerType: fargate
+        app: demo-app
+    spec:
+      containers:
+        - name: demo-app
+          image: docker.io/jkroepke/demo-app
+          ports:
+            - containerPort: 8080
+              name: http
+          readinessProbe:
+            httpGet:
+              port: http
+              path: /actuator/health/readiness
+          livenessProbe:
+            httpGet:
+              port: http
+              path: /actuator/health/liveness
+          resources:
+            limits:
+              cpu: "1"
+              memory: 1500Mi

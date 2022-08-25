@@ -1,5 +1,5 @@
 module "vpc" {
-  source = "../modules/vpc/"
+  source = "../../modules/vpc/"
 
   name     = var.project
   vpc_cidr = var.cidr_block
@@ -12,6 +12,5 @@ module "vpc" {
 
   tags = {
     "kubernetes.io/cluster/${local.cluster_name}" = "owned"
-    "karpenter.sh/discovery"                      = local.cluster_name
   }
 }

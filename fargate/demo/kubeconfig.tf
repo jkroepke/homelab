@@ -33,6 +33,6 @@ users:
         - ${var.project}
       env:
         - name: "AWS_PROFILE"
-          value: "cdt"
+          value: "sre"
 KUBECONFIG
 }
