@@ -85,7 +85,7 @@ class: lead
 
 ## Caveats
 
-* Very slow pod start-up time
+* [Very slow pod start-up time (30s-45s)](https://github.com/aws/containers-roadmap/issues/649)
 * Only Amazon EFS PV volumes are supported 
 
 ---

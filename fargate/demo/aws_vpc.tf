@@ -11,6 +11,6 @@ module "vpc" {
   public_ipv6_net_id  = local.public_ipv6_net_id
 
   tags = {
-    "kubernetes.io/cluster/${local.cluster_name}" = "owned"
+    "kubernetes.io/cluster/${local.cluster_name}" = "shared"
   }
 }
