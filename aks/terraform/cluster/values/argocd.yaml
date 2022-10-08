@@ -37,7 +37,6 @@ server:
       clientID: argocd
       clientSecret: $oidc.dex.clientSecret
       requestedScopes: ["openid", "profile", "email", "groups"]
-      requestedIDTokenClaims: {"groups": {"essential": true}}
   extensions:
     enabled: true
 
