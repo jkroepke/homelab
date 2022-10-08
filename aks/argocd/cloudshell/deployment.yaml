@@ -38,6 +38,7 @@ spec:
           volumeMounts:
             - mountPath: tmp
               name: tmp
+      serviceAccountName: cloudshell
       volumes:
         - name: tmp
           emptyDir: {}
@@ -90,3 +91,9 @@ spec:
     - Egress
   egress:
     - {}
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: cloudshell
+automountServiceAccountToken: false
