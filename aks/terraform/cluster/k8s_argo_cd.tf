@@ -9,6 +9,7 @@ resource "helm_release" "argocd" {
   cleanup_on_fail  = true
   lint             = true
   timeout          = 300
+  max_history      = 3
 
   values = [
     file("./values/argocd.yaml")
@@ -25,7 +26,7 @@ resource "helm_release" "argocd" {
   }
 
   set {
-    name  = "secret.extra.oidc\\.dex\\.clientSecret"
+    name  = "configs.secret.extra.oidc\\.dex\\.clientSecret"
     value = data.azurerm_key_vault_secret.argocd-client-secret.value
   }
 }
