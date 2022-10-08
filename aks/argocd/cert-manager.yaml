@@ -32,3 +32,8 @@ spec:
     server: "https://kubernetes.default.svc"
     namespace: infra-cert-manager
 
+  ignoreDifferences:
+    - group: admissionregistration.k8s.io/v1
+      kind: ValidatingWebhookConfiguration
+      jqPathExpressions:
+        - .webhooks[].namespaceSelector.matchExpressions[] | select(.key == "control-plane")
