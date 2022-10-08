@@ -17,10 +17,14 @@ spec:
           env:
             - name: ALLOWED_HOSTNAMES
               value: cloudshell.aks.jkroepke.de
+            - name: ARGUMENTS
+              value: "-c 'screen -r || screen'"
             - name: COMMAND
               value: "/bin/bash"
             - name: LOG_LEVEL
               value: info
+            - name: TERM
+              value: xterm
           ports:
             - containerPort: 8376
               name: http
