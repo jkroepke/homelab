@@ -17,6 +17,7 @@ spec:
         - name: env.GITHUB_CLIENT_SECRET
           path: secrets+literal://ref+azurekeyvault://dex/clientSecret
       values: |
+        
         config:
           issuer: https://login.aks.jkroepke.de/dex
           enablePasswordDB: false
@@ -63,4 +64,4 @@ spec:
       - CreateNamespace=true
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: infra-dex
+    namespace: infra-dexidp
