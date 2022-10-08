@@ -30,9 +30,6 @@ spec:
           oauth2:
             skipApprovalScreen: true
         
-          logger:
-            level: "debug"
-          
           connectors:
             - type: github
               id: github

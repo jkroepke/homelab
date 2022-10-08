@@ -20,12 +20,14 @@ server:
       - secretName: ingress-tls
         hosts:
           - argocd.aks.jkroepke.de
+  rbacConfig:
+    policy.csv: |
+      g, github@jkroepke.de, role:admin
+      g, cloudeteer:chapter-operations-engineering, role:admin
   config:
     url: "https://argocd.aks.jkroepke.de"
     statusbadge.enabled: "true"
     admin.enabled: "false"
-    rbacConfig: |
-      g, cloudeteer:chapter-operations-engineering, role:admin
     helm.valuesFileSchemes: >-
       secrets+gpg-import, secrets+gpg-import-kubernetes,
       secrets+age-import, secrets+age-import-kubernetes,
