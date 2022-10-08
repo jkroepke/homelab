@@ -16,6 +16,10 @@ server:
       cert-manager.io/cluster-issuer: letsencrypt
     hosts:
       - argocd.aks.jkroepke.de
+    tls:
+      - secretName: ingress-tls
+        hosts:
+          - argocd.aks.jkroepke.de
   config:
     url: "https://argocd.aks.jkroepke.de"
     admin.enabled: "false"

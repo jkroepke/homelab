@@ -51,10 +51,10 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
-            tls:
-              - secretName: ingress-tls
-                hosts:
-                  - login.aks.jkroepke.de
+          tls:
+            - secretName: ingress-tls
+              hosts:
+                - login.aks.jkroepke.de
 
   syncPolicy:
     automated:
