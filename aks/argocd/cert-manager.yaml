@@ -15,7 +15,7 @@ spec:
       releaseName: cert-manager
       parameters:
         - name: installCRDs
-          value: true
+          value: "true"
   syncPolicy:
     automated:
       prune: true
