@@ -6,7 +6,8 @@ resource "azurerm_user_assigned_identity" "keyvault-access" {
 
 resource "null_resource" "federated-credentials" {
   triggers = {
-    id = azurerm_user_assigned_identity.keyvault-access.id
+    id     = azurerm_user_assigned_identity.keyvault-access.id
+    issuer = azurerm_kubernetes_cluster.jok.oidc_issuer_url
   }
 
   # https://learn.microsoft.com/en-us/azure/aks/workload-identity-deploy-cluster
