@@ -1,22 +1,3 @@
-resource "azurerm_resource_provider_registration" "ContainerService" {
-  name = "Microsoft.ContainerService"
-
-  feature {
-    name       = "EnableOIDCIssuerPreview"
-    registered = true
-  }
-
-  feature {
-    name       = "KubeletDisk"
-    registered = true
-  }
-
-  feature {
-    name       = "AKS-EnableDualStack"
-    registered = true
-  }
-}
-
 resource "azurerm_kubernetes_cluster" "jok" {
   resource_group_name = data.azurerm_resource_group.default.name
   location            = data.azurerm_resource_group.default.location
@@ -165,3 +146,14 @@ resource "azurerm_kubernetes_cluster_node_pool" "spot" {
   mode = "User"
 }
 */
+
+resource "null_resource" "enable-workload-identity" {
+  triggers = {
+    id = azurerm_kubernetes_cluster.jok.id
+  }
+
+  # https://github.com/hashicorp/terraform-provider-azurerm/issues/18666
+  provisioner "local-exec" {
+    command = "az aks update -g ${azurerm_kubernetes_cluster.jok.resource_group_name} -n ${azurerm_kubernetes_cluster.jok.name} --enable-workload-identity"
+  }
+}
