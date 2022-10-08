@@ -11,6 +11,9 @@ spec:
     targetRevision: v1.9.1
     helm:
       releaseName: cert-manager
+      parameters:
+        - name: installCRDs
+          value: true
   syncPolicy:
     automated:
       prune: true
