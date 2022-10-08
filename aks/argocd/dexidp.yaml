@@ -28,7 +28,7 @@ spec:
             type: memory
           
           oauth2:
-            skipApprovalScreen: false
+            skipApprovalScreen: true
           
           connectors:
             - type: github
