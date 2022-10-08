@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
         - name: cloudshell
-          image: zephinzer/cloudshell:latest
+          image: jkroepke/cloudshell:latest
           env:
             - name: ALLOWED_HOSTNAMES
               value: cloudshell.aks.jkroepke.de
