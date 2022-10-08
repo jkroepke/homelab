@@ -44,7 +44,7 @@ spec:
           staticClients:
             - id: argocd
               redirectURIs:
-                - 'https://web-app.example.com/callback'
+                - 'https://argocd.aks.jkroepke.de/auth/callback'
               name: 'ArgoCD'
               secret: $ARGOCD_CLIENT_SECRET
         

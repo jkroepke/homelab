@@ -33,7 +33,7 @@ server:
       https
     oidc.config: |
       name: login.aks.jkroepke.de
-      issuer: https://login.aks.jkroepke.de
+      issuer: https://login.aks.jkroepke.de/dex
       clientID: argocd
       clientSecret: $oidc.dex.clientSecret
       requestedScopes: ["openid", "profile", "email", "groups"]
