@@ -13,9 +13,9 @@ spec:
     targetRevision: 4.3.0
     helm:
       releaseName: ingress-nginx
-      parameters:
-        - name: controller.service.ipFamilyPolicy
-          value: RequireDualStack
+      #parameters:
+      #  - name: controller.service.ipFamilyPolicy
+      #    value: RequireDualStack
   syncPolicy:
     automated:
       prune: true
