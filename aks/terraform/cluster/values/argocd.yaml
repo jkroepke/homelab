@@ -22,8 +22,10 @@ server:
           - argocd.aks.jkroepke.de
   rbacConfig:
     policy.csv: |
+      g, jkroepke, role:admin
       g, github@jkroepke.de, role:admin
       g, cloudeteer:chapter-operations-engineering, role:admin
+    scopes: '[groups, email]'
   config:
     url: "https://argocd.aks.jkroepke.de"
     statusbadge.enabled: "true"
