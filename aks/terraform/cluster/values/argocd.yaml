@@ -22,6 +22,7 @@ server:
           - argocd.aks.jkroepke.de
   config:
     url: "https://argocd.aks.jkroepke.de"
+    statusbadge.enabled: "true"
     admin.enabled: "false"
     rbacConfig: |
       g, cloudeteer:chapter-operations-engineering, role:admin
@@ -30,6 +31,13 @@ server:
       secrets+age-import, secrets+age-import-kubernetes,
       secrets,secrets+literal,
       https
+    oidc.config: |
+      name: login.aks.jkroepke.de
+      issuer: https://login.aks.jkroepke.de
+      clientID: argocd
+      clientSecret: $oidc.dex.clientSecret
+      requestedScopes: ["openid", "profile", "email", "groups"]
+      requestedIDTokenClaims: {"groups": {"essential": true}}
   extensions:
     enabled: true
 

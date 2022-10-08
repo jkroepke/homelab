@@ -23,6 +23,11 @@ resource "helm_release" "argocd" {
     name  = "repoServer.serviceAccount.labels.azure\\.workload\\.identity/use"
     value = "true"
   }
+
+  set {
+    name  = "secret.extra.oidc\\.dex\\.clientSecret"
+    value = data.azurerm_key_vault_secret.argocd-client-secret.value
+  }
 }
 
 # https://github.com/argoproj/argo-helm/actions/runs/3211017996/jobs/5248886112

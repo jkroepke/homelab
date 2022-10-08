@@ -3,7 +3,7 @@ kind: ClusterIssuer
 metadata:
   annotations:
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
-  name: letsencrypt-staging
+  name: letsencrypt
 spec:
   acme:
     email: aks@jkroepke.de
