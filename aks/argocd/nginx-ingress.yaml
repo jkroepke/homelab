@@ -11,6 +11,15 @@ spec:
     targetRevision: 0.15.0
     helm:
       releaseName: nginx-ingress
+      parameters:
+        - name: controller.enableCustomResources
+          value: false
+        - name: controller.appprotect.enable
+          value: false
+        - name: controller.appprotectdos.enable
+          value: false
+        - name: service.ipFamilyPolicy
+          value: RequireDualStack
   syncPolicy:
     automated:
       prune: true
