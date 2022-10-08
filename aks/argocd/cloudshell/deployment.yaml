@@ -25,9 +25,22 @@ spec:
               value: info
             - name: TERM
               value: xterm-256color
+          resources:
+            limits:
+              cpu: 100m
+              memory: 100MiB
+          securityContext:
+            readOnlyRootFilesystem: true
+            allowPrivilegeEscalation: false
           ports:
             - containerPort: 8376
               name: http
+          volumeMounts:
+            - mountPath: tmp
+              name: tmp
+      volumes:
+        - name: tmp
+          emptyDir: {}
 ---
 apiVersion: v1
 kind: Service
@@ -64,3 +77,16 @@ spec:
     - hosts:
         - cloudshell.aks.jkroepke.de
       secretName: cloudshell-ingress-tls
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: deny-egress
+spec:
+  podSelector:
+    matchLabels:
+      app: cloudshell
+  policyTypes:
+    - Egress
+  egress:
+    - {}
