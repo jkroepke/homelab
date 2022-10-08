@@ -1,0 +1,25 @@
+# ref: https://github.com/argoproj/argo-helm/blob/main/charts/argocd-apps/values.yaml
+applications:
+  - name: bootstrap
+    namespace: argocd
+    finalizers:
+      - resources-finalizer.argocd.argoproj.io
+    project: default
+    source:
+      repoURL: https://github.com/jkroepke/homelab.git
+      targetRevision: HEAD
+      path: aks/argocd
+      directory:
+        recurse: false
+    destination:
+      server: https://kubernetes.default.svc
+      namespace: argocd
+    syncPolicy:
+      automated:
+        prune: true
+        selfHeal: true
+      syncOptions:
+        - CreateNamespace=false
+    info:
+      - name: url
+        value: https://argoproj.github.io/

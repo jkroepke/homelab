@@ -1,8 +1,18 @@
-resource "azurerm_resource_provider_registration" "oidc" {
+resource "azurerm_resource_provider_registration" "ContainerService" {
   name = "Microsoft.ContainerService"
 
   feature {
     name       = "EnableOIDCIssuerPreview"
+    registered = true
+  }
+
+  feature {
+    name       = "KubeletDisk"
+    registered = true
+  }
+
+  feature {
+    name       = "AKS-EnableDualStack"
     registered = true
   }
 }
@@ -27,16 +37,27 @@ resource "azurerm_kubernetes_cluster" "jok" {
 
   default_node_pool {
     name                   = "default"
-    vm_size                = "Standard_A1_v2"
+    vm_size                = "Standard_A2_v2"
     node_count             = 1
     min_count              = 1
-    max_count              = 1
+    max_count              = 3
     enable_auto_scaling    = true
-    enable_host_encryption = true
+    # The Virtual Machine size Standard_A2_v2 does not support EncryptionAtHost.
+    enable_host_encryption = false
     os_sku                 = "CBLMariner"
-    os_disk_size_gb        = 20
+    # The Virtual Machine size Standard_A2_v2 does not support Ephemeral OS disk."
+    #os_disk_type           = "Ephemeral"
+    os_disk_size_gb        = 50
 
-    pod_subnet_id = azurerm_subnet.default.id
+    # The virtual machine size Standard_A2_v2 has a max temporary disk size of 21474836480 bytes, but the kubelet disk requires 32212254720 bytes. Use a VM size with larger temporary disk or use the OS disk for kubelet.
+    #kubelet_disk_type = "Temporary"
+
+    zones          = ["1"]
+    vnet_subnet_id = azurerm_subnet.default.id
+
+    upgrade_settings {
+      max_surge = "1"
+    }
   }
 
   identity {
@@ -45,6 +66,11 @@ resource "azurerm_kubernetes_cluster" "jok" {
 
   local_account_disabled = true
   oidc_issuer_enabled    = true
+
+  key_vault_secrets_provider {
+    secret_rotation_enabled  = true
+    secret_rotation_interval = "2m"
+  }
 
   maintenance_window {
     allowed {
@@ -82,10 +108,13 @@ resource "azurerm_kubernetes_cluster" "jok" {
     network_mode   = "transparent"
     network_policy = "calico"
 
-    outbound_type = "loadBalancer"
+    outbound_type     = "loadBalancer"
+    load_balancer_sku = "standard"
 
-    ip_versions       = ["IPv4"]
-    load_balancer_sku = "basic"
+    ip_versions        = ["IPv4"]
+    service_cidr       = "100.64.0.0/16"
+    docker_bridge_cidr = "172.18.0.1/16"
+    dns_service_ip     = "100.64.0.53"
   }
 
   public_network_access_enabled     = true
@@ -94,30 +123,45 @@ resource "azurerm_kubernetes_cluster" "jok" {
   run_command_enabled = true
   sku_tier            = "Free"
 
-  depends_on = [azurerm_resource_provider_registration.oidc]
+  depends_on = [azurerm_resource_provider_registration.ContainerService]
 }
 
+resource "azurerm_role_assignment" "jok" {
+  scope                = azurerm_kubernetes_cluster.jok.id
+  role_definition_name = "Azure Kubernetes Service RBAC Cluster Admin"
+  principal_id         = data.azurerm_client_config.this.object_id
+}
+
+/*
 resource "azurerm_kubernetes_cluster_node_pool" "spot" {
   kubernetes_cluster_id  = azurerm_kubernetes_cluster.jok.id
   name                   = "spot"
   vm_size                = "Standard_A2_v2"
   enable_auto_scaling    = true
-  enable_host_encryption = true
+  # The Virtual Machine size Standard_A2_v2 does not support EncryptionAtHost.
+  enable_host_encryption = false
   os_sku                 = "CBLMariner"
   os_disk_size_gb        = 50
 
-  pod_subnet_id = azurerm_subnet.default.id
+  spot_max_price = -1
+
+  zones = ["1"]
+
+  vnet_subnet_id = azurerm_subnet.default.id
+
+  # The virtual machine size Standard_A2_v2 has a max temporary disk size of 21474836480 bytes, but the kubelet disk requires 32212254720 bytes. Use a VM size with larger temporary disk or use the OS disk for kubelet.
+  #kubelet_disk_type = "Temporary"
+
+  # The Virtual Machine size Standard_A2_v2 does not support Ephemeral OS disk."
+  #os_disk_type      = "Ephemeral"
 
   min_count  = 1
   node_count = 1
   max_count  = 3
-
-  upgrade_settings {
-    max_surge = "1"
-  }
 
   priority        = "Spot"
   eviction_policy = "Delete"
 
   mode = "User"
 }
+*/

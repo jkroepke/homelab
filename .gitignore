@@ -10,6 +10,7 @@
 # Crash log files
 crash.log
 
+credentials.auto.tfvars
 
 **/.local/*
 !**/.local/.gitempty

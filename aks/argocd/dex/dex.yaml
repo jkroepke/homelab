@@ -1,0 +1,64 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: sealed-secrets
+  namespace: argocd
+spec:
+  project: default
+  source:
+    chart: dex
+    repoURL: https://charts.dexidp.io
+    targetRevision: 0.12.0
+    helm:
+      releaseName: sealed-secrets
+      values: |
+        ingress:
+          enabled: false
+          className: nginx
+          configSecret:
+            create: false
+            name: dex-config
+
+          annotations:
+            nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+            nginx.ingress.kubernetes.io/ssl-passthrough: "false"
+            nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+            cert-manager.io/cluster-issuer: letsencrypt
+          hosts:
+          - host: login.aks.jkroepke.de
+            paths:
+              - path: /
+                pathType: Prefix
+            tls:
+              - secretName: ingress-tls
+                hosts:
+                  - login.aks.jkroepke.de
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: infra-dex
+
+
+
+
+
+
+
+dex.config: |
+  enablePasswordDB: false
+  connectors:
+  - type: github
+    id: github
+    name: GitHub
+    config:
+      clientID: $GITHUB_CLIENT_ID
+      clientSecret: $GITHUB_CLIENT_SECRET
+      redirectURI: https://argocd.aks.jkroepke.de/dex/callback
+      orgs:
+      - name: cloudeteer
