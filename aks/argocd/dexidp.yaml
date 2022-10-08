@@ -42,7 +42,7 @@ spec:
                 clientSecret: $GITHUB_CLIENT_SECRET
                 redirectURI: https://login.aks.jkroepke.de/dex/callback
                 orgs:
-                  - name: cloudeteer
+                  - name: creativesandbox
 
           staticClients:
             - id: argocd
