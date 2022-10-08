@@ -18,7 +18,7 @@ spec:
             - name: ALLOWED_HOSTNAMES
               value: cloudshell.aks.jkroepke.de
             - name: ARGUMENTS
-              value: "-xR,pts-2"
+              value: "-qxR,pts-2"
             - name: COMMAND
               value: "/usr/bin/screen"
             - name: LOG_LEVEL
