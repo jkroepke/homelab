@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloudshell
+spec:
+  selector:
+    matchLabels:
+      app: cloudshell
+  template:
+    metadata:
+      labels:
+        app: cloudshell
+    spec:
+      containers:
+        - name: cloudshell
+          image: zephinzer/cloudshell:latest
+          env:
+            - name: ALLOWED_HOSTNAMES
+              value: cloudshell.aks.jkroepke.de
+            - name: COMMAND
+              value: "/bin/bash"
+            - name: LOG_LEVEL
+              value: info
+          ports:
+            - containerPort: 8376
+              name: http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cloudshell
+spec:
+  type: ClusterIP
+  selector:
+    app: cloudshell
+  ports:
+    - port: 8376
+      name: http
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: cloudshell
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: cloudshell.aks.jkroepke.de
+      http:
+        paths:
+          - backend:
+              service:
+                name: cloudshell
+                port:
+                  name: http
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - cloudshell.aks.jkroepke.de
+      secretName: cloudshell-ingress-tls
