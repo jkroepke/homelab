@@ -52,9 +52,6 @@ spec:
           enabled: true
           className: nginx
           annotations:
-            nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-            nginx.ingress.kubernetes.io/ssl-passthrough: "false"
-            nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
             cert-manager.io/cluster-issuer: letsencrypt
           hosts:
           - host: login.aks.jkroepke.de
