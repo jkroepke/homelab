@@ -1,24 +1,18 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: nginx-ingress
+  name: ingress-nginx
   namespace: argocd
 spec:
   project: default
   source:
-    chart: nginx-ingress
-    repoURL: https://helm.nginx.com/stable
+    chart: ingress-nginx
+    repoURL: https://kubernetes.github.io/ingress-nginx
     targetRevision: 0.15.0
     helm:
-      releaseName: nginx-ingress
+      releaseName: ingress-nginx
       parameters:
-        - name: controller.enableCustomResources
-          value: false
-        - name: controller.appprotect.enable
-          value: false
-        - name: controller.appprotectdos.enable
-          value: false
-        - name: service.ipFamilyPolicy
+        - name: controller.service.ipFamilyPolicy
           value: RequireDualStack
   syncPolicy:
     automated:
@@ -28,5 +22,5 @@ spec:
       - CreateNamespace=true
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: infra-nginx-ingress
+    namespace: infra-ingress-nginx
 
