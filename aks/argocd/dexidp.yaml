@@ -46,7 +46,7 @@ spec:
               redirectURIs:
                 - 'https://argocd.aks.jkroepke.de/auth/callback'
               name: 'ArgoCD'
-              secret: $ARGOCD_CLIENT_SECRET
+              secretEnv: ARGOCD_CLIENT_SECRET
         
         ingress:
           enabled: true
