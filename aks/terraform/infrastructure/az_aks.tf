@@ -17,27 +17,27 @@ resource "azurerm_kubernetes_cluster" "jok" {
   }
 
   default_node_pool {
-    name                   = "default"
-    vm_size                = "Standard_A2_v2"
-    node_count             = 1
-    min_count              = 1
-    max_count              = 3
-    enable_auto_scaling    = true
-    # The Virtual Machine size Standard_A2_v2 does not support EncryptionAtHost.
-    enable_host_encryption = false
-    os_sku                 = "CBLMariner"
-    # The Virtual Machine size Standard_A2_v2 does not support Ephemeral OS disk."
-    #os_disk_type           = "Ephemeral"
-    os_disk_size_gb        = 50
+    name     = "default"
+    vm_size  = "Standard_A2m_v2"
+    zones    = ["1"]
+    max_pods = 110
 
-    # The virtual machine size Standard_A2_v2 has a max temporary disk size of 21474836480 bytes, but the kubelet disk requires 32212254720 bytes. Use a VM size with larger temporary disk or use the OS disk for kubelet.
-    #kubelet_disk_type = "Temporary"
-
+    os_sku         = "CBLMariner"
     vnet_subnet_id = azurerm_subnet.default.id
 
-    upgrade_settings {
-      max_surge = "1"
-    }
+    enable_auto_scaling = true
+    node_count          = 1
+    min_count           = 1
+    max_count           = 1
+
+    os_disk_size_gb = 50
+
+    # The Virtual Machine size Standard_A2_v2 does not support EncryptionAtHost.
+    enable_host_encryption = false
+    # The Virtual Machine size Standard_A2_v2 does not support Ephemeral OS disk."
+    #os_disk_type           = "Ephemeral"
+    # The virtual machine size Standard_A2_v2 has a max temporary disk size of 21474836480 bytes, but the kubelet disk requires 32212254720 bytes. Use a VM size with larger temporary disk or use the OS disk for kubelet.
+    #kubelet_disk_type      = "Temporary"
   }
 
   identity {

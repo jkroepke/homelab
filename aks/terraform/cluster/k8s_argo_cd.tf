@@ -3,7 +3,7 @@ resource "helm_release" "argocd" {
   repository       = "https://argoproj.github.io/argo-helm"
   chart            = "argo-cd"
   namespace        = kubernetes_namespace.argocd.metadata[0].name
-  version          = "5.5.12"
+  version          = "5.5.16"
   create_namespace = false
   atomic           = true
   cleanup_on_fail  = true
@@ -28,21 +28,6 @@ resource "helm_release" "argocd" {
   set {
     name  = "configs.secret.extra.oidc\\.dex\\.clientSecret"
     value = data.azurerm_key_vault_secret.argocd-client-secret.value
-  }
-}
-
-# https://github.com/argoproj/argo-helm/actions/runs/3211017996/jobs/5248886112
-resource "kubernetes_labels" "repo-server-service-account" {
-  api_version = "v1"
-  kind        = "ServiceAccount"
-
-  metadata {
-    name      = "argocd-repo-server"
-    namespace = helm_release.argocd.namespace
-  }
-
-  labels = {
-    "azure.workload.identity/use" = "true"
   }
 }
 
