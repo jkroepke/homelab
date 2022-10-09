@@ -12,7 +12,7 @@ spec:
     repoURL: https://kubernetes-sigs.github.io/external-dns/
     targetRevision: 1.11.0
     helm:
-      releaseName: ingress-nginx
+      releaseName: external-dns
       #parameters:
       #  - name: controller.service.ipFamilyPolicy
       #    value: RequireDualStack
