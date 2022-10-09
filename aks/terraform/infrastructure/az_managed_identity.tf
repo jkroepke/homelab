@@ -16,7 +16,7 @@ resource "azurerm_key_vault_access_policy" "keyvault-access" {
 
   key_vault_id = data.azurerm_key_vault.aks[each.key].id
   tenant_id    = data.azurerm_client_config.this.tenant_id
-  object_id    = azurerm_user_assigned_identity.keyvault-access.client_id
+  object_id    = azurerm_user_assigned_identity.keyvault-access.principal_id
 
   secret_permissions = [
     "Get",
