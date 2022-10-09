@@ -15,9 +15,9 @@ spec:
       releaseName: dex
       fileParameters:
         - name: env.GITHUB_CLIENT_ID
-          path: secrets+literal://ref+azurekeyvault://dex/clientID
+          path: secrets+literal://ref+azurekeyvault://dex/github-client-id
         - name: env.GITHUB_CLIENT_SECRET
-          path: secrets+literal://ref+azurekeyvault://dex/clientSecret
+          path: secrets+literal://ref+azurekeyvault://dex/github-client-secret
         - name: env.ARGOCD_CLIENT_SECRET
           path: secrets+literal://ref+azurekeyvault://dex/argocd-client-secret
       values: |

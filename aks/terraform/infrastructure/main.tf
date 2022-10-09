@@ -1,5 +1,5 @@
 locals {
-  aks_key_vaults = ["aks-dex"]
+  aks_key_vaults = ["kubernetes-dex"]
 }
 
 data "azurerm_client_config" "this" {}

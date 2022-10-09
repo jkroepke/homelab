@@ -8,7 +8,7 @@ data "azurerm_key_vault" "aks" {
 resource "azurerm_user_assigned_identity" "keyvault-access" {
   name                = "keyvault-access"
   resource_group_name = azurerm_resource_group.default.name
-  location            = "westus2"
+  location            = azurerm_resource_group.default.location
 }
 
 resource "azurerm_key_vault_access_policy" "keyvault-access" {

@@ -1,6 +1,6 @@
 resource "azurerm_kubernetes_cluster" "jok" {
-  resource_group_name = data.azurerm_resource_group.default.name
-  location            = data.azurerm_resource_group.default.location
+  resource_group_name = azurerm_resource_group.default.name
+  location            = azurerm_resource_group.default.location
 
   name = "jok"
 

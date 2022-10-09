@@ -1,4 +1,4 @@
 resource "azurerm_resource_group" "default" {
-  location = "westus2"
+  location = "westus3"
   name     = "default"
 }
