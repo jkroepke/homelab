@@ -1,7 +1,7 @@
 locals {
   managed-identities = {
     external-dns = {
-      namespace = "intra-external-dns"
+      namespace = "infra-external-dns"
       client-id = data.azurerm_user_assigned_identity.external-dns.client_id
     }
   }
@@ -20,7 +20,7 @@ resource "kubernetes_service_account" "managed-identities" {
 
   metadata {
     name      = each.key
-    namespace = kubernetes_namespace.managed-identities[each.value.namespace].metadata[0].name
+    namespace = kubernetes_namespace.managed-identities[each.key].metadata[0].name
     annotations = {
       "azure.workload.identity/client-id" = each.value.client-id
     }

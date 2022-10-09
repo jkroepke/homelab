@@ -25,6 +25,15 @@ spec:
         serviceMonitor:
           enabled: true
         provider: azure
+        
+        extraVolumeMounts:
+        - name: azure-config-file
+          mountPath: /etc/kubernetes/
+        extraVolumes:
+        - name: azure-config-file
+          configMap:
+            name: azure-config-file
+
   syncPolicy:
     automated:
       prune: true
