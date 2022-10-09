@@ -2,7 +2,7 @@ resource "aws_lb" "api" {
   name               = "${var.name}-api"
   internal           = false
   load_balancer_type = "network"
-  subnets            = [for subnet in aws_subnet.subnet: subnet.id]
+  subnets            = [for subnet in aws_subnet.subnet : subnet.id]
 
   enable_cross_zone_load_balancing = false
 
@@ -32,7 +32,7 @@ resource "aws_lb_target_group" "controller" {
   health_check {
     enabled = true
 
-    path = "/healthz"
+    path     = "/healthz"
     protocol = "HTTPS"
   }
 }

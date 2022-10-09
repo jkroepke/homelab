@@ -25,7 +25,7 @@ resource "aws_lambda_permission" "this" {
 }
 
 data "archive_file" "this" {
-  type       = "zip"
+  type = "zip"
 
   dynamic "source" {
     for_each = toset(fileset("${path.module}/resources", "**/*.py"))

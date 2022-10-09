@@ -3,7 +3,7 @@ output "master_ip" {
 }
 
 output "worker_ip" {
-  value = {for i in range(0, var.worker_count): i => module.worker[i].instance_ip_address}
+  value = { for i in range(0, var.worker_count) : i => module.worker[i].instance_ip_address }
 }
 
 output "aws_start_all" {

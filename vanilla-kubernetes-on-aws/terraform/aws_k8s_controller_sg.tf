@@ -5,10 +5,10 @@ resource "aws_security_group" "controller" {
   dynamic "ingress" {
     # https://docs.projectcalico.org/getting-started/kubernetes/requirements#network-requirements
     for_each = {
-      2379 : { protocol: "tcp", description: "etcd client" },
-      2380 : { protocol: "tcp", description: "etcd peer" },
-      10257 : { protocol: "tcp", description: "Prometheus: kube-controller-manager" },
-      10259 : { protocol: "tcp", description: "Prometheus: kube-scheduler" },
+      2379 : { protocol : "tcp", description : "etcd client" },
+      2380 : { protocol : "tcp", description : "etcd peer" },
+      10257 : { protocol : "tcp", description : "Prometheus: kube-controller-manager" },
+      10259 : { protocol : "tcp", description : "Prometheus: kube-scheduler" },
     }
 
     content {

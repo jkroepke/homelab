@@ -1,14 +1,14 @@
 locals {
-  nodes_controller = {for k, v in {
-    1: {},
-    2: {},
-    3: {},
-  }: "controller${k}" => {
+  nodes_controller = { for k, v in {
+    1 : {},
+    2 : {},
+    3 : {},
+    } : "controller${k}" => {
     availability_zone = var.availability_zones[(k - 1) % length(var.availability_zones)],
-    subnet_id         = aws_subnet.subnet[
+    subnet_id = aws_subnet.subnet[
       var.availability_zones[(k - 1) % length(var.availability_zones)]
     ].id,
-  }}
+  } }
 }
 
 
@@ -56,7 +56,7 @@ resource "aws_instance" "controller" {
 
 
   tags = {
-    Name = "${var.name}-${each.key}"
+    Name    = "${var.name}-${each.key}"
     project = var.name
 
     "controller" = "true"

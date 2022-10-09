@@ -1,5 +1,5 @@
 data "ct_config" "this" {
-  content      = jsonencode({
+  content = jsonencode({
     storage = {
       filesystems = [{
         name = "etcd"
@@ -13,8 +13,8 @@ data "ct_config" "this" {
     }
     systemd = {
       units = [{
-        name = "var-lib-etcd.mount"
-        enable = true
+        name     = "var-lib-etcd.mount"
+        enable   = true
         contents = <<EOF
 [Unit]
 Before=local-fs.target

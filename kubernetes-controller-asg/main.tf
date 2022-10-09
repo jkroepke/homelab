@@ -31,7 +31,7 @@ module "controller_scale_handler" {
 
   name                  = "${var.project}-controller-scale-handler"
   route53_zone_id       = aws_route53_zone.this.id
-  autoscale_group_names = [for properties in values(local.controllers): properties.name]
+  autoscale_group_names = [for properties in values(local.controllers) : properties.name]
 }
 
 module "controller" {

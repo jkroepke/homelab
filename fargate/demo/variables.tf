@@ -1,5 +1,5 @@
 variable "project" {
-  default     = "jok-fargate-demo"
+  default = "jok-fargate-demo"
 }
 
 variable "cidr_block" {
@@ -8,5 +8,5 @@ variable "cidr_block" {
 }
 
 variable "eks_cluster_version" {
-  default     = "1.23"
+  default = "1.23"
 }

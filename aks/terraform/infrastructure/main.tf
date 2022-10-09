@@ -1,3 +1,7 @@
+locals {
+  aks_key_vaults = ["aks-dex"]
+}
+
 data "azurerm_client_config" "this" {}
 
 resource "azurerm_resource_provider_registration" "ContainerService" {

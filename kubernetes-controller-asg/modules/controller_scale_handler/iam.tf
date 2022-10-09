@@ -2,11 +2,11 @@ resource "aws_iam_role" "lambda" {
   name = var.name
 
   assume_role_policy = jsonencode({
-    Version   = "2012-10-17"
+    Version = "2012-10-17"
     Statement = [
       {
-        Sid       = ""
-        Action    = "sts:AssumeRole"
+        Sid    = ""
+        Action = "sts:AssumeRole"
         Principal = {
           Service = "lambda.amazonaws.com"
         },
@@ -31,8 +31,8 @@ data "aws_iam_policy_document" "lambda" {
   }
 
   statement {
-    effect    = "Allow"
-    actions   = [
+    effect = "Allow"
+    actions = [
       "ec2:DescribeInstances",
       "ec2:DescribeInstanceStatus",
       "ec2:DescribeTags",

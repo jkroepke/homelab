@@ -11,7 +11,7 @@ module "worker" {
 }
 
 resource "aws_security_group_rule" "worker-from-master" {
-  count  = var.worker_count
+  count = var.worker_count
 
   from_port         = 0
   protocol          = "-1"

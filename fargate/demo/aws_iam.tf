@@ -1,6 +1,6 @@
 resource "aws_iam_policy_attachment" "fargate-logging" {
-  name = "fargate-logging"
-  roles = [module.eks.fargate_profiles["default"].iam_role_name]
+  name       = "fargate-logging"
+  roles      = [module.eks.fargate_profiles["default"].iam_role_name]
   policy_arn = aws_iam_policy.fargate-logging.arn
 }
 

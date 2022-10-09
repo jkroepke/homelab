@@ -4,10 +4,10 @@ resource "aws_vpc" "vpc" {
   assign_generated_ipv6_cidr_block = true
 
   enable_dns_hostnames = true
-  enable_dns_support = true
+  enable_dns_support   = true
 
   tags = {
-    Name = var.name
+    Name    = var.name
     project = var.name
 
     "kubernetes.io/cluster/${var.name}" = "owned",
@@ -27,7 +27,7 @@ resource "aws_internet_gateway" "vpc" {
   vpc_id = aws_vpc.vpc.id
 
   tags = {
-    Name    = "${var.name}-gateway"
+    Name = "${var.name}-gateway"
   }
 }
 
@@ -40,9 +40,9 @@ resource "aws_default_route_table" "vpc" {
 }
 
 resource "aws_route" "vpc_ipv4" {
-  route_table_id            = aws_default_route_table.vpc.default_route_table_id
-  destination_cidr_block    = "0.0.0.0/0"
-  gateway_id                = aws_internet_gateway.vpc.id
+  route_table_id         = aws_default_route_table.vpc.default_route_table_id
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id             = aws_internet_gateway.vpc.id
 }
 
 resource "aws_route" "vpc_ipv6" {

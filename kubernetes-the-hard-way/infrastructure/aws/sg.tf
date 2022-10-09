@@ -1,5 +1,5 @@
 resource "aws_security_group" "external" {
-  name = "${var.name}-external"
+  name   = "${var.name}-external"
   vpc_id = aws_vpc.vpc.id
 
   ingress {
@@ -57,7 +57,7 @@ resource "aws_security_group" "external" {
 }
 
 resource "aws_security_group" "internal" {
-  name = "${var.name}-internal"
+  name   = "${var.name}-internal"
   vpc_id = aws_vpc.vpc.id
 
   ingress {

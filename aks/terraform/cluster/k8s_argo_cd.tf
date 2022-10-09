@@ -4,7 +4,7 @@ resource "helm_release" "argocd" {
   chart            = "argo-cd"
   namespace        = kubernetes_namespace.argocd.metadata[0].name
   version          = "5.5.16"
-  create_namespace = false
+  create_namespace = true
   atomic           = true
   cleanup_on_fail  = true
   lint             = true
