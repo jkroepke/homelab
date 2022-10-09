@@ -30,6 +30,7 @@ spec:
     server: "https://kubernetes.default.svc"
     namespace: infra-prometheus
 ---
+# ref: https://github.com/prometheus-operator/prometheus-operator/issues/4439#issuecomment-1030198014
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
