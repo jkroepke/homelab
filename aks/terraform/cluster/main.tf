@@ -3,11 +3,6 @@ data "azurerm_resource_group" "default" {
   name = "default"
 }
 
-data "azurerm_user_assigned_identity" "keyvault-access" {
-  name                = "keyvault-access"
-  resource_group_name = data.azurerm_resource_group.default.name
-}
-
 data "azurerm_key_vault" "dex" {
   name                = "kubernetes-dex"
   resource_group_name = "manual"

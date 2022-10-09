@@ -1,0 +1,43 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ingress-external-dns
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    chart: external-dns
+    repoURL: https://kubernetes-sigs.github.io/external-dns/
+    targetRevision: 1.11.0
+    helm:
+      releaseName: ingress-nginx
+      #parameters:
+      #  - name: controller.service.ipFamilyPolicy
+      #    value: RequireDualStack
+      values: |
+        serviceAccount:
+          create: false
+          name: external-dns
+        podAnnotations:
+          azure.workload.identity/inject-proxy-sidecar: "true"
+        serviceMonitor:
+          enabled: true
+        provider: azure
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+    retry:
+      limit: 0
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: infra-external-dns
+
