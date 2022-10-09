@@ -4,6 +4,10 @@ locals {
       namespace = "infra-external-dns"
       client-id = data.azurerm_user_assigned_identity.external-dns.client_id
     }
+    crossplane = {
+      namespace = "infra-crossplane"
+      client-id = data.azurerm_user_assigned_identity.external-dns.client_id
+    }
   }
 }
 

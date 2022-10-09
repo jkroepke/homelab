@@ -1,27 +1,24 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: ingress-nginx
+  name: crossplane
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   source:
-    chart: ingress-nginx
-    repoURL: https://kubernetes.github.io/ingress-nginx
-    targetRevision: 4.3.0
+    chart: crossplane
+    repoURL: https://charts.crossplane.io/stable
+    targetRevision: 1.9.1
     helm:
-      releaseName: ingress-nginx
-      #parameters:
-      #  - name: controller.service.ipFamilyPolicy
-      #    value: RequireDualStack
+      releaseName: crossplane
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
     syncOptions:
-      - CreateNamespace=true
+      - CreateNamespace=false
     retry:
       limit: 10
       backoff:
@@ -30,5 +27,4 @@ spec:
         maxDuration: 3m
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: infra-ingress-nginx
-
+    namespace: infra-crossplane
