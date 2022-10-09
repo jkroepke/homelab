@@ -9,8 +9,8 @@ data "azurerm_user_assigned_identity" "keyvault-access" {
 }
 
 data "azurerm_key_vault" "dex" {
-  name                = "dex"
-  resource_group_name = "credentials"
+  name                = "kubernetes-dex"
+  resource_group_name = "manual"
 }
 
 data "azurerm_key_vault_secret" "argocd-client-secret" {
