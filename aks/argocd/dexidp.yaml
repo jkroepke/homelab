@@ -19,7 +19,7 @@ spec:
         - name: env.GITHUB_CLIENT_SECRET
           path: secrets+literal://ref+azurekeyvault://kubernetes-dex/github-client-secret
         - name: env.ARGOCD_CLIENT_SECRET
-          path: secrets+literal://ref+azurekeyvault://kubernetes-de/argocd-client-secret
+          path: secrets+literal://ref+azurekeyvault://kubernetes-dex/argocd-client-secret
       values: |
         config:
           issuer: https://login.aks.jkroepke.de/dex
