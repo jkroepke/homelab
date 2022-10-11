@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: oci-test
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    chart: renovate-oci-demo/chart/renovate-oci-demo
+    repoURL: gcr.io:443
+    targetRevision: 2.0.0
+    helm:
+      releaseName: renovate-oci-demo
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+    retry:
+      limit: 0
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: oci-test
