@@ -13,6 +13,9 @@ spec:
     targetRevision: 2.0.0
     helm:
       releaseName: renovate-oci-demo
+      parameters:
+        - name: image.tag
+          value: latest
   syncPolicy:
     automated:
       prune: true

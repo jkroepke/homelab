@@ -97,6 +97,11 @@ resource "azurerm_kubernetes_cluster" "jok" {
     dns_service_ip     = "100.64.0.53"
   }
 
+  oms_agent {
+    enabled                    = true
+    log_analytics_workspace_id = azurerm_log_analytics_workspace.jok.id
+  }
+
   public_network_access_enabled     = true
   role_based_access_control_enabled = true
 
