@@ -98,8 +98,7 @@ resource "azurerm_kubernetes_cluster" "jok" {
   }
 
   oms_agent {
-    enabled                    = true
-    log_analytics_workspace_id = azurerm_log_analytics_workspace.jok.id
+    log_analytics_workspace_id = azurerm_log_analytics_workspace.default.id
   }
 
   public_network_access_enabled     = true
