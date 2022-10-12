@@ -16,6 +16,12 @@ spec:
       parameters:
         - name: controller.service.annotations.service\.beta\.kubernetes\.io/azure-load-balancer-health-probe-request-path
           value: /healthz
+      values: |
+        controller:
+          resources:
+            requests:
+              cpu: 10m
+              memory: 90Mi
   syncPolicy:
     automated:
       prune: true
