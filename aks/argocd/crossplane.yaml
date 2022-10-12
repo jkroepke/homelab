@@ -16,19 +16,19 @@ spec:
       values: |
         resourcesCrossplane:
           limits:
-            cpu: 100m
-            memory: 512Mi
+            cpu: 0
+            memory: 0
           requests:
-            cpu: 10m
-            memory: 128Mi
+            cpu: 0
+            memory: 0
         
         resourcesRBACManager:
           limits:
-            cpu: 100m
-            memory: 512Mi
+            cpu: 0
+            memory: 0
           requests:
-            cpu: 10m
-            memory: 128Mi
+            cpu: 0
+            memory: 0
 
 
   syncPolicy:
