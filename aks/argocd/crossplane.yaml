@@ -13,9 +13,24 @@ spec:
     targetRevision: 1.9.1
     helm:
       releaseName: crossplane
-      parameters:
-        - name: serviceAccount.create
-          value: "false"
+      values: |
+        resourcesCrossplane:
+          limits:
+            cpu: 100m
+            memory: 512Mi
+          requests:
+            cpu: 10m
+            memory: 128Mi
+        
+        resourcesRBACManager:
+          limits:
+            cpu: 100m
+            memory: 512Mi
+          requests:
+            cpu: 10m
+            memory: 128Mi
+
+
   syncPolicy:
     automated:
       prune: true
