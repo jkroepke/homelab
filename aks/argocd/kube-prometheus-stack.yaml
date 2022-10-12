@@ -14,6 +14,17 @@ spec:
     helm:
       releaseName: kube-prometheus-stack
       skipCrds: true
+      values: |
+        prometheusOperator:
+          prometheusConfigReloader:
+            resources:
+              requests:
+                cpu: 10m
+                memory: 10Mi
+              limits:
+                cpu: 100m
+                memory: 50Mi
+
   syncPolicy:
     automated:
       prune: true
