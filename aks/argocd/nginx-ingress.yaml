@@ -20,8 +20,8 @@ spec:
         controller:
           resources:
             requests:
-              cpu: 10m
-              memory: 90Mi
+              cpu: 0
+              memory: 0
   syncPolicy:
     automated:
       prune: true
