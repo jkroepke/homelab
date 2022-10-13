@@ -151,25 +151,11 @@ resource "azurerm_monitor_data_collection_rule" "vminsights" {
   }
 
   data_flow {
-    streams = [
-      "Microsoft-Syslog",
-      "Microsoft-Perf",
-    ]
-    destinations = ["log-analytics"]
-  }
-
-  data_flow {
     streams      = ["Microsoft-InsightsMetrics"]
-    destinations = ["metrics"]
+    destinations = ["metrics", "log-analytics"]
   }
 
   data_sources {
-    syslog {
-      name           = "syslog"
-      facility_names = ["*"]
-      log_levels     = ["*"]
-    }
-
     performance_counter {
       streams                       = ["Microsoft-InsightsMetrics"]
       sampling_frequency_in_seconds = 60
@@ -183,19 +169,8 @@ resource "azurerm_monitor_data_collection_rule" "vminsights" {
   ]
 }
 
-resource "azurerm_monitor_data_collection_endpoint" "default" {
-  name                = "default"
-  resource_group_name = azurerm_resource_group.default.name
-  location            = azurerm_resource_group.default.location
-}
-
 resource "azurerm_monitor_data_collection_rule_association" "bastionvminsights" {
   name                    = azurerm_linux_virtual_machine.bastion.name
   target_resource_id      = azurerm_linux_virtual_machine.bastion.id
   data_collection_rule_id = azurerm_monitor_data_collection_rule.vminsights.id
-}
-
-resource "azurerm_monitor_data_collection_rule_association" "bastion-metrics-endpoint" {
-  target_resource_id          = azurerm_linux_virtual_machine.bastion.id
-  data_collection_endpoint_id = azurerm_monitor_data_collection_endpoint.default.id
 }
