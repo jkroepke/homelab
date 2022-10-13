@@ -151,7 +151,7 @@ resource "azurerm_monitor_data_collection_rule" "vminsights" {
   }
 
   data_flow {
-    streams      = [
+    streams = [
       "Microsoft-Syslog",
       "Microsoft-Perf",
     ]

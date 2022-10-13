@@ -14,9 +14,9 @@ variable "location" {
 }
 
 variable "oidc_issuer_url" {
-  type        = string
+  type = string
 }
 
 variable "subject" {
-  type        = string
+  type = string
 }
