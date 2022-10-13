@@ -154,9 +154,13 @@ resource "azurerm_monitor_data_collection_rule" "vminsights" {
     streams      = [
       "Microsoft-Syslog",
       "Microsoft-Perf",
-      "Microsoft-InsightsMetrics"
     ]
     destinations = ["log-analytics"]
+  }
+
+  data_flow {
+    streams      = ["Microsoft-InsightsMetrics"]
+    destinations = ["metrics"]
   }
 
   data_sources {
@@ -177,4 +181,21 @@ resource "azurerm_monitor_data_collection_rule" "vminsights" {
   depends_on = [
     azurerm_log_analytics_solution.vminsights
   ]
+}
+
+resource "azurerm_monitor_data_collection_endpoint" "default" {
+  name                = "default"
+  resource_group_name = azurerm_resource_group.default.name
+  location            = azurerm_resource_group.default.location
+}
+
+resource "azurerm_monitor_data_collection_rule_association" "bastionvminsights" {
+  name                    = azurerm_linux_virtual_machine.bastion.name
+  target_resource_id      = azurerm_linux_virtual_machine.bastion.id
+  data_collection_rule_id = azurerm_monitor_data_collection_rule.vminsights.id
+}
+
+resource "azurerm_monitor_data_collection_rule_association" "bastion-metrics-endpoint" {
+  target_resource_id          = azurerm_linux_virtual_machine.bastion.id
+  data_collection_endpoint_id = azurerm_monitor_data_collection_endpoint.default.id
 }
