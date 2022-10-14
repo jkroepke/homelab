@@ -61,6 +61,11 @@ spec:
               use_pkce: true
               role_attribute_path: 'Admin'
 
+          dashboards:
+            default:
+              node-exporter-full:
+                gnetId: 1860
+                datasource: Prometheus
 
   syncPolicy:
     automated:
