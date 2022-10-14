@@ -29,6 +29,8 @@ spec:
                 memory: 0
         
         grafana:
+          testFramework:
+            enabled: false
           env:
             GF_SECURITY_DISABLE_INITIAL_ADMIN_CREATION: "true"
           ingress:
