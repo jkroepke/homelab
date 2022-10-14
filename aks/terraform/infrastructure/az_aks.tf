@@ -48,7 +48,7 @@ resource "azurerm_kubernetes_cluster" "jok" {
   oidc_issuer_enabled    = true
 
   key_vault_secrets_provider {
-    secret_rotation_enabled  = true
+    secret_rotation_enabled  = false
     secret_rotation_interval = "2m"
   }
 
@@ -95,10 +95,6 @@ resource "azurerm_kubernetes_cluster" "jok" {
     service_cidr       = "100.64.0.0/16"
     docker_bridge_cidr = "172.18.0.1/16"
     dns_service_ip     = "100.64.0.53"
-  }
-
-  oms_agent {
-    log_analytics_workspace_id = azurerm_log_analytics_workspace.default.id
   }
 
   public_network_access_enabled     = true

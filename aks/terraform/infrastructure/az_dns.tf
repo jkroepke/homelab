@@ -4,7 +4,7 @@ resource "azurerm_dns_zone" "aks_jkroepke_de" {
 }
 
 module "mi-external-dns" {
-  source              = "./modules/federated-managd-identity"
+  source              = "./modules/federated-managed-identity"
   name                = "external-dns"
   resource_group_name = azurerm_resource_group.default.name
   location            = azurerm_resource_group.default.location

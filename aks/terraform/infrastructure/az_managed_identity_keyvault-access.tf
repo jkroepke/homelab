@@ -1,5 +1,5 @@
 module "mi-keyvault-access" {
-  source              = "./modules/federated-managd-identity"
+  source              = "./modules/federated-managed-identity"
   name                = "keyvault-access"
   resource_group_name = azurerm_resource_group.default.name
   location            = azurerm_resource_group.default.location
