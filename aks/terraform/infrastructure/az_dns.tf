@@ -1,6 +1,6 @@
-resource "azurerm_dns_zone" "aks_jkroepke_de" {
+data "azurerm_dns_zone" "aks_jkroepke_de" {
   name                = "aks.jkroepke.de"
-  resource_group_name = azurerm_resource_group.default.name
+  resource_group_name = "manual"
 }
 
 module "mi-external-dns" {
@@ -13,7 +13,7 @@ module "mi-external-dns" {
 }
 
 resource "azurerm_role_assignment" "dns" {
-  scope                = azurerm_dns_zone.aks_jkroepke_de.id
+  scope                = data.azurerm_dns_zone.aks_jkroepke_de.id
   role_definition_name = "DNS Zone Contributor"
   principal_id         = module.mi-external-dns.principal_id
 }

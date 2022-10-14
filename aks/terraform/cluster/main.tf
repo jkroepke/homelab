@@ -4,11 +4,11 @@ data "azurerm_resource_group" "default" {
 }
 
 data "azurerm_key_vault" "dex" {
-  name                = "kubernetes-dex"
+  name                = "aks-credentials"
   resource_group_name = "manual"
 }
 
 data "azurerm_key_vault_secret" "argocd-client-secret" {
   key_vault_id = data.azurerm_key_vault.dex.id
-  name         = "argocd-client-secret"
+  name         = "dexidp-argocd-secret"
 }
