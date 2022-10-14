@@ -65,6 +65,7 @@ spec:
             default:
               node-exporter-full:
                 gnetId: 1860
+                revision: 27
                 datasource: Prometheus
 
   syncPolicy:
