@@ -15,11 +15,11 @@ spec:
       releaseName: dex
       fileParameters:
         - name: env.GITHUB_CLIENT_ID
-          path: secrets+literal://ref+azurekeyvault://aks-credentials/dexidp-github-client-id
+          path: secrets+literal://ref+azurekeyvault://aks-credentials/dexidp-github-id
         - name: env.GITHUB_CLIENT_SECRET
-          path: secrets+literal://ref+azurekeyvault://aks-credentials/dexidp-github-client-secret
+          path: secrets+literal://ref+azurekeyvault://aks-credentials/dexidp-github-secret
         - name: env.ARGOCD_CLIENT_SECRET
-          path: secrets+literal://ref+azurekeyvault://aks-credentials/dexidp-argocd-client-secret
+          path: secrets+literal://ref+azurekeyvault://aks-credentials/dexidp-argocd-secret
         - name: env.GRAFANA_CLIENT_SECRET
           path: secrets+literal://ref+azurekeyvault://aks-credentials/dexidp-grafana-client-secret
       values: |
