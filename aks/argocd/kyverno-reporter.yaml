@@ -1,0 +1,47 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kyverno-policy-reporter
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    chart: policy-reporter
+    repoURL: https://kyverno.github.io/policy-reporter
+    targetRevision: 2.5.5
+    helm:
+      releaseName: policy-reporter
+      values: |
+        metrics:
+          enabled: true
+        kyvernoPlugin:
+          enabled: true
+        ui:
+          clusterName: aks.jkroepke.de
+          plugins:
+            kyverno: true
+        ingress:
+          enabled: false
+          annotations:
+            cert-manager.io/cluster-issuer: letsencrypt
+            nginx.ingress.kubernetes.io/rewrite-target: /$1
+          hosts:
+            - host: kyverno.aks.jkroepke.de
+              paths:
+              - path: "/(.*)"
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      limit: 10
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: infra-kyverno
+
