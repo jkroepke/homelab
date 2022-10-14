@@ -14,6 +14,9 @@ spec:
     helm:
       releaseName: kube-prometheus-stack
       skipCrds: true
+      fileParameters:
+        - name: grafana.grafana\.ini.auth\.generic_oauth.client_secret
+          path: secrets+literal://ref+azurekeyvault://kubernetes-credentials/dexidp-grafana-client-secret
       values: |
         prometheusOperator:
           prometheusConfigReloader:
@@ -24,6 +27,34 @@ spec:
               limits:
                 cpu: 0
                 memory: 0
+        
+        grafana:
+          env:
+            GF_SECURITY_DISABLE_INITIAL_ADMIN_CREATION: "true"
+          ingress:
+            enabled: true
+            ingressClassName: nginx
+            annotations:
+              cert-manager.io/cluster-issuer: letsencrypt
+            hosts:
+              - grafana.aks.jkroepke.de
+            tls:
+              - secretName: grafana-ingress-tls
+                hosts:
+                  - grafana.aks.jkroepke.de
+          grafana.ini:
+            auth.generic_oauth:
+              enabled = true
+              allow_sign_up = true
+              name = login.aks.jkroepke.de
+              client_id = grafana
+              scopes = openid profile email
+              auth_url = https://login.aks.jkroepke.de/dex/auth
+              token_url = https://login.aks.jkroepke.de/dex/token
+              api_url = https://login.aks.jkroepke.de/dex/userinfo
+              use_pkce = true
+              role_attribute_path = 'Admin'
+
 
   syncPolicy:
     automated:

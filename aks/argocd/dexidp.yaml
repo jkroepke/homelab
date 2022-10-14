@@ -20,6 +20,8 @@ spec:
           path: secrets+literal://ref+azurekeyvault://kubernetes-credentials/dexidp-github-client-secret
         - name: env.ARGOCD_CLIENT_SECRET
           path: secrets+literal://ref+azurekeyvault://kubernetes-credentials/dexidp-argocd-client-secret
+        - name: env.GRAFANA_CLIENT_SECRET
+          path: secrets+literal://ref+azurekeyvault://kubernetes-credentials/dexidp-grafana-client-secret
       values: |
         config:
           issuer: https://login.aks.jkroepke.de/dex
@@ -47,6 +49,11 @@ spec:
                 - 'https://argocd.aks.jkroepke.de/auth/callback'
               name: 'ArgoCD'
               secretEnv: ARGOCD_CLIENT_SECRET
+            - id: grafana
+              redirectURIs:
+                - 'https://grafana.aks.jkroepke.de/login/generic_oauth'
+              name: 'ArgoCD'
+              secretEnv: GRAFANA_CLIENT_SECRET
         
         ingress:
           enabled: true
