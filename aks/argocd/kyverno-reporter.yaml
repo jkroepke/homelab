@@ -19,6 +19,7 @@ spec:
         kyvernoPlugin:
           enabled: true
         ui:
+          enabled: true
           clusterName: aks.jkroepke.de
           plugins:
             kyverno: true
