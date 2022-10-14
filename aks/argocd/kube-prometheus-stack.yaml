@@ -61,6 +61,18 @@ spec:
               use_pkce: true
               role_attribute_path: 'Admin'
 
+          dashboardProviders:
+            dashboardproviders.yaml:
+              apiVersion: 1
+              providers:
+              - name: 'default'
+                orgId: 1
+                folder: ''
+                type: file
+                disableDeletion: true
+                editable: true
+                options:
+                  path: /var/lib/grafana/dashboards/default
           dashboards:
             default:
               cert-manager:
