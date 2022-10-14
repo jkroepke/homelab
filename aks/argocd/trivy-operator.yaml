@@ -8,9 +8,9 @@ metadata:
 spec:
   project: default
   source:
-    chart: kyverno
+    chart: trivy-operator
     repoURL: https://aquasecurity.github.io/helm-charts/
-    targetRevision: 0.3.0
+    targetRevision: 0.30.0
     helm:
       releaseName: trivy-operator
       parameters:
