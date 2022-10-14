@@ -14,6 +14,13 @@ spec:
     helm:
       releaseName: policy-reporter
       values: |
+        monitoring:
+          enabled: true
+          grafana:
+            namespace: infra-prometheus
+          serviceMonitor:
+            labels:
+              release: "kube-prometheus-stack"
         metrics:
           enabled: true
         kyvernoPlugin:
