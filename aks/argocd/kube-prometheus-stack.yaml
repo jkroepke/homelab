@@ -45,6 +45,8 @@ spec:
                 hosts:
                   - grafana.aks.jkroepke.de
           grafana.ini:
+            server:
+              root_url: https://grafana.aks.jkroepke.de
             auth:
               oauth_auto_login: true
             auth.generic_oauth:
