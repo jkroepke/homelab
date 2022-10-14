@@ -63,6 +63,14 @@ spec:
 
           dashboards:
             default:
+              cert-manager:
+                gnetId: 11001
+                revision: 1
+                datasource: Prometheus
+              nginx-ingress-exporter:
+                gnetId: 9614
+                revision: 1
+                datasource: Prometheus
               node-exporter-full:
                 gnetId: 1860
                 revision: 27

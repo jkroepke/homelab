@@ -16,6 +16,8 @@ spec:
       parameters:
         - name: installCRDs
           value: "true"
+        - name: prometheus.servicemonitor.enabled
+          value: "true"
   syncPolicy:
     automated:
       prune: true
