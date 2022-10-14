@@ -20,7 +20,7 @@ spec:
           value: "true"
       fileParameters:
         - name: secrets.GITHUB_EXPORTER_TOKEN
-          path: secrets+literal://ref+azurekeyvault://aks-credentials/dexidp-argocd-client-secret
+          path: secrets+literal://ref+azurekeyvault://aks-credentials/github-pat
 
   syncPolicy:
     automated:
