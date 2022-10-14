@@ -18,6 +18,8 @@ spec:
           value: "true"
         - name: prometheus.servicemonitor.enabled
           value: "true"
+        - name: prometheus.servicemonitor.labels.release
+          value: "kube-prometheus-stack"
   syncPolicy:
     automated:
       prune: true

@@ -16,6 +16,10 @@ spec:
       parameters:
         - name: controller.service.annotations.service\.beta\.kubernetes\.io/azure-load-balancer-health-probe-request-path
           value: /healthz
+        - name: controller.metrics.serviceMonitor.enabled
+          value: "true"
+        - name: controller.metrics.serviceMonitor.additionalLabels.release
+          value: "kube-prometheus-stack"
       values: |
         controller:
           resources:
