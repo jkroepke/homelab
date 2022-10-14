@@ -44,16 +44,16 @@ spec:
                   - grafana.aks.jkroepke.de
           grafana.ini:
             auth.generic_oauth:
-              enabled = true
-              allow_sign_up = true
-              name = login.aks.jkroepke.de
-              client_id = grafana
-              scopes = openid profile email
-              auth_url = https://login.aks.jkroepke.de/dex/auth
-              token_url = https://login.aks.jkroepke.de/dex/token
-              api_url = https://login.aks.jkroepke.de/dex/userinfo
-              use_pkce = true
-              role_attribute_path = 'Admin'
+              enabled: true
+              allow_sign_up: true
+              name: login.aks.jkroepke.de
+              client_id: grafana
+              scopes: openid profile email
+              auth_url: https://login.aks.jkroepke.de/dex/auth
+              token_url: https://login.aks.jkroepke.de/dex/token
+              api_url: https://login.aks.jkroepke.de/dex/userinfo
+              use_pkce: true
+              role_attribute_path: 'Admin'
 
 
   syncPolicy:
