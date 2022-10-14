@@ -18,6 +18,8 @@ spec:
           value: "true"
         - name: serviceMonitor.additionalLabels.release
           value: "kube-prometheus-stack"
+        - name: resources.limits.cpu
+          value: 100m
   syncPolicy:
     automated:
       prune: true
