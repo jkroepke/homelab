@@ -1,0 +1,40 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: github-exporter
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    chart: github-exporter
+    repoURL: https://jkroepke.github.io/helm-charts/
+    targetRevision: 1.0.0
+    helm:
+      releaseName: github-exporter
+      parameters:
+        - name: env.GITHUB_EXPORTER_REPOSITORY
+          value: jkroepke/github_exporter,jkroepke/helm-secrets,jkroepke/2Moons
+        - name: metrics.serviceMonitor.enabled
+          value: "true"
+      fileParameters:
+        - name: secrets.GITHUB_EXPORTER_TOKEN
+          path: secrets+literal://ref+azurekeyvault://kubernetes-credentials/dexidp-argocd-client-secret
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=false
+    retry:
+      limit: 10
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: infra-prometheus
+
