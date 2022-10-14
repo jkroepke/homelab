@@ -16,7 +16,7 @@ spec:
       skipCrds: true
       fileParameters:
         - name: grafana.grafana\.ini.auth\.generic_oauth.client_secret
-          path: secrets+literal://ref+azurekeyvault://kubernetes-credentials/dexidp-grafana-client-secret
+          path: secrets+literal://ref+azurekeyvault://aks-credentials/dexidp-grafana-client-secret
       values: |
         prometheusOperator:
           prometheusConfigReloader:
