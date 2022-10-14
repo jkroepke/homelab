@@ -1,0 +1,37 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kyverno
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    chart: kyverno
+    repoURL: https://kyverno.github.io/kyverno/
+    targetRevision: 2.6.0
+    helm:
+      releaseName: kyverno
+      parameters:
+        - name: serviceMonitor.enabled
+          value: "true"
+        - name: serviceMonitor.additionalLabels.release
+          value: "kube-prometheus-stack"
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - Replace=true
+    retry:
+      limit: 10
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: infra-kyverno
+
