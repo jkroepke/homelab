@@ -16,6 +16,8 @@ spec:
       parameters:
         - name: trivy.ignoreUnfixed
           value: "true"
+        - name: operator.scanJobsConcurrentLimit
+          value: "1"
   syncPolicy:
     automated:
       prune: true
