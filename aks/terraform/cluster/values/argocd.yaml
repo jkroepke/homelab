@@ -47,7 +47,7 @@ server:
       requestedIDTokenClaims: {"groups": {"essential": true}}
     resource.exclusions: |
       - apiGroups:
-        - "aquasecurity.github.io/v1alpha1"
+        - "aquasecurity.github.io"
         kinds:
         - "*"
         clusters:

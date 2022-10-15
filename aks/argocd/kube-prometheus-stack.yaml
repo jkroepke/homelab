@@ -98,6 +98,22 @@ spec:
                 gnetId: 1860
                 revision: 27
                 datasource: Prometheus
+              kube-state-metrics-v2:
+                gnetId: 13332
+                revision: 12
+                datasource: Prometheus
+              prometheus-2.0-overview:
+                gnetId: 3662
+                revision: 2
+                datasource: Prometheus
+              cluster-monitoring-for-kubernetes:
+                gnetId: 10000
+                revision: 1
+                datasource: Prometheus
+              argocd:
+                gnetId: 14584
+                revision: 1
+                datasource: Prometheus
 
   syncPolicy:
     automated:
