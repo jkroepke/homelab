@@ -118,8 +118,8 @@ notifications:
 
   notifiers:
     service.github: |
-      appID: "248788"
-      installationID: "30238637"
+      appID: 248788
+      installationID: 30238637
       privateKey: $github-client-secret
 
   triggers:
