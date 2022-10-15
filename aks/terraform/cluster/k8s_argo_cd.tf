@@ -20,14 +20,27 @@ resource "helm_release" "argocd" {
     value = data.azurerm_user_assigned_identity.keyvault-access.client_id
   }
 
-  set {
-    name  = "repoServer.serviceAccount.labels.azure\\.workload\\.identity/use"
-    value = "true"
+  set_sensitive {
+    name  = "configs.secret.extra.oidc\\.dex\\.clientSecret"
+    value = data.azurerm_key_vault_secret.aks-credentials["dexidp-argocd-secret"].value
   }
 
-  set {
-    name  = "configs.secret.extra.oidc\\.dex\\.clientSecret"
-    value = data.azurerm_key_vault_secret.argocd-client-secret.value
+  set_sensitive {
+    name  = "notifications.secret.items.github-app-id"
+    value = data.azurerm_key_vault_secret.aks-credentials["argocd-notifications-github-app-id"].value
+    type = "string"
+  }
+
+  set_sensitive {
+    name  = "notifications.secret.items.github-client-id"
+    value = data.azurerm_key_vault_secret.aks-credentials["argocd-notifications-github-client-id"].value
+    type = "string"
+  }
+
+  set_sensitive {
+    name  = "notifications.secret.items.github-client-secret"
+    value = data.azurerm_key_vault_secret.aks-credentials["argocd-notifications-github-client-secret"].value
+    type = "string"
   }
 }
 

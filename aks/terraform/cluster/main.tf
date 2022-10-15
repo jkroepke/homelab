@@ -3,12 +3,19 @@ data "azurerm_resource_group" "default" {
   name = "default"
 }
 
-data "azurerm_key_vault" "dex" {
+data "azurerm_key_vault" "aks-credentials" {
   name                = "aks-credentials"
   resource_group_name = "manual"
 }
 
-data "azurerm_key_vault_secret" "argocd-client-secret" {
-  key_vault_id = data.azurerm_key_vault.dex.id
-  name         = "dexidp-argocd-secret"
+data "azurerm_key_vault_secret" "aks-credentials" {
+  for_each = toset([
+    "dexidp-argocd-secret",
+    "argocd-notifications-github-app-id",
+    "argocd-notifications-github-client-id",
+    "argocd-notifications-github-client-secret",
+  ])
+
+  key_vault_id = data.azurerm_key_vault.aks-credentials.id
+  name         = each.key
 }

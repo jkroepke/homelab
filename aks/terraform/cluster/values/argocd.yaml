@@ -49,6 +49,9 @@ server:
     enabled: true
 
 repoServer:
+  serviceAccount:
+    labels:
+      "azure.workload.identity/use": "true"
   metrics:
     enabled: true
   env:
@@ -108,3 +111,22 @@ applicationSet:
 
 dex:
   enabled: false
+
+notifications:
+  metrics:
+    enabled: true
+
+  notifiers:
+    service.github: |
+      appID: $github-app-id
+      installationID: $github-client-id
+      privateKey: $github-client-secret
+
+  triggers:
+    trigger.sync-operation-change: |
+      - when: app.status.operationState.phase in ['Succeeded']
+        send: [github-commit-status]
+      - when: app.status.operationState.phase in ['Running']
+        send: [github-commit-status]
+      - when: app.status.operationState.phase in ['Error', 'Failed']
+        send: [github-commit-status]

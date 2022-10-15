@@ -7,6 +7,8 @@ resource "azurerm_user_assigned_identity" "this" {
 resource "null_resource" "federated-credentials" {
   triggers = {
     id                  = azurerm_user_assigned_identity.this.id
+    name                = var.name
+    subject             = var.subject
     oidc_issuer_url     = var.oidc_issuer_url
     resource_group_name = var.resource_group_name
   }
@@ -16,9 +18,9 @@ resource "null_resource" "federated-credentials" {
   provisioner "local-exec" {
     command = join(" ", [
       "az", "identity", "federated-credential", "create",
-      "--name argocd--argocd-repo-server",
       "--resource-group ${self.triggers.resource_group_name}",
-      "--identity-name ${var.name}",
+      "--identity-name ${self.triggers.name}",
+      "--name ${replace(self.triggers.subject, ":", "-")}",
       "--issuer ${self.triggers.oidc_issuer_url}",
       "--subject ${var.subject}",
     ])
@@ -28,8 +30,9 @@ resource "null_resource" "federated-credentials" {
     when = destroy
     command = join(" ", [
       "az", "identity", "federated-credential", "delete",
-      "--name argocd--argocd-repo-server",
       "--resource-group ${self.triggers.resource_group_name}",
+      "--identity-name ${self.triggers.name}",
+      "--name argocd--argocd-repo-server",
     ])
   }
 }

@@ -22,7 +22,7 @@ resource "azurerm_kubernetes_cluster" "jok" {
     zones    = ["1"]
     max_pods = 110
 
-    os_sku         = "CBLMariner"
+    os_sku         = "Ubuntu"
     vnet_subnet_id = azurerm_subnet.default.id
 
     enable_auto_scaling = true
