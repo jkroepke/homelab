@@ -81,7 +81,7 @@ spec:
                 folder: ''
                 type: file
                 disableDeletion: true
-                editable: true
+                editable: false
                 options:
                   path: /var/lib/grafana/dashboards/default
           dashboards:
