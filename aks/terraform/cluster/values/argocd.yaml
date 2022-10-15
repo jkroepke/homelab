@@ -45,6 +45,13 @@ server:
       clientSecret: $oidc.dex.clientSecret
       requestedScopes: ["openid", "profile", "email", "groups"]
       requestedIDTokenClaims: {"groups": {"essential": true}}
+    resource.exclusions: |
+      - apiGroups:
+        - "aquasecurity.github.io/v1alpha1"
+        kinds:
+        - "*"
+        clusters:
+        - https://kubernetes.default.svc
   extensions:
     enabled: true
 
