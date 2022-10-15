@@ -12,6 +12,8 @@ provider "kubernetes" {
 }
 
 provider "helm" {
+  repository_config_path = "repository.yaml"
+
   kubernetes {
     config_path = "~/.kube/config_jok"
   }
