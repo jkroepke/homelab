@@ -118,7 +118,7 @@ notifications:
 
   notifiers:
     service.github: |
-      appID: $github-app-id
+      appID: "$github-app-id"
       installationID: $github-client-id
       privateKey: $github-client-secret
 
