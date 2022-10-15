@@ -31,6 +31,11 @@ spec:
               limits:
                 cpu: 0
                 memory: 0
+          admissionWebhooks:
+            patch:
+              enabled: false
+            certManager:
+              enabled: true
         
         grafana:
           testFramework:
