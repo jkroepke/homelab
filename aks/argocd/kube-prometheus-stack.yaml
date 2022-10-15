@@ -53,6 +53,9 @@ spec:
               root_url: https://grafana.aks.jkroepke.de
             auth:
               oauth_auto_login: true
+            users:
+              auto_assign_org_role: Admin
+              disable_login_form: true
             auth.generic_oauth:
               enabled: true
               allow_sign_up: true
@@ -63,7 +66,6 @@ spec:
               token_url: https://login.aks.jkroepke.de/dex/token
               api_url: https://login.aks.jkroepke.de/dex/userinfo
               use_pkce: true
-              role_attribute_path: 'Admin'
         
           dashboardProviders:
             dashboardproviders.yaml:
