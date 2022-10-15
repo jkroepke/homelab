@@ -33,6 +33,7 @@ resource "null_resource" "federated-credentials" {
       "--resource-group ${self.triggers.resource_group_name}",
       "--identity-name ${self.triggers.name}",
       "--name argocd--argocd-repo-server",
+      "--yes",
     ])
   }
 }

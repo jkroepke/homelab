@@ -1,8 +1,14 @@
+data "azurerm_kubernetes_service_versions" "current" {
+  location = azurerm_resource_group.default.location
+  include_preview = false
+}
+
 resource "azurerm_kubernetes_cluster" "jok" {
   resource_group_name = azurerm_resource_group.default.name
   location            = azurerm_resource_group.default.location
 
-  name = "jok"
+  name               = "jok"
+  kubernetes_version = data.azurerm_kubernetes_service_versions.current.latest_version
 
   automatic_channel_upgrade = "rapid"
   dns_prefix                = "jok"
@@ -40,11 +46,20 @@ resource "azurerm_kubernetes_cluster" "jok" {
     #kubelet_disk_type      = "Temporary"
   }
 
+  linux_profile {
+    admin_username = "adminuser"
+
+    ssh_key {
+      key_data = local.public_key
+    }
+  }
+
   identity {
     type = "SystemAssigned"
   }
 
   local_account_disabled = true
+  node_resource_group    = "${azurerm_resource_group.default.name}-aks"
   oidc_issuer_enabled    = true
 
   key_vault_secrets_provider {
