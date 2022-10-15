@@ -122,12 +122,54 @@ notifications:
       installationID: 30238637
       privateKey: $github-client-secret
 
+  argocdUrl: https://argocd.aks.jkroepke.de
+
+  templates:
+    template.app-sync-running: |
+      message: |
+        The sync operation of application {{.app.metadata.name}} has started at {{.app.status.operationState.startedAt}}.
+        Sync operation details are available at: {{.context.argocdUrl}}/applications/{{.app.metadata.name}}?operation=true .
+      github:
+        status:
+          state: pending
+          label: "continuous-delivery/{{.app.metadata.name}}"
+          targetURL: "{{.context.argocdUrl}}/applications/{{.app.metadata.name}}?operation=true"
+    template.app-sync-succeeded: |
+      message: |
+        {{if eq .serviceType "slack"}}:white_check_mark:{{end}} Application {{.app.metadata.name}} has been successfully synced at {{.app.status.operationState.finishedAt}}.
+        Sync operation details are available at: {{.context.argocdUrl}}/applications/{{.app.metadata.name}}?operation=true .
+      github:
+        status:
+          state: success
+          label: "continuous-delivery/{{.app.metadata.name}}"
+          targetURL: "{{.context.argocdUrl}}/applications/{{.app.metadata.name}}?operation=true"
+    template.app-sync-status-unknown: |
+      message: |
+        {{if eq .serviceType "slack"}}:exclamation:{{end}} Application {{.app.metadata.name}} sync is 'Unknown'.
+        Application details: {{.context.argocdUrl}}/applications/{{.app.metadata.name}}.
+        {{if ne .serviceType "slack"}}
+        {{range $c := .app.status.conditions}}
+            * {{$c.message}}
+        {{end}}
+        {{end}}
+      github:
+        status:
+          state: failure
+          label: "continuous-delivery/{{.app.metadata.name}}"
+          targetURL: "{{.context.argocdUrl}}/applications/{{.app.metadata.name}}?operation=true"
+    template.app-sync-status-failed: |
+      message: |
+        {{if eq .serviceType "slack"}}:exclamation:{{end}}  The sync operation of application {{.app.metadata.name}} has failed at {{.app.status.operationState.finishedAt}} with the following error: {{.app.status.operationState.message}}
+        Sync operation details are available at: {{.context.argocdUrl}}/applications/{{.app.metadata.name}}?operation=true .
+      github:
+        status:
+          state: error
+          label: "continuous-delivery/{{.app.metadata.name}}"
+          targetURL: "{{.context.argocdUrl}}/applications/{{.app.metadata.name}}?operation=true"
+
   triggers:
-    # language=yaml
-    trigger.sync-operation-change: |
-      - when: app.status.operationState.phase in ['Succeeded']
-        send: [github-commit-status]
-      - when: app.status.operationState.phase in ['Running']
-        send: [github-commit-status]
-      - when: app.status.operationState.phase in ['Error', 'Failed']
-        send: [github-commit-status]
+    defaultTriggers: |
+      - on-sync-failed
+      - on-sync-running
+      - on-sync-status-unknown
+      - on-sync-succeeded
