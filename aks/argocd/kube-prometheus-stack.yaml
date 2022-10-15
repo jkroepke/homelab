@@ -17,6 +17,7 @@ spec:
       fileParameters:
         - name: grafana.grafana\.ini.auth\.generic_oauth.client_secret
           path: secrets+literal://ref+azurekeyvault://aks-credentials/dexidp-grafana-client-secret
+      # language=yaml
       values: |
         prometheus:
           prometheusSpec:
@@ -63,7 +64,7 @@ spec:
               api_url: https://login.aks.jkroepke.de/dex/userinfo
               use_pkce: true
               role_attribute_path: 'Admin'
-
+        
           dashboardProviders:
             dashboardproviders.yaml:
               apiVersion: 1

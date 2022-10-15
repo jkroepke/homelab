@@ -123,6 +123,7 @@ notifications:
       privateKey: $github-client-secret
 
   triggers:
+    # language=yaml
     trigger.sync-operation-change: |
       - when: app.status.operationState.phase in ['Succeeded']
         send: [github-commit-status]
