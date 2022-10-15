@@ -10,6 +10,7 @@ spec:
   source:
     chart: dex
     repoURL: https://charts.dexidp.io
+    # https://artifacthub.io/packages/helm/dex/dex
     targetRevision: 0.12.0
     helm:
       releaseName: dex
