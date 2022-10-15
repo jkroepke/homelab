@@ -26,20 +26,8 @@ resource "helm_release" "argocd" {
   }
 
   set_sensitive {
-    name  = "notifications.secret.items.github-app-id"
-    value = data.azurerm_key_vault_secret.aks-credentials["argocd-notifications-github-app-id"].value
-    type = "string"
-  }
-
-  set_sensitive {
-    name  = "notifications.secret.items.github-client-id"
-    value = data.azurerm_key_vault_secret.aks-credentials["argocd-notifications-github-client-id"].value
-    type = "string"
-  }
-
-  set_sensitive {
     name  = "notifications.secret.items.github-client-secret"
-    value = data.azurerm_key_vault_secret.aks-credentials["argocd-notifications-github-client-secret"].value
+    value = base64decode(data.azurerm_key_vault_secret.aks-credentials["argocd-notifications-github-app-private-key"].value)
     type = "string"
   }
 }

@@ -14,9 +14,7 @@ data "azurerm_key_vault" "aks-credentials" {
 data "azurerm_key_vault_secret" "aks-credentials" {
   for_each = toset([
     "dexidp-argocd-secret",
-    "argocd-notifications-github-app-id",
-    "argocd-notifications-github-client-id",
-    "argocd-notifications-github-client-secret",
+    "argocd-notifications-github-app-private-key",
   ])
 
   key_vault_id = data.azurerm_key_vault.aks-credentials.id
