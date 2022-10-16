@@ -25,6 +25,7 @@ spec:
           rules:
             etcd: false
             kubeControllerManager: false
+            kubeProxy: false
             kubeSchedulerAlerting: false
             kubeSchedulerRecording: false
         prometheus:
