@@ -4,6 +4,7 @@ locals {
 }
 
 data "azurerm_client_config" "this" {}
+data "azurerm_subscription" "current" {}
 
 resource "azurerm_resource_provider_registration" "ContainerService" {
   name = "Microsoft.ContainerService"

@@ -55,12 +55,20 @@ resource "azurerm_kubernetes_cluster" "jok" {
   }
 
   identity {
-    type = "SystemAssigned"
+    type = "UserAssigned"
+    identity_ids = [azurerm_user_assigned_identity.aks.id]
   }
 
-  local_account_disabled = true
-  node_resource_group    = "${azurerm_resource_group.default.name}-aks"
-  oidc_issuer_enabled    = true
+  kubelet_identity {
+    client_id                 = azurerm_user_assigned_identity.aks-kubelet.client_id
+    object_id                 = azurerm_user_assigned_identity.aks-kubelet.principal_id
+    user_assigned_identity_id = azurerm_user_assigned_identity.aks-kubelet.id
+  }
+
+  local_account_disabled    = true
+  node_resource_group       = "${azurerm_resource_group.default.name}-aks"
+  oidc_issuer_enabled       = true
+  workload_identity_enabled = true
 
   key_vault_secrets_provider {
     secret_rotation_enabled  = false
@@ -118,22 +126,16 @@ resource "azurerm_kubernetes_cluster" "jok" {
   run_command_enabled = true
   sku_tier            = "Free"
 
-  depends_on = [azurerm_resource_provider_registration.ContainerService]
+  depends_on = [
+    azurerm_subscription_policy_assignment.vmss-vm-insights,
+    azurerm_resource_provider_registration.ContainerService,
+    azurerm_role_assignment.mi-aks-contributor,
+    azurerm_role_assignment.mi-aks-mi-operator
+  ]
 }
 
 resource "azurerm_role_assignment" "jok" {
   scope                = azurerm_kubernetes_cluster.jok.id
   role_definition_name = "Azure Kubernetes Service RBAC Cluster Admin"
   principal_id         = data.azurerm_client_config.this.object_id
-}
-
-resource "null_resource" "enable-workload-identity" {
-  triggers = {
-    id = azurerm_kubernetes_cluster.jok.id
-  }
-
-  # https://github.com/hashicorp/terraform-provider-azurerm/issues/18666
-  provisioner "local-exec" {
-    command = "az aks update -g ${azurerm_kubernetes_cluster.jok.resource_group_name} -n ${azurerm_kubernetes_cluster.jok.name} --enable-workload-identity"
-  }
 }
