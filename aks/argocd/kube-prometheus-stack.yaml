@@ -20,6 +20,13 @@ spec:
           path: secrets+literal://ref+azurekeyvault://aks-credentials/dexidp-grafana-client-secret
       # language=yaml
       values: |
+        defaultRules:
+          create: true
+          rules:
+            etcd: false
+            kubeControllerManager: false
+            kubeSchedulerAlerting: false
+            kubeSchedulerRecording: false
         prometheus:
           prometheusSpec:
             scrapeInterval: 30s
