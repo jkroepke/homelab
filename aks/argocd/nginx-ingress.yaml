@@ -23,6 +23,10 @@ spec:
           value: "kube-prometheus-stack"
       values: |
         controller:
+          metrics:
+            enabled: true
+            serviceMonitor:
+              enabled: true
           resources:
             requests:
               cpu: 0

@@ -98,7 +98,7 @@ spec:
               providers:
               - name: 'default'
                 orgId: 1
-                folder: ''
+                folder: 'grafana-net'
                 type: file
                 disableDeletion: true
                 editable: false
@@ -125,10 +125,6 @@ spec:
               prometheus-2.0-overview:
                 gnetId: 3662
                 revision: 2
-                datasource: Prometheus
-              cluster-monitoring-for-kubernetes:
-                gnetId: 10000
-                revision: 1
                 datasource: Prometheus
               argocd:
                 gnetId: 14584
