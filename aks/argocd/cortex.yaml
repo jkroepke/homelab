@@ -13,6 +13,9 @@ spec:
     targetRevision: 1.7.0
     helm:
       releaseName: cortex
+      parameters:
+        - name: image.tag
+          value: master-250f7f3
       fileParameters:
         - name: "config.alertmanager.storage.azure.user_assigned_id"
           path: "kubectl://infra-cortex/sa/cortex/jsonpath={.metadata.annotations.azure\\\\.workload\\\\.identity/client-id}"
@@ -98,6 +101,8 @@ spec:
               release: kube-prometheus-stack
           podAnnotations:
             azure.workload.identity/inject-proxy-sidecar: "true"
+          persistentVolume:
+            enabled: false
         
         config:
           auth_enabled: false
