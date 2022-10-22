@@ -121,7 +121,7 @@ spec:
                 account_name: jokmspcortex
                 container_name: cortex
                 msi_resource: ""
-                user_assigned_id: '{{ (lookup "v1" "ServiceAccount" "infra-cortex" "cortex").metadata.name }}'
+                user_assigned_id: '{{ (lookup "v1" "ServiceAccount" "infra-cortex" "cortex").metadata }}'
 
         serviceAccount:
           create: false
