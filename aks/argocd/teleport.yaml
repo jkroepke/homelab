@@ -18,6 +18,8 @@ spec:
       values: |
         clusterName: teleport.aks.jkroepke.de
         kubeClusterName: jok
+        operator:
+          enabled: true
         authentication:
           type: github
           connectorName: github
