@@ -59,17 +59,21 @@ server:
 repoServer:
   clusterAdminAccess:
     enabled: true
+  clusterRoleRules:
+    # -- Enable custom rules for the Repo server's Cluster Role resource
+    enabled: false
+    # -- List of custom rules for the Repo server's Cluster Role resource
+    rules:
+      - apiGroups:
+          - '*'
+        resources:
+          - '*'
+        verbs:
+          - 'list'
+          - 'get'
   serviceAccount:
     labels:
       "azure.workload.identity/use": "true"
-  rbac:
-    - apiGroups:
-        - "*"
-      resources:
-        - "*"
-      verbs:
-        - list
-        - get
   metrics:
     enabled: true
   env:
@@ -117,7 +121,7 @@ repoServer:
       args:
         - |
           mkdir -p /custom-tools/helm-plugins
-          wget -qO- https://github.com/jkroepke/helm-kubectl/releases/download/v${HELM_SECRETS_VERSION}/helm-kubectl.tar.gz | tar -C /custom-tools/helm-plugins -xzf-;
+          wget -qO- https://github.com/jkroepke/helm-kubectl/releases/download/v${HELM_KUBECTL_VERSION}/helm-kubectl.tar.gz | tar -C /custom-tools/helm-plugins -xzf-;
           wget -qO- https://github.com/jkroepke/helm-secrets/releases/download/v${HELM_SECRETS_VERSION}/helm-secrets.tar.gz | tar -C /custom-tools/helm-plugins -xzf-;
           wget -qO /custom-tools/kubectl https://dl.k8s.io/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl
 
