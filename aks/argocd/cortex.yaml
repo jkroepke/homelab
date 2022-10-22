@@ -18,6 +18,8 @@ spec:
           path: "kubectl://infra-cortex/sa/cortex/jsonpath={.metadata.annotations.azure\\\\.workload\\\\.identity/client-id}"
         - name: "config.ruler.storage.azure.user_assigned_id"
           path: "kubectl://infra-cortex/sa/cortex/jsonpath={.metadata.annotations.azure\\\\.workload\\\\.identity/client-id}"
+        - name: "config.storage.azure.user_assigned_id"
+          path: "kubectl://infra-cortex/sa/cortex/jsonpath={.metadata.annotations.azure\\\\.workload\\\\.identity/client-id}"
       #language=yaml
       values: |
         alertmanager:
@@ -119,6 +121,13 @@ spec:
                 container_name: ruler
                 msi_resource: ""
                 #user_assigned_id: '{{ get ((lookup "v1" "ServiceAccount" "infra-cortex" "cortex").metadata.annotations) "azure.workload.identity/client-id" }}'
+          
+          storage:
+            azure:
+              account_name: jokmspcortex
+              container_name: cortex
+              msi_resource: ""
+              #user_assigned_id: '{{ get ((lookup "v1" "ServiceAccount" $.Release.Namespace "cortex").metadata.annotations) "azure.workload.identity/client-id" }}'
 
         serviceAccount:
           create: false
