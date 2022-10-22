@@ -117,6 +117,7 @@ spec:
             storage: ~
         
           alertmanager_storage:
+            backend: azure
             azure:
               account_name: jokmspcortex
               container_name: alertmanager
@@ -126,6 +127,7 @@ spec:
             storage: ~
         
           ruler_storage:
+            backend: azure
             azure:
               account_name: jokmspcortex
               container_name: ruler
@@ -135,6 +137,7 @@ spec:
             index_queries_cache_config: ~
         
           blocks_storage:
+            backend: azure
             azure:
               account_name: jokmspcortex
               container_name: cortex
