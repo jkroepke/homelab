@@ -16,7 +16,7 @@ spec:
       releaseName: teleport-cluster
       # language=yaml
       values: |
-        clusterName: jok
+        clusterName: teleport.aks.jkroepke.de
         kubeClusterName: jok
         authentication:
           type: github
