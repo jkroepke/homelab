@@ -29,7 +29,7 @@ spec:
         podSecurityPolicy:
           enabled: false
         chartMode: standalone
-        sessionRecording: off
+        sessionRecording: "off"
         acme: true
         acmeEmail: jqe82069@nezid.com
         annotations:
