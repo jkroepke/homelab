@@ -142,6 +142,7 @@ spec:
 
         serviceAccount:
           create: false
+          name: cortex
 
         memcached:
           enabled: false
