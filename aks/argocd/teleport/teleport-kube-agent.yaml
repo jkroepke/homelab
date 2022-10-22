@@ -17,7 +17,7 @@ spec:
       # language=yaml
       values: |
         kubeClusterName: jok
-        proxyAddr: https://teleport-cluster:443
+        proxyAddr: https://teleport.aks.jkroepke.de:443
         authToken: 88a7755b0224f327aa21d004f006adbb
         labels:
           env: prod
