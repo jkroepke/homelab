@@ -8,51 +8,20 @@ metadata:
 spec:
   project: default
   source:
-    chart: teleport-cluster
-    repoURL: https://charts.releases.teleport.dev
-    # https://artifacthub.io/packages/helm/cert-manager/cert-manager
-    targetRevision: 10.3.3
-    helm:
-      releaseName: teleport-cluster
-      # language=yaml
-      values: |
-        clusterName: teleport.aks.jkroepke.de
-        kubeClusterName: jok
-        operator:
-          enabled: true
-        authentication:
-          type: github
-          connectorName: github
-          localAuth: false
-          secondFactor: optional
-          proxyListenerMode: multiplex
-          podSecurityPolicy:
-            enabled: false
-          chartMode: standalone
-        acme: true
-        acmeEmail: jqe82069@nezid.com
-        annotations:
-          service: 
-            external-dns.alpha.kubernetes.io/hostname: teleport.aks.jkroepke.de
-
+    repoURL: https://github.com/jkroepke/homelab.git
+    targetRevision: HEAD
+    path: aks/argocd/teleport/
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
-    syncOptions:
-      - CreateNamespace=true
     retry:
       limit: 10
       backoff:
         duration: 5s
         factor: 2
         maxDuration: 3m
-  destination:
-    server: "https://kubernetes.default.svc"
-    namespace: infra-teleport
 
-  ignoreDifferences:
-    - group: admissionregistration.k8s.io
-      kind: ValidatingWebhookConfiguration
-      managedFieldsManagers:
-        - admissionsenforcer

@@ -1,0 +1,45 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: teleport-kube-agent
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    chart: teleport-kube-agent
+    repoURL: https://charts.releases.teleport.dev
+    # https://artifacthub.io/packages/helm/cert-manager/cert-manager
+    targetRevision: 10.3.3
+    helm:
+      releaseName: teleport-kube-agent
+      # language=yaml
+      values: |
+        kubeClusterName: jok
+        proxyAddr=${PROXY?}
+        authToken=${TOKEN?}
+        labels:
+          env: prod
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+    retry:
+      limit: 10
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: infra-teleport
+
+  ignoreDifferences:
+    - group: admissionregistration.k8s.io
+      kind: ValidatingWebhookConfiguration
+      managedFieldsManagers:
+        - admissionsenforcer
