@@ -112,7 +112,8 @@ spec:
                 replication_factor: 1
           alertmanager:
             enable_api: true
-              
+            storage: ~
+        
           alertmanager_storage:
             azure:
               account_name: jokmspcortex
@@ -120,12 +121,17 @@ spec:
               #user_assigned_id: '{{ get ((lookup "v1" "ServiceAccount" $.Release.Namespace "cortex").metadata.annotations) "azure.workload.identity/client-id" }}'
           ruler:
             enable_api: true
+            storage: ~
+        
           ruler_storage:
             azure:
               account_name: jokmspcortex
               container_name: ruler
               #user_assigned_id: '{{ get ((lookup "v1" "ServiceAccount" "infra-cortex" "cortex").metadata.annotations) "azure.workload.identity/client-id" }}'
           
+          storage:
+            index_queries_cache_config: ~
+        
           blocks_storage:
             azure:
               account_name: jokmspcortex
