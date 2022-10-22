@@ -79,6 +79,8 @@ spec:
             enabled: true
             additionalLabels:
               release: kube-prometheus-stack
+          podAnnotations:
+            azure.workload.identity/inject-proxy-sidecar: "true"
         
         compactor:
           enabled: true
@@ -87,6 +89,8 @@ spec:
             enabled: true
             additionalLabels:
               release: kube-prometheus-stack
+          podAnnotations:
+            azure.workload.identity/inject-proxy-sidecar: "true"
         
         config:
           auth_enabled: false
