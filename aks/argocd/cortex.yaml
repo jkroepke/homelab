@@ -1,0 +1,118 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cortex
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    chart: cortex
+    repoURL: https://cortexproject.github.io/cortex-helm-chart
+    targetRevision: 1.7.0
+    helm:
+      releaseName: cortex
+      values: |
+        alertmanager:
+          enabled: false
+        distributor:
+          enabled: true
+          replicas: 1
+          serviceMonitor:
+            enabled: true
+            additionalLabels:
+              release: kube-prometheus-stack
+        ingester:
+          enabled: true
+          replicas: 1
+          serviceMonitor:
+            enabled: true
+            additionalLabels:
+              release: kube-prometheus-stack
+          persistentVolume:
+            enabled: false
+        ruler:
+          enabled: true
+          replicas: 1
+          serviceMonitor:
+            enabled: true
+            additionalLabels:
+              release: kube-prometheus-stack
+        querier:
+          enabled: true
+          replicas: 1
+          serviceMonitor:
+            enabled: true
+            additionalLabels:
+              release: kube-prometheus-stack
+        
+        query_frontend:
+          enabled: true
+          replicas: 1
+          serviceMonitor:
+            enabled: true
+            additionalLabels:
+              release: kube-prometheus-stack
+
+        table_manager:
+          replicas: 1
+          serviceMonitor:
+            enabled: true
+            additionalLabels:
+              release: kube-prometheus-stack
+        
+        nginx:
+          enabled: true
+          replicas: 1
+        
+        store_gateway:
+          enabled: true
+          persistentVolume:
+            enabled: false
+          serviceMonitor:
+            enabled: true
+            additionalLabels:
+              release: kube-prometheus-stack
+        
+        compactor:
+          enabled: true
+          replicas: 1
+          serviceMonitor:
+            enabled: true
+            additionalLabels:
+              release: kube-prometheus-stack
+        
+        memcached:
+          enabled: false
+        memcached-index-read:
+          enabled: false
+        memcached-index-write:
+          enabled: false
+        memcached-frontend:
+          enabled: false
+        memcached-blocks-index:
+          architecture: "standalone"
+          replicaCount: 1
+        memcached-blocks:
+          architecture: "standalone"
+          replicaCount: 1
+        memcached-blocks-metadata:
+          architecture: "standalone"
+          replicaCount: 1
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+    retry:
+      limit: 10
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: infra-cortex
+
