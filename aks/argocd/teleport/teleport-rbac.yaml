@@ -2,6 +2,7 @@ apiVersion: resources.teleport.dev/v5
 kind: TeleportRole
 metadata:
   name: kubernetes-access
+  namespace: infra-teleport
 spec:
   allow:
     kubernetes_labels:
