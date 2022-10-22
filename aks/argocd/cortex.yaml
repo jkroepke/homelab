@@ -105,7 +105,7 @@ spec:
                 account_name: jokmspcortex
                 container_name: alertmanager
                 msi_resource: ""
-                user_assigned_id: '{{ get ((lookup "v1" "ServiceAccount" $.Release.Namespace "cortex").metadata.annotations) "azure.workload.identity/client-id" }}'
+                #user_assigned_id: '{{ get ((lookup "v1" "ServiceAccount" $.Release.Namespace "cortex").metadata.annotations) "azure.workload.identity/client-id" }}'
           ruler:
             enable_api: true
             storage:
@@ -113,7 +113,7 @@ spec:
                 account_name: jokmspcortex
                 container_name: ruler
                 msi_resource: ""
-                user_assigned_id: '{{ get ((lookup "v1" "ServiceAccount" "infra-cortex" "cortex").metadata.annotations) "azure.workload.identity/client-id" }}'
+                #user_assigned_id: '{{ get ((lookup "v1" "ServiceAccount" "infra-cortex" "cortex").metadata.annotations) "azure.workload.identity/client-id" }}'
           blocks_storage:
             enable_api: true
             storage:
@@ -121,7 +121,7 @@ spec:
                 account_name: jokmspcortex
                 container_name: cortex
                 msi_resource: ""
-                user_assigned_id: '{{ get ((lookup "v1" "ServiceAccount" "infra-cortex" "cortex").metadata.annotations) "azure.workload.identity/client-id" }}'
+                user_assigned_id: '{{ (lookup "v1" "ServiceAccount" "infra-cortex" "cortex").metadata.name }}'
 
         serviceAccount:
           create: false
