@@ -1,0 +1,10 @@
+apiVersion: resources.teleport.dev/v5
+kind: TeleportRole
+metadata:
+  name: kubernetes-access
+spec:
+  allow:
+    kubernetes_labels:
+      'env': 'prod'
+    kubernetes_users: ["{{external.email}}"]
+    kubernetes_groups: ["{{external.groups}}"]

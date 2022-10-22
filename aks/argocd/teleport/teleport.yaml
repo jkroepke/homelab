@@ -34,8 +34,8 @@ spec:
         acmeEmail: jqe82069@nezid.com
         annotations:
           service:
-            service.beta.kubernetes.io/azure-load-balancer-health-probe-protocol: TCP
-            service.beta.kubernetes.io/azure-load-balancer-health-probe-interval: "120"
+            # service.beta.kubernetes.io/azure-load-balancer-health-probe-protocol: TCP
+            # service.beta.kubernetes.io/azure-load-balancer-health-probe-interval: "120"
             external-dns.alpha.kubernetes.io/hostname: teleport.aks.jkroepke.de
 
   syncPolicy:
