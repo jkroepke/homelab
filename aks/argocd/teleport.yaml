@@ -1,0 +1,56 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: teleport
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    chart: cert-manager
+    repoURL: https://charts.releases.teleport.dev
+    # https://artifacthub.io/packages/helm/cert-manager/cert-manager
+    targetRevision: 10.3.3
+    helm:
+      releaseName: teleport-cluster
+      # language=yaml
+      values: |
+        clusterName: jok
+        kubeClusterName: jok
+        authentication:
+          type: github
+          connectorName: github
+          localAuth: false
+          secondFactor: optional
+          proxyListenerMode: multiplex
+          podSecurityPolicy:
+            enabled: false
+          chartMode: standalone
+          highAvailability:
+            certManager:
+              enabled: true
+              issuerName: letsencrypt
+              issuerKind: ClusterIssuer
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+    retry:
+      limit: 10
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: infra-teleport
+
+  ignoreDifferences:
+    - group: admissionregistration.k8s.io
+      kind: ValidatingWebhookConfiguration
+      managedFieldsManagers:
+        - admissionsenforcer
