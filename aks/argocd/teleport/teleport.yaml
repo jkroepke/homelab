@@ -25,10 +25,11 @@ spec:
           connectorName: github
           localAuth: false
           secondFactor: optional
-          proxyListenerMode: multiplex
-          podSecurityPolicy:
-            enabled: false
-          chartMode: standalone
+        proxyListenerMode: multiplex
+        podSecurityPolicy:
+          enabled: false
+        chartMode: standalone
+        sessionRecording: off
         acme: true
         acmeEmail: jqe82069@nezid.com
         annotations:
