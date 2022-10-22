@@ -37,6 +37,7 @@ server:
       secrets+gpg-import, secrets+gpg-import-kubernetes,
       secrets+age-import, secrets+age-import-kubernetes,
       secrets,secrets+literal,
+      kubectl,
       https
     oidc.config: |
       name: login.aks.jkroepke.de
@@ -56,9 +57,19 @@ server:
     enabled: true
 
 repoServer:
+  clusterAdminAccess:
+    enabled: true
   serviceAccount:
     labels:
       "azure.workload.identity/use": "true"
+  rbac:
+    - apiGroups:
+        - "*"
+      resources:
+        - "*"
+      verbs:
+        - list
+        - get
   metrics:
     enabled: true
   env:
@@ -72,6 +83,8 @@ repoServer:
       value: /custom-tools/kubectl
     - name: HELM_SECRETS_CURL_PATH
       value: /custom-tools/curl
+    - name: HELM_KUBECTL_KUBECTL_PATH
+      value: /custom-tools/kubectl
     # https://github.com/jkroepke/helm-secrets/wiki/Security-in-shared-environments
     - name: HELM_SECRETS_VALUES_ALLOW_SYMLINKS
       value: "false"
@@ -93,6 +106,8 @@ repoServer:
       image: alpine:latest
       command: [sh, -ec]
       env:
+        - name: HELM_KUBECTL_VERSION
+          value: "1.0.0"
         - name: HELM_SECRETS_VERSION
           value: "4.1.1"
         - name: KUBECTL_VERSION
@@ -102,6 +117,7 @@ repoServer:
       args:
         - |
           mkdir -p /custom-tools/helm-plugins
+          wget -qO- https://github.com/jkroepke/helm-kubectl/releases/download/v${HELM_SECRETS_VERSION}/helm-kubectl.tar.gz | tar -C /custom-tools/helm-plugins -xzf-;
           wget -qO- https://github.com/jkroepke/helm-secrets/releases/download/v${HELM_SECRETS_VERSION}/helm-secrets.tar.gz | tar -C /custom-tools/helm-plugins -xzf-;
           wget -qO /custom-tools/kubectl https://dl.k8s.io/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl
 
