@@ -126,7 +126,7 @@ spec:
               container_name: ruler
               #user_assigned_id: '{{ get ((lookup "v1" "ServiceAccount" "infra-cortex" "cortex").metadata.annotations) "azure.workload.identity/client-id" }}'
           
-          storage:
+          blocks_storage:
             azure:
               account_name: jokmspcortex
               container_name: cortex
