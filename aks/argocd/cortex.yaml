@@ -17,11 +17,11 @@ spec:
         - name: image.tag
           value: master-250f7f3
       fileParameters:
-        - name: "config.alertmanager.storage.azure.user_assigned_id"
+        - name: "config.alertmanager_storage.azure.user_assigned_id"
           path: "kubectl://infra-cortex/sa/cortex/jsonpath={.metadata.annotations.azure\\\\.workload\\\\.identity/client-id}"
-        - name: "config.ruler.storage.azure.user_assigned_id"
+        - name: "config.ruler_storage.azure.user_assigned_id"
           path: "kubectl://infra-cortex/sa/cortex/jsonpath={.metadata.annotations.azure\\\\.workload\\\\.identity/client-id}"
-        - name: "config.storage.azure.user_assigned_id"
+        - name: "config.blocks_storage.azure.user_assigned_id"
           path: "kubectl://infra-cortex/sa/cortex/jsonpath={.metadata.annotations.azure\\\\.workload\\\\.identity/client-id}"
       #language=yaml
       values: |
