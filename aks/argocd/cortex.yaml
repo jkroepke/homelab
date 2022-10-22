@@ -112,26 +112,24 @@ spec:
                 replication_factor: 1
           alertmanager:
             enable_api: true
-            storage:
-              azure:
-                account_name: jokmspcortex
-                container_name: alertmanager
-                msi_resource: ""
-                #user_assigned_id: '{{ get ((lookup "v1" "ServiceAccount" $.Release.Namespace "cortex").metadata.annotations) "azure.workload.identity/client-id" }}'
+              
+          alertmanager_storage:
+            azure:
+              account_name: jokmspcortex
+              container_name: alertmanager
+              #user_assigned_id: '{{ get ((lookup "v1" "ServiceAccount" $.Release.Namespace "cortex").metadata.annotations) "azure.workload.identity/client-id" }}'
           ruler:
             enable_api: true
-            storage:
-              azure:
-                account_name: jokmspcortex
-                container_name: ruler
-                msi_resource: ""
-                #user_assigned_id: '{{ get ((lookup "v1" "ServiceAccount" "infra-cortex" "cortex").metadata.annotations) "azure.workload.identity/client-id" }}'
+          ruler_storage:
+            azure:
+              account_name: jokmspcortex
+              container_name: ruler
+              #user_assigned_id: '{{ get ((lookup "v1" "ServiceAccount" "infra-cortex" "cortex").metadata.annotations) "azure.workload.identity/client-id" }}'
           
           storage:
             azure:
               account_name: jokmspcortex
               container_name: cortex
-              msi_resource: ""
               #user_assigned_id: '{{ get ((lookup "v1" "ServiceAccount" $.Release.Namespace "cortex").metadata.annotations) "azure.workload.identity/client-id" }}'
 
         serviceAccount:
