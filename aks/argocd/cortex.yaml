@@ -15,11 +15,11 @@ spec:
       releaseName: cortex
       fileParameters:
         - name: "config.alertmanager.storage.azure.user_assigned_id"
-          path: "kubectl://infra-cortex/sa/cortex/jsonpath={.metadata.annotations.azure\\.workload\\.identity/client-id}"
+          path: "kubectl://infra-cortex/sa/cortex/jsonpath={.metadata.annotations.azure\\\\.workload\\\\.identity/client-id}"
         - name: "config.ruler.storage.azure.user_assigned_id"
-          path: "kubectl://infra-cortex/sa/cortex/jsonpath={.metadata.annotations.azure\\.workload\\.identity/client-id}"
+          path: "kubectl://infra-cortex/sa/cortex/jsonpath={.metadata.annotations.azure\\\\.workload\\\\.identity/client-id}"
         - name: "config.blocks_storage.storage.azure.user_assigned_id"
-          path: "kubectl://infra-cortex/sa/cortex/jsonpath={.metadata.annotations.azure\\.workload\\.identity/client-id}"
+          path: "kubectl://infra-cortex/sa/cortex/jsonpath={.metadata.annotations.azure\\\\.workload\\\\.identity/client-id}"
       #language=yaml
       values: |
         alertmanager:
