@@ -27,11 +27,8 @@ spec:
           podSecurityPolicy:
             enabled: false
           chartMode: standalone
-          highAvailability:
-            certManager:
-              enabled: true
-              issuerName: letsencrypt
-              issuerKind: ClusterIssuer
+        acme: true
+        acmeEmail: jqe82069@nezid.com
         annotations:
           service: 
             external-dns.alpha.kubernetes.io/hostname: teleport.aks.jkroepke.de
