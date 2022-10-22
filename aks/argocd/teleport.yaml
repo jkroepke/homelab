@@ -32,6 +32,9 @@ spec:
               enabled: true
               issuerName: letsencrypt
               issuerKind: ClusterIssuer
+        annotations:
+          service: 
+            external-dns.alpha.kubernetes.io/hostname: teleport.aks.jkroepke.de
 
   syncPolicy:
     automated:
