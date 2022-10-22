@@ -8,6 +8,10 @@ locals {
       namespace = "infra-crossplane"
       client-id = data.azurerm_user_assigned_identity.external-dns.client_id
     }
+    cortex = {
+      namespace = "infra-cortex"
+      client-id = data.azurerm_user_assigned_identity.cortex.client_id
+    }
   }
 }
 
@@ -42,5 +46,10 @@ data "azurerm_user_assigned_identity" "keyvault-access" {
 
 data "azurerm_user_assigned_identity" "external-dns" {
   name                = "external-dns"
+  resource_group_name = data.azurerm_resource_group.default.name
+}
+
+data "azurerm_user_assigned_identity" "cortex" {
+  name                = "cortex-storage-account"
   resource_group_name = data.azurerm_resource_group.default.name
 }

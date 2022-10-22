@@ -13,6 +13,7 @@ spec:
     targetRevision: 1.7.0
     helm:
       releaseName: cortex
+      #language=yaml
       values: |
         alertmanager:
           enabled: false
@@ -35,6 +36,8 @@ spec:
         ruler:
           enabled: true
           replicas: 1
+          podAnnotations:
+            azure.workload.identity/inject-proxy-sidecar: "true"
           serviceMonitor:
             enabled: true
             additionalLabels:
@@ -42,6 +45,8 @@ spec:
         querier:
           enabled: true
           replicas: 1
+          podAnnotations:
+            azure.workload.identity/inject-proxy-sidecar: "true"
           serviceMonitor:
             enabled: true
             additionalLabels:
@@ -83,6 +88,40 @@ spec:
             additionalLabels:
               release: kube-prometheus-stack
         
+        config:
+          auth_enabled: false
+          ingester:
+            lifecycler:
+              ring:
+                replication_factor: 1
+          alertmanager:
+            enable_api: true
+            storage: azure
+            azure:
+              account_name: jokmspcortex
+              container_name: alertmanager
+              msi_resource: ""
+              user_assigned_id: '{{ get ((lookup "v1" "ServiceAccount" $.Release.Namespace "cortex").metadata.annotations) "azure.workload.identity/client-id" }}'
+          ruler:
+            enable_api: true
+            storage: azure
+            azure:
+              account_name: jokmspcortex
+              container_name: ruler
+              msi_resource: ""
+              user_assigned_id: '{{ get ((lookup "v1" "ServiceAccount" $.Release.Namespace "cortex").metadata.annotations) "azure.workload.identity/client-id" }}'
+          blocks_storage:
+            enable_api: true
+            storage: azure
+            azure:
+              account_name: jokmspcortex
+              container_name: cortex
+              msi_resource: ""
+              user_assigned_id: '{{ get ((lookup "v1" "ServiceAccount" $.Release.Namespace "cortex").metadata.annotations) "azure.workload.identity/client-id" }}'
+
+        serviceAccount:
+          create: false
+
         memcached:
           enabled: false
         memcached-index-read:
