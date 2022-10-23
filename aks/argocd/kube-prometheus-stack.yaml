@@ -11,7 +11,7 @@ spec:
     chart: kube-prometheus-stack
     repoURL: https://prometheus-community.github.io/helm-charts
     # https://artifacthub.io/packages/helm/prometheus-community/kube-prometheus-stack
-    targetRevision: 41.4.1
+    targetRevision: 41.5.1
     helm:
       releaseName: kube-prometheus-stack
       skipCrds: true
@@ -34,14 +34,10 @@ spec:
             enableFeatures:
               - memory-snapshot-on-shutdown
               - new-service-discovery-manager
-            storageSpec:
-              volumeClaimTemplate:
-                spec:
-                  storageClassName: managed-csi
-                  accessModes: ["ReadWriteOnce"]
-                  resources:
-                    requests:
-                      storage: 10Gi
+              - agent
+            remoteWrite:
+            - url: http://cortex-nginx.infra-cortex.svc/api/prom/push
+            remoteWriteDashboards: true
         prometheusOperator:
           prometheusConfigReloader:
             resources:
