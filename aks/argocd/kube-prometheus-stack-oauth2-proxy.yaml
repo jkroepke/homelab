@@ -37,15 +37,15 @@ spec:
             - secretName: prometheus-ingress-tls
               hosts:
                 - prometheus.aks.jkroepke.de
-          extraArgs:
-            code-challenge-method: S256
-            provider: oidc
-            provider-display-name: login.aks.jkroepke.de
-            redirect-url: https://login.aks.jkroepke.de/oauth2/callback
-            oidc-issuer-url: https://login.aks.jkroepke.de/dex
-            upstream: http://127.0.0.1:9090/
-            email-domain: "*"
-            http-address: ":4180"
+        extraArgs:
+          code-challenge-method: S256
+          provider: oidc
+          provider-display-name: login.aks.jkroepke.de
+          redirect-url: https://login.aks.jkroepke.de/oauth2/callback
+          oidc-issuer-url: https://login.aks.jkroepke.de/dex
+          upstream: http://127.0.0.1:9090/
+          email-domain: "*"
+          http-address: ":4180"
 
   syncPolicy:
     automated:
