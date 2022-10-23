@@ -18,10 +18,7 @@ spec:
           path: "kubectl://infra-loki/sa/loki/jsonpath={.metadata.annotations.azure\\\\.workload\\\\.identity/client-id}"
       #language=yaml
       values: |
-        loki:
-          podAnnotations:
-            azure.workload.identity/inject-proxy-sidecar: "true"
-            
+        loki:            
           auth_enabled: false
           commonConfig:
             replication_factor: 1
@@ -71,7 +68,17 @@ spec:
             enabled: false
             grafanaAgent:
               installOperator: false
-            
+          
+          write:
+            replicas: 1
+            podAnnotations:
+              azure.workload.identity/inject-proxy-sidecar: "true"
+          
+          read:
+            replicas: 1
+            podAnnotations:
+              azure.workload.identity/inject-proxy-sidecar: "true"
+        
 
   syncPolicy:
     automated:
