@@ -19,14 +19,18 @@ spec:
         - name: operator.scanJobsConcurrentLimit
           value: "1"
       values: |
+        operator:
+          scanJobTimeout: 10m
         trivy:
           ignoreUnfixed: true
           timeout: "10m0s"
           resources:
             requests:
               memory: 500Mi
+              cpu: ~
             limits:
               memory: 1Gi
+              cpu: ~
   syncPolicy:
     automated:
       prune: true
