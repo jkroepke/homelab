@@ -17,6 +17,6 @@ variable "oidc_issuer_url" {
   type = string
 }
 
-variable "subject" {
-  type = string
+variable "subjects" {
+  type = list(string)
 }

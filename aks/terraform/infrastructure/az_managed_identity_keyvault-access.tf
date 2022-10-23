@@ -4,7 +4,7 @@ module "mi-keyvault-access" {
   resource_group_name = azurerm_resource_group.default.name
   location            = azurerm_resource_group.default.location
   oidc_issuer_url     = azurerm_kubernetes_cluster.jok.oidc_issuer_url
-  subject             = "system:serviceaccount:argocd:argocd-repo-server"
+  subjects            = ["system:serviceaccount:argocd:argocd-repo-server"]
 }
 
 data "azurerm_key_vault" "aks" {

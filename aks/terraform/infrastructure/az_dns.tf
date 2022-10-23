@@ -9,7 +9,7 @@ module "mi-external-dns" {
   resource_group_name = azurerm_resource_group.default.name
   location            = azurerm_resource_group.default.location
   oidc_issuer_url     = azurerm_kubernetes_cluster.jok.oidc_issuer_url
-  subject             = "system:serviceaccount:infra-external-dns:external-dns"
+  subjects            = ["system:serviceaccount:infra-external-dns:external-dns"]
 }
 
 resource "azurerm_role_assignment" "dns" {

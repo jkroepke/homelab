@@ -65,7 +65,10 @@ module "mi-cortex" {
   resource_group_name = azurerm_resource_group.default.name
   location            = azurerm_resource_group.default.location
   oidc_issuer_url     = azurerm_kubernetes_cluster.jok.oidc_issuer_url
-  subject             = "system:serviceaccount:infra-cortex:cortex"
+  subjects            = [
+    "system:serviceaccount:infra-loki:loki",
+    "system:serviceaccount:infra-cortex:cortex"
+  ]
 }
 
 resource "azurerm_role_assignment" "mi-aks-storage-account-storage-blob-data-contributor" {

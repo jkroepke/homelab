@@ -37,12 +37,12 @@ spec:
               container_name: loki
               use_managed_identity: true
             boltdb_shipper:
-              active_index_directory: /data/loki/boltdb-shipper-active
-              cache_location: /data/loki/boltdb-shipper-cache
+              #active_index_directory: /data/loki/boltdb-shipper-active
+              #cache_location: /data/loki/boltdb-shipper-cache
               cache_ttl: 24h
               shared_store: azure
-            filesystem:
-              directory: /data/loki/chunk
+            #filesystem:
+            #  directory: /data/loki/chunk
           schemaConfig:
             configs:
             - from: 2022-01-11
