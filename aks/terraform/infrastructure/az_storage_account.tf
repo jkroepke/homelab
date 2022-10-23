@@ -6,7 +6,7 @@ resource "azurerm_storage_account" "aks" {
   account_replication_type = "LRS"
 
   cross_tenant_replication_enabled  = false
-  shared_access_key_enabled         = false
+  shared_access_key_enabled         = true
   default_to_oauth_authentication   = true
   is_hns_enabled                    = false
   infrastructure_encryption_enabled = true
@@ -23,7 +23,6 @@ resource "azurerm_storage_account" "aks" {
 resource "azurerm_storage_share" "aks" {
   name                  = "aks"
   storage_account_name  = azurerm_storage_account.aks.name
-  container_access_type = "private"
   quota                 = 100
   access_tier           = "Hot"
 }

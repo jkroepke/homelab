@@ -18,6 +18,9 @@ spec:
           path: "kubectl://infra-loki/sa/loki/jsonpath={.metadata.annotations.azure\\\\.workload\\\\.identity/client-id}"
       #language=yaml
       values: |
+        serviceAccount:
+          create: false
+          name: loki
         loki:            
           auth_enabled: false
           commonConfig:
@@ -28,9 +31,6 @@ spec:
               chunks: chunks
               ruler: ruler
               admin: admin
-          serviceAccount:
-            create: false
-            name: loki
           storage_config:
             azure:
               account_name: jokmspaks
