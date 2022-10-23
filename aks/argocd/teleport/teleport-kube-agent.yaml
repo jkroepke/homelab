@@ -14,11 +14,13 @@ spec:
     targetRevision: 10.3.3
     helm:
       releaseName: teleport-kube-agent
+      fileParameters:
+        - name: authToken
+          path: secrets+literal://ref+azurekeyvault://aks-credentials/teleport-node-token
       # language=yaml
       values: |
         kubeClusterName: jok
         proxyAddr: https://teleport.aks.jkroepke.de:443
-        authToken: 88a7755b0224f327aa21d004f006adbb
         labels:
           env: prod
 
