@@ -28,6 +28,8 @@ spec:
             kubeProxy: false
             kubeSchedulerAlerting: false
             kubeSchedulerRecording: false
+        alertmanager:
+          enabled: false
         prometheus:
           prometheusSpec:
             scrapeInterval: 30s
