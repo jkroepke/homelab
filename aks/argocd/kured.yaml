@@ -25,7 +25,7 @@ spec:
           drainGracePeriod: 30
           drainTimeout: 10m
           forceReboot: true
-          skipWaitForDeleteTimeout: 120
+          # skipWaitForDeleteTimeout: 120
           timeZone: Europe/Berlin
 
   syncPolicy:
