@@ -11,12 +11,12 @@ resource "kubernetes_storage_class" "jokmspaks" {
   storage_provisioner = "file.csi.azure.com"
 
   parameters = {
-    csi.storage.k8s.io/provisioner-secret-name            = kubernetes_secret.csi-jokmspaks-azure-secret.metadata[0].name
-    csi.storage.k8s.io/provisioner-secret-namespace       = kubernetes_secret.csi-jokmspaks-azure-secret.metadata[0].namespace
-    csi.storage.k8s.io/node-stage-secret-name             = kubernetes_secret.csi-jokmspaks-azure-secret.metadata[0].name
-    csi.storage.k8s.io/node-stage-secret-namespace        = kubernetes_secret.csi-jokmspaks-azure-secret.metadata[0].namespace
-    csi.storage.k8s.io/controller-expand-secret-name      = kubernetes_secret.csi-jokmspaks-azure-secret.metadata[0].name
-    csi.storage.k8s.io/controller-expand-secret-namespace = kubernetes_secret.csi-jokmspaks-azure-secret.metadata[0].namespace
+    "csi.storage.k8s.io/provisioner-secret-name"            = kubernetes_secret.csi-jokmspaks-azure-secret.metadata[0].name
+    "csi.storage.k8s.io/provisioner-secret-namespace"       = kubernetes_secret.csi-jokmspaks-azure-secret.metadata[0].namespace
+    "csi.storage.k8s.io/node-stage-secret-name"             = kubernetes_secret.csi-jokmspaks-azure-secret.metadata[0].name
+    "csi.storage.k8s.io/node-stage-secret-namespace"        = kubernetes_secret.csi-jokmspaks-azure-secret.metadata[0].namespace
+    "csi.storage.k8s.io/controller-expand-secret-name"      = kubernetes_secret.csi-jokmspaks-azure-secret.metadata[0].name
+    "csi.storage.k8s.io/controller-expand-secret-namespace" = kubernetes_secret.csi-jokmspaks-azure-secret.metadata[0].namespace
   }
 
   mount_options          = ["dir_mode=0777", "file_mode=0777", "uid=0", "gid=0", "mfsymlinks", "cache=strict", "nosharesock", "actimeo=30"]
