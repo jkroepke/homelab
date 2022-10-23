@@ -124,6 +124,10 @@ spec:
           alertmanager:
             enable_api: true
             storage: ~
+            
+          querier:
+            at_modifier_enabled: true
+            query_store_for_labels_enabled: true
           
           alertmanager_storage:
             backend: azure
