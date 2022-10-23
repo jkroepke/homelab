@@ -20,6 +20,14 @@ spec:
           create: true
           labels:
             release: kube-prometheus-stack
+        configuration:
+          lockTtl: 30m
+          drainGracePeriod: 30s
+          drainTimeout: 10m
+          forceReboot: true
+          skipWaitForDeleteTimeout: 2m
+          timeZone: Europe/Berlin
+
   syncPolicy:
     automated:
       prune: true
