@@ -45,6 +45,7 @@ spec:
           oidc-issuer-url: https://login.aks.jkroepke.de/dex
           email-domain: "*"
           http-address: ":4180"
+          whitelist-domain: '*.aks.jkroepke.de'
 
   syncPolicy:
     automated:
