@@ -81,6 +81,7 @@ spec:
             grafanaAgent:
               installOperator: false
             lokiCanary:
+              # https://github.com/grafana/loki/pull/7236
               enabled: false
           
         write:
@@ -113,4 +114,8 @@ spec:
   destination:
     server: "https://kubernetes.default.svc"
     namespace: infra-loki
-
+  ignoreDifferences:
+    - group: apps
+      kind: StatefulSet
+      jsonPointers:
+        - /spec/persistentVolumeClaimRetentionPolicy
