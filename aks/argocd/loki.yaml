@@ -69,15 +69,15 @@ spec:
             grafanaAgent:
               installOperator: false
           
-          write:
-            replicas: 1
-            podAnnotations:
-              azure.workload.identity/inject-proxy-sidecar: "true"
-          
-          read:
-            replicas: 1
-            podAnnotations:
-              azure.workload.identity/inject-proxy-sidecar: "true"
+        write:
+          replicas: 1
+          podAnnotations:
+            azure.workload.identity/inject-proxy-sidecar: "true"
+        
+        read:
+          replicas: 1
+          podAnnotations:
+            azure.workload.identity/inject-proxy-sidecar: "true"
         
 
   syncPolicy:
