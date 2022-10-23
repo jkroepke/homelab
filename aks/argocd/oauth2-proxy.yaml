@@ -39,6 +39,7 @@ spec:
                 - login.aks.jkroepke.de
         extraArgs:
           code-challenge-method: S256
+          cookie-domain: '.aks.jkroepke.de'
           email-domain: "*"
           http-address: ":4180"
           oidc-issuer-url: https://login.aks.jkroepke.de/dex
