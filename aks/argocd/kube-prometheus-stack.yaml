@@ -37,6 +37,7 @@ spec:
             remoteWrite:
             - url: http://cortex-nginx.infra-cortex.svc/api/prom/push
             remoteWriteDashboards: true
+            # https://github.com/prometheus-community/helm-charts/issues/2506#issuecomment-1277362029
             containers:
             - name: prometheus
               args:
