@@ -38,6 +38,18 @@ resource "azurerm_storage_container" "cortex_storage" {
   container_access_type = "private"
 }
 
+resource "azurerm_storage_container" "loki" {
+  name                  = "loki"
+  storage_account_name  = azurerm_storage_account.aks.name
+  container_access_type = "private"
+}
+
+resource "azurerm_storage_container" "loki-ruler" {
+  name                  = "loki-ruler"
+  storage_account_name  = azurerm_storage_account.aks.name
+  container_access_type = "private"
+}
+
 module "mi-cortex" {
   source              = "./modules/federated-managed-identity"
   name                = "aks-storage-account"

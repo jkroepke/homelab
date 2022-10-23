@@ -13,6 +13,9 @@ spec:
     targetRevision: 3.2.2
     helm:
       releaseName: loki
+      fileParameters:
+        - name: "loki.storage_config.azure.user_assigned_id"
+          path: "kubectl://infra-loki/sa/loki/jsonpath={.metadata.annotations.azure\\\\.workload\\\\.identity/client-id}"
       #language=yaml
       values: |
         loki:
@@ -31,6 +34,27 @@ spec:
           serviceAccount:
             create: false
             name: loki
+          storage_config:
+            azure:
+              account_name: jokmspaks
+              container_name: loki
+              use_managed_identity: true
+            boltdb_shipper:
+              active_index_directory: /data/loki/boltdb-shipper-active
+              cache_location: /data/loki/boltdb-shipper-cache
+              cache_ttl: 24h
+              shared_store: azure
+            filesystem:
+              directory: /data/loki/chunk
+          schemaConfig:
+            configs:
+            - from: 2022-01-11
+              store: boltdb-shipper
+              object_store: azure
+              schema: v12
+              index:
+                prefix: loki_index_
+                period: 24h
             
         monitoring:
           alerts:
@@ -63,5 +87,5 @@ spec:
         maxDuration: 3m
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: trivy-system
+    namespace: infra-loki
 
