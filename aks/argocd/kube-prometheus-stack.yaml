@@ -20,9 +20,9 @@ spec:
           path: secrets+literal://ref+azurekeyvault://aks-credentials/dexidp-grafana-client-secret
         - name: grafana.grafana\.ini.azure.managed_identity_client_id
           path: "kubectl://infra-prometheus/sa/grafana/jsonpath={.metadata.annotations.azure\\\\.workload\\\\.identity/client-id}"
-        - name: prometheus.prometheusSpec.containers.env[0].value
+        - name: prometheus.prometheusSpec.containers[0].env[0].value
           path: secrets+literal://ref+azurekeyvault://aks-credentials/oauth2-proxy-cookie-secret
-        - name: prometheus.prometheusSpec.containers.env[1].value
+        - name: prometheus.prometheusSpec.containers[0].env[1].value
           path: secrets+literal://ref+azurekeyvault://aks-credentials/dexidp-prometheus-client-secret
       # language=yaml
       values: |
