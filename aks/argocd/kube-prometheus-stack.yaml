@@ -18,9 +18,7 @@ spec:
       fileParameters:
         - name: grafana.grafana\.ini.auth\.generic_oauth.client_secret
           path: secrets+literal://ref+azurekeyvault://aks-credentials/dexidp-grafana-client-secret
-        - name: grafana.additionalDataSources[2].jsonData.tenantId
-          path: "kubectl://infra-prometheus/sa/grafana/jsonpath={.metadata.annotations.azure\\\\.workload\\\\.identity/tenant-id}"
-        - name: grafana.additionalDataSources[2].jsonData.clientId
+        - name: grafana.grafana\.ini.azure.managed_identity_client_id
           path: "kubectl://infra-prometheus/sa/grafana/jsonpath={.metadata.annotations.azure\\\\.workload\\\\.identity/client-id}"
       # language=yaml
       values: |
