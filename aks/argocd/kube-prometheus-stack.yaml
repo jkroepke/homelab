@@ -18,6 +18,10 @@ spec:
       fileParameters:
         - name: grafana.grafana\.ini.auth\.generic_oauth.client_secret
           path: secrets+literal://ref+azurekeyvault://aks-credentials/dexidp-grafana-client-secret
+        - name: grafana.additionalDataSources[2].jsonData.tenantId
+          path: "kubectl://infra-prometheus/sa/grafana/jsonpath={.metadata.annotations.azure\\\\.workload\\\\.identity/tenant-id}"
+        - name: grafana.additionalDataSources[2].jsonData.clientId
+          path: "kubectl://infra-prometheus/sa/grafana/jsonpath={.metadata.annotations.azure\\\\.workload\\\\.identity/client-id}"
       # language=yaml
       values: |
         defaultRules:
@@ -69,6 +73,9 @@ spec:
               enabled: true
         
         grafana:
+          serviceAccount:
+            create: false
+            name: grafana
           testFramework:
             enabled: false
           env:
@@ -160,6 +167,17 @@ spec:
               url: http://loki-gateway.infra-loki.svc/
               access: proxy
               isDefault: false
+            - name: "Azure Monitor"
+              type: grafana-azure-monitor-datasource
+              uid: azure-monitor-datasource
+              orgId: 1
+              access: proxy
+              isDefault: false
+              readOnly: true
+              jsonData:
+                cloudName: azuremonitor
+                azureAuthType: msi
+              version: 5
 
   syncPolicy:
     automated:

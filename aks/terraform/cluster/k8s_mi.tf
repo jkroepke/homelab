@@ -16,6 +16,10 @@ locals {
       namespace = "infra-loki"
       client-id = data.azurerm_user_assigned_identity.aks-storage-account.client_id
     }
+    grafana = {
+      namespace = "infra-prometheus"
+      client-id = data.azurerm_user_assigned_identity.aks-monitoring-reader.client_id
+    }
   }
 }
 
@@ -55,5 +59,10 @@ data "azurerm_user_assigned_identity" "external-dns" {
 
 data "azurerm_user_assigned_identity" "aks-storage-account" {
   name                = "aks-storage-account"
+  resource_group_name = data.azurerm_resource_group.default.name
+}
+
+data "azurerm_user_assigned_identity" "aks-monitoring-reader" {
+  name                = "aks-monitoring-reader"
   resource_group_name = data.azurerm_resource_group.default.name
 }
