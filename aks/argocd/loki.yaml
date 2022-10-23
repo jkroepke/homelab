@@ -81,7 +81,7 @@ spec:
             grafanaAgent:
               installOperator: false
             lokiCanary:
-              enabled: true
+              enabled: false
           
         write:
           replicas: 1
