@@ -1,0 +1,40 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: promtail
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    chart: promtail
+    repoURL: https://grafana.github.io/helm-charts
+    # https://artifacthub.io/packages/helm/promtail/promtail
+    targetRevision: 6.5.1
+    helm:
+      releaseName: promtail
+      # language=yaml
+      values: |
+        serviceMonitor:
+          enabled: true
+          namespace: infra-prometheus
+          labels:
+            release: kube-prometheus-stack
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+    retry:
+      limit: 2
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: infra-loki
+

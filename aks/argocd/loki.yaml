@@ -74,6 +74,7 @@ spec:
             labels:
               release: kube-prometheus-stack
           serviceMonitor:
+            namespace: infra-prometheus
             labels:
               release: kube-prometheus-stack
           
