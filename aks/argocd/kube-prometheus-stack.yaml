@@ -63,7 +63,7 @@ spec:
             - name: oauth-proxy
               image: quay.io/oauth2-proxy/oauth2-proxy:latest
               ports:
-                - containerPort: 8080
+                - containerPort: 4180
                   name: oauth2
               args:
                 - '--code-challenge-method=S256'
@@ -90,11 +90,13 @@ spec:
                   value: "*"
                 - name: OAUTH2_PROXY_CODE_CHALLENGE_METHOD
                   value: "S256"
+                - name: OAUTH2_PROXY_HTTP_ADDRESS
+                  value: ":4180"
           
           service:
             additionalPorts:
               - name: oauth2
-                port: 8080
+                port: 4180
                 targetPort: oauth2
           
           ingress:
@@ -104,7 +106,7 @@ spec:
               nginx.ingress.kubernetes.io/auth-signin: "https://$host/oauth2/start?rd=$escaped_request_uri"
               cert-manager.io/cluster-issuer: letsencrypt
             ingressClassName: nginx
-            servicePort: 8080
+            servicePort: 4180
             paths:
               - /
             hosts:
