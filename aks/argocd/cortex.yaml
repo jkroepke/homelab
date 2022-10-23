@@ -37,6 +37,8 @@ spec:
         ingester:
           enabled: true
           replicas: 1
+          statefulSet:
+            enabled: true
           serviceMonitor:
             enabled: true
             additionalLabels:
