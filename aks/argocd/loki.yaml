@@ -13,6 +13,7 @@ spec:
     targetRevision: 3.2.2
     helm:
       releaseName: loki
+      skipCrds: true
       fileParameters:
         - name: "loki.storage_config.azure.user_assigned_id"
           path: "kubectl://infra-loki/sa/loki/jsonpath={.metadata.annotations.azure\\\\.workload\\\\.identity/client-id}"
