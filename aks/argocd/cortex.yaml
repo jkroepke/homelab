@@ -103,6 +103,7 @@ spec:
             storageClass: jokmspaks
           serviceMonitor:
             enabled: true
+            namespace: infra-prometheus
             additionalLabels:
               release: kube-prometheus-stack
           podAnnotations:
@@ -131,7 +132,7 @@ spec:
           alertmanager:
             enable_api: true
             storage: ~
-        
+          
           alertmanager_storage:
             backend: azure
             azure:
@@ -141,7 +142,7 @@ spec:
           ruler:
             enable_api: true
             storage: ~
-        
+          
           ruler_storage:
             backend: azure
             azure:
@@ -151,7 +152,7 @@ spec:
           
           storage:
             index_queries_cache_config: ~
-        
+          
           blocks_storage:
             backend: azure
             azure:

@@ -38,6 +38,7 @@ resource "kubernetes_service_account" "managed-identities" {
     name      = each.key
     namespace = kubernetes_namespace.managed-identities[each.key].metadata[0].name
     annotations = {
+      "azure.workload.identity/tenant-id" = data.azurerm_client_config.this.tenant_id
       "azure.workload.identity/client-id" = each.value.client-id
     }
     labels = {
