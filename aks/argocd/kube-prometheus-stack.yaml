@@ -61,7 +61,7 @@ spec:
             annotations:
               nginx.ingress.kubernetes.io/auth-response-headers: "Authorization"
               nginx.ingress.kubernetes.io/auth-url: "https://login.aks.jkroepke.de/oauth2/auth"
-              nginx.ingress.kubernetes.io/auth-signin: "https://login.aks.jkroepke.de/oauth2/start?rd=$escaped_request_uri"
+              nginx.ingress.kubernetes.io/auth-signin: "https://login.aks.jkroepke.de/oauth2/start?rd=$scheme%3A%2F%2F$host$escaped_request_uri"
               cert-manager.io/cluster-issuer: letsencrypt
             ingressClassName: nginx
             paths:
