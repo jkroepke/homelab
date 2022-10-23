@@ -55,6 +55,10 @@ spec:
           podSecurityContext:
             runAsNonRoot: false
         monitoring:
+          dashboards:
+            namespace: infra-prometheus
+            labels:
+              grafana_dashboard: "1"
           alerts:
             labels:
               release: kube-prometheus-stack
@@ -83,7 +87,7 @@ spec:
             storageClass: jokmspaks
           podAnnotations:
             azure.workload.identity/inject-proxy-sidecar: "true"
-        
+            
 
   syncPolicy:
     automated:
