@@ -54,6 +54,13 @@ spec:
                 period: 24h
           podSecurityContext:
             runAsNonRoot: false
+          structuredConfig:
+            ruler:
+              storage:
+                azure:
+                  account_name: jokmspaks
+                  container_name: loki
+                  use_managed_identity: true
         monitoring:
           dashboards:
             namespace: infra-prometheus
