@@ -18,6 +18,15 @@ spec:
           value: "true"
         - name: operator.scanJobsConcurrentLimit
           value: "1"
+      values: |
+        trivy:
+          ignoreUnfixed: true
+          timeout: "10m0s
+          resources:
+            requests:
+              memory: 500Mi
+            limits:
+              memory: 1Gi
   syncPolicy:
     automated:
       prune: true
