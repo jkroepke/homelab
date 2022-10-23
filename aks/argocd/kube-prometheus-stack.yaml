@@ -80,6 +80,8 @@ spec:
             enabled: false
           env:
             GF_SECURITY_DISABLE_INITIAL_ADMIN_CREATION: "true"
+          podAnnotations:
+            azure.workload.identity/inject-proxy-sidecar: "true"
           ingress:
             enabled: true
             ingressClassName: nginx
