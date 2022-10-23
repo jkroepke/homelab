@@ -53,6 +53,28 @@ resource "azurerm_storage_container" "loki" {
   container_access_type = "private"
 }
 
+resource "azurerm_storage_management_policy" "loki" {
+  storage_account_id = azurerm_storage_account.aks.id
+
+  rule {
+    name    = "loki"
+    enabled = true
+    filters {
+      prefix_match = [azurerm_storage_container.loki.name]
+      blob_types   = ["blockBlob"]
+    }
+    actions {
+      base_blob {
+        tier_to_archive_after_days_since_modification_greater_than = 14
+        delete_after_days_since_modification_greater_than          = 28
+      }
+      snapshot {
+        delete_after_days_since_creation_greater_than = 28
+      }
+    }
+  }
+}
+
 resource "azurerm_storage_container" "loki-ruler" {
   name                  = "loki-ruler"
   storage_account_name  = azurerm_storage_account.aks.name

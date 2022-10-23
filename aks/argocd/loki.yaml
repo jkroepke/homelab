@@ -62,6 +62,14 @@ spec:
                   account_name: jokmspaks
                   container_name: loki
                   use_managed_identity: true
+
+            chunk_store_config:
+              max_look_back_period: 672h
+            
+            table_manager:
+              retention_deletes_enabled: true
+              retention_period: 672h
+
         monitoring:
           dashboards:
             namespace: infra-prometheus
