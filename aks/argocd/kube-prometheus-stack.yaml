@@ -80,7 +80,7 @@ spec:
                   value: login.aks.jkroepke.de
                 - name: OAUTH2_PROXY_REDIRECT_URL
                   value: https://login.aks.jkroepke.de/oauth2/callback
-                - name: OAUTH2_PROXY_OIDC_URL
+                - name: OAUTH2_PROXY_OIDC_ISSUER_URL
                   value: https://login.aks.jkroepke.de/dex
                 - name: OAUTH2_PROXY_UPSTREAM
                   value: http://127.0.0.1:9090/
