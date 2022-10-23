@@ -31,7 +31,7 @@ spec:
           rules:
             etcd: false
             kubeControllerManager: false
-            kubeProxy: false
+            kubeProxy : false
             kubeSchedulerAlerting: false
             kubeSchedulerRecording: false
         alertmanager:
@@ -93,6 +93,8 @@ spec:
           
           ingress:
             enabled: true
+            annotations:
+              cert-manager.io/cluster-issuer: letsencrypt
             ingressClassName: nginx
             servicePort: 8080
             paths:
