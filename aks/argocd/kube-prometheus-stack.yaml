@@ -160,8 +160,6 @@ spec:
               url: http://loki-gateway.infra-loki.svc/
               access: proxy
               isDefault: false
-              jsonData:
-                timeInterval: 1m
 
   syncPolicy:
     automated:
