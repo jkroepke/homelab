@@ -18,13 +18,15 @@ resource "azurerm_storage_account" "aks" {
       days = 1
     }
   }
-}
 
-resource "azurerm_storage_share" "aks" {
-  name                  = "aks"
-  storage_account_name  = azurerm_storage_account.aks.name
-  quota                 = 100
-  access_tier           = "Hot"
+  share_properties {
+    smb {
+      versions                        = ["SMB3.1.1"]
+      authentication_types            = ["Kerberos"]
+      kerberos_ticket_encryption_type = ["AES-256"]
+      channel_encryption_type         = ["AES-256-GCM"]
+    }
+  }
 }
 
 resource "azurerm_storage_container" "cortex_alertmanager" {

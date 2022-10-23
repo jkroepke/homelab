@@ -70,14 +70,14 @@ spec:
               installOperator: false
           
         write:
-          replicas: 1
+          replicas: 0
           persistence:
             storageClass: jokmspaks
           podAnnotations:
             azure.workload.identity/inject-proxy-sidecar: "true"
         
         read:
-          replicas: 1
+          replicas: 0
           persistence:
             storageClass: jokmspaks
           podAnnotations:
