@@ -98,6 +98,8 @@ spec:
               root_url: https://grafana.aks.jkroepke.de
             auth:
               oauth_auto_login: true
+            azure:
+              managed_identity_enabled: true
             users:
               auto_assign_org_role: Admin
               disable_login_form: true
