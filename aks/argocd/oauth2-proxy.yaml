@@ -60,5 +60,5 @@ spec:
         maxDuration: 3m
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: infra-prometheus
+    namespace: infra-dexidp
 
