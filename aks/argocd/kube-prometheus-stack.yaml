@@ -86,6 +86,8 @@ spec:
                   value: http://127.0.0.1:9090/
                 - name: OAUTH2_PROXY_EMAIL_DOMAINS
                   value: "*"
+                - name: OAUTH2_CODE_CHALLENGE_METHOD
+                  value: "S256"
           
           service:
             additionalPorts:
