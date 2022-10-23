@@ -129,33 +129,33 @@ spec:
               cert-manager:
                 gnetId: 11001
                 revision: 1
-                datasource: Prometheus
+                datasource: Cortex
               nginx-ingress-exporter:
                 gnetId: 9614
                 revision: 1
-                datasource: Prometheus
+                datasource: Cortex
               node-exporter-full:
                 gnetId: 1860
                 revision: 27
-                datasource: Prometheus
+                datasource: Cortex
               kube-state-metrics-v2:
                 gnetId: 13332
                 revision: 12
-                datasource: Prometheus
+                datasource: Cortex
               prometheus-2.0-overview:
                 gnetId: 3662
                 revision: 2
-                datasource: Prometheus
+                datasource: Cortex
               argocd:
                 gnetId: 14584
                 revision: 1
-                datasource: Prometheus
+                datasource: Cortex
                 
           sidecar:
             datasources:
               defaultDatasourceEnabled: false
           additionalDataSources:
-            - name: Prometheus
+            - name: Cortex
               type: prometheus
               uid: cortex
               url: http://cortex-nginx.infra-cortex.svc/prometheus
