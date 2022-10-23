@@ -1,0 +1,67 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: loki
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    chart: loki
+    repoURL: https://grafana.github.io/helm-charts
+    targetRevision: 3.2.2
+    helm:
+      releaseName: loki
+      #language=yaml
+      values: |
+        loki:
+          podAnnotations:
+            azure.workload.identity/inject-proxy-sidecar: "true"
+            
+          auth_enabled: false
+          commonConfig:
+            replication_factor: 1
+          storage:
+            type: "azure"
+            bucketNames:
+              chunks: chunks
+              ruler: ruler
+              admin: admin
+          serviceAccount:
+            create: false
+            name: loki
+            
+        monitoring:
+          alerts:
+            labels:
+              release: kube-prometheus-stack
+          rules:
+            labels:
+              release: kube-prometheus-stack
+          serviceMonitor:
+            labels:
+              release: kube-prometheus-stack
+          
+          selfMonitoring:
+            enabled: false
+            grafanaAgent:
+              installOperator: false
+            
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+    retry:
+      limit: 10
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: trivy-system
+

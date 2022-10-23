@@ -122,7 +122,7 @@ spec:
           alertmanager_storage:
             backend: azure
             azure:
-              account_name: jokmspcortex
+              account_name: jokmspaks
               container_name: alertmanager
               #user_assigned_id: '{{ get ((lookup "v1" "ServiceAccount" $.Release.Namespace "cortex").metadata.annotations) "azure.workload.identity/client-id" }}'
           ruler:
@@ -132,7 +132,7 @@ spec:
           ruler_storage:
             backend: azure
             azure:
-              account_name: jokmspcortex
+              account_name: jokmspaks
               container_name: ruler
               #user_assigned_id: '{{ get ((lookup "v1" "ServiceAccount" "infra-cortex" "cortex").metadata.annotations) "azure.workload.identity/client-id" }}'
           
@@ -142,7 +142,7 @@ spec:
           blocks_storage:
             backend: azure
             azure:
-              account_name: jokmspcortex
+              account_name: jokmspaks
               container_name: cortex
               #user_assigned_id: '{{ get ((lookup "v1" "ServiceAccount" $.Release.Namespace "cortex").metadata.annotations) "azure.workload.identity/client-id" }}'
 

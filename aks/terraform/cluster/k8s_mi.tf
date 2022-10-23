@@ -10,7 +10,11 @@ locals {
     }
     cortex = {
       namespace = "infra-cortex"
-      client-id = data.azurerm_user_assigned_identity.cortex.client_id
+      client-id = data.azurerm_user_assigned_identity.aks-storage-account.client_id
+    }
+    loki = {
+      namespace = "infra-loki"
+      client-id = data.azurerm_user_assigned_identity.aks-storage-account.client_id
     }
   }
 }
@@ -49,7 +53,7 @@ data "azurerm_user_assigned_identity" "external-dns" {
   resource_group_name = data.azurerm_resource_group.default.name
 }
 
-data "azurerm_user_assigned_identity" "cortex" {
-  name                = "cortex-storage-account"
+data "azurerm_user_assigned_identity" "aks-storage-account" {
+  name                = "aks-storage-account"
   resource_group_name = data.azurerm_resource_group.default.name
 }
