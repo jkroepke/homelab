@@ -30,6 +30,9 @@ spec:
             kubeProxy : false
             kubeSchedulerAlerting: false
             kubeSchedulerRecording: false
+          disabled:
+            PrometheusNotConnectedToAlertmanagers: true
+    
         alertmanager:
           enabled: false
         prometheus:
@@ -199,7 +202,6 @@ spec:
                 cloudName: azuremonitor
                 azureAuthType: msi
               version: 5
-
   syncPolicy:
     automated:
       prune: true
