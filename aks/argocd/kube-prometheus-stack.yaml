@@ -88,6 +88,8 @@ spec:
                   value: "*"
                 - name: OAUTH2_PROXY_CODE_CHALLENGE_METHOD
                   value: "S256"
+                - name: OAUTH2_PROXY_CODE_CHALLENGE_METHODS
+                  value: "S256"
           
           service:
             additionalPorts:
