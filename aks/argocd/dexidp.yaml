@@ -23,6 +23,8 @@ spec:
           path: secrets+literal://ref+azurekeyvault://aks-credentials/dexidp-argocd-secret
         - name: env.GRAFANA_CLIENT_SECRET
           path: secrets+literal://ref+azurekeyvault://aks-credentials/dexidp-grafana-client-secret
+        - name: env.PROMETHEUS_CLIENT_SECRET
+          path: secrets+literal://ref+azurekeyvault://aks-credentials/dexidp-prometheus-client-secret
       # language=yaml
       values: |
         config:
@@ -54,8 +56,13 @@ spec:
             - id: grafana
               redirectURIs:
                 - 'https://grafana.aks.jkroepke.de/login/generic_oauth'
-              name: 'ArgoCD'
+              name: 'Grafana'
               secretEnv: GRAFANA_CLIENT_SECRET
+            - id: prometheus
+              redirectURIs:
+                - 'https://grafana.aks.jkroepke.de/oauth2/callback'
+              name: 'Prometheus'
+              secretEnv: PROMETHEUS_CLIENT_SECRET
         
         ingress:
           enabled: true

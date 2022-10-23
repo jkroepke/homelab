@@ -20,6 +20,10 @@ spec:
           path: secrets+literal://ref+azurekeyvault://aks-credentials/dexidp-grafana-client-secret
         - name: grafana.grafana\.ini.azure.managed_identity_client_id
           path: "kubectl://infra-prometheus/sa/grafana/jsonpath={.metadata.annotations.azure\\\\.workload\\\\.identity/client-id}"
+        - name: prometheus.prometheusSpec.containers.env[0].value
+          path: secrets+literal://ref+azurekeyvault://aks-credentials/oauth2-proxy-cookie-secret
+        - name: prometheus.prometheusSpec.containers.env[1].value
+          path: secrets+literal://ref+azurekeyvault://aks-credentials/dexidp-prometheus-client-secret
       # language=yaml
       values: |
         defaultRules:
@@ -55,6 +59,52 @@ spec:
             #     - '--web.external-url=http://kube-prometheus-stack-prometheus.infra-prometheus:9090'
             #     - '--web.route-prefix=/'
             #     - '--web.config.file=/etc/prometheus/web_config/web-config.yaml'
+            containers:
+            - name: oauth-proxy
+              image: quay.io/oauth2-proxy/oauth2-proxy:latest
+              ports:
+                - containerPort: 8080
+                  name: oauth2
+              env:
+                - name: OAUTH2_PROXY_COOKIE_SECRET
+                  value: ~
+                - name: OAUTH2_PROXY_CLIENT_SECRET
+                  value: ~
+                - name: OAUTH2_PROXY_COOKIE_SECURE
+                  value: "true"
+                - name: OAUTH2_PROXY_PROVIDER
+                  value: oidc
+                - name: OAUTH2_PROXY_CLIENT_ID
+                  value: prometheus
+                - name: OAUTH2_PROXY_PROVIDER_DISPLAY_NAME
+                  value: login.aks.jkroepke.de
+                - name: OAUTH2_PROXY_REDIRECT_URL
+                  value: https://login.aks.jkroepke.de/oauth2/callback
+                - name: OAUTH2_PROXY_OIDC_URL
+                  value: https://login.aks.jkroepke.de/dex
+                - name: OAUTH2_PROXY_UPSTREAM
+                  value: http://127.0.0.1:9090/
+          
+          service:
+            additionalPorts:
+              - name: oauth2
+                port: 8080
+                targetPort: oauth2
+          
+          ingress:
+            enabled: true
+            ingressClassName: nginx
+            servicePort: 8080
+            paths:
+              - /
+            hosts:
+              - prometheus.aks.jkroepke.de
+            pathType: Prefix
+            tls:
+              - secretName: prometheus-ingress-tls
+                hosts:
+                  - prometheus.aks.jkroepke.de
+   
         prometheusOperator:
           prometheusConfigReloader:
             resources:
