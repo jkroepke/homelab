@@ -21,7 +21,7 @@ spec:
       values: |
         trivy:
           ignoreUnfixed: true
-          timeout: "10m0s
+          timeout: "10m0s"
           resources:
             requests:
               memory: 500Mi
