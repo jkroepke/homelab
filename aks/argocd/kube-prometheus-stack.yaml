@@ -162,7 +162,7 @@ spec:
     syncOptions:
       - CreateNamespace=true
     retry:
-      limit: 10
+      limit: 2
       backoff:
         duration: 5s
         factor: 2
@@ -194,7 +194,7 @@ spec:
     syncOptions:
       - Replace=true
     retry:
-      limit: 10
+      limit: 2
       backoff:
         duration: 5s
         factor: 2
