@@ -154,6 +154,14 @@ spec:
               isDefault: true
               jsonData:
                 timeInterval: 1m
+            - name: Loki
+              type: loki
+              uid: loki
+              url: http://loki-gateway.infra-loki.svc/
+              access: proxy
+              isDefault: false
+              jsonData:
+                timeInterval: 1m
 
   syncPolicy:
     automated:
