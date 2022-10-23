@@ -33,25 +33,26 @@ spec:
         prometheus:
           prometheusSpec:
             scrapeInterval: 30s
-            enableFeatures:
-              - new-service-discovery-manager
-              - agent
             remoteWrite:
             - url: http://cortex-nginx.infra-cortex.svc/api/prom/push
             remoteWriteDashboards: true
-            # https://github.com/prometheus-community/helm-charts/issues/2506#issuecomment-1277362029
-            containers:
-            - name: prometheus
-              args:
-                - '--config.file=/etc/prometheus/config_out/prometheus.env.yaml'
-                - '--storage.agent.path=/prometheus'
-                - '--enable-feature=new-service-discovery-manager,agent'
-                - '--web.enable-lifecycle'
-                - '--web.console.templates=/etc/prometheus/consoles'
-                - '--web.console.libraries=/etc/prometheus/console_libraries'
-                - '--web.external-url=http://kube-prometheus-stack-prometheus.infra-prometheus:9090'
-                - '--web.route-prefix=/'
-                - '--web.config.file=/etc/prometheus/web_config/web-config.yaml'
+            
+            enableFeatures:
+              - new-service-discovery-manager
+            #   - agent
+            # # https://github.com/prometheus-community/helm-charts/issues/2506#issuecomment-1277362029
+            # containers:
+            # - name: prometheus
+            #   args:
+            #     - '--config.file=/etc/prometheus/config_out/prometheus.env.yaml'
+            #     - '--storage.agent.path=/prometheus'
+            #     - '--enable-feature=new-service-discovery-manager,agent'
+            #     - '--web.enable-lifecycle'
+            #     - '--web.console.templates=/etc/prometheus/consoles'
+            #     - '--web.console.libraries=/etc/prometheus/console_libraries'
+            #     - '--web.external-url=http://kube-prometheus-stack-prometheus.infra-prometheus:9090'
+            #     - '--web.route-prefix=/'
+            #     - '--web.config.file=/etc/prometheus/web_config/web-config.yaml'
         prometheusOperator:
           prometheusConfigReloader:
             resources:
