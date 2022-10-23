@@ -34,7 +34,7 @@ spec:
           prometheusSpec:
             scrapeInterval: 30s
             remoteWrite:
-            - url: http://cortex-nginx.infra-cortex.svc/api/prom/push
+            - url: http://cortex-nginx.infra-cortex.svc/api/v1/push
             remoteWriteDashboards: true
             
             enableFeatures:
