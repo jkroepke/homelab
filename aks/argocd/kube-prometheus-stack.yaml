@@ -31,6 +31,8 @@ spec:
         prometheus:
           prometheusSpec:
             scrapeInterval: 30s
+            retention: ""
+            walCompression: ""
             enableFeatures:
               - memory-snapshot-on-shutdown
               - new-service-discovery-manager
