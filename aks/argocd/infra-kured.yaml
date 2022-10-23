@@ -1,0 +1,38 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kured
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    chart: kured
+    repoURL: https://kubereboot.github.io/charts
+    # https://artifacthub.io/packages/helm/kured/kured
+    targetRevision: 4.0.2
+    helm:
+      releaseName: kured
+      # language=yaml
+      values: |
+        metrics:
+          create: true
+          labels:
+            release: kube-prometheus-stack
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+    retry:
+      limit: 2
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: infra-kured
+
