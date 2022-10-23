@@ -141,6 +141,19 @@ spec:
                 gnetId: 14584
                 revision: 1
                 datasource: Prometheus
+                
+          sidecar:
+            datasources:
+              defaultDatasourceEnabled: false
+          additionalDataSources:
+            - name: Cortex
+              type: prometheus
+              uid: cortex
+              url: http://cortex-nginx.infra-cortex.svc/prometheus
+              access: proxy
+              isDefault: true
+              jsonData:
+                timeInterval: 1m
 
   syncPolicy:
     automated:
