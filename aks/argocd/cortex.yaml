@@ -44,7 +44,8 @@ spec:
           podAnnotations:
             azure.workload.identity/inject-proxy-sidecar: "true"
           persistentVolume:
-            enabled: false
+            # semi-stateful
+            enabled: true
         ruler:
           enabled: true
           replicas: 1
