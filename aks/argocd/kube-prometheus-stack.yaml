@@ -155,7 +155,7 @@ spec:
             datasources:
               defaultDatasourceEnabled: false
           additionalDataSources:
-            - name: Cortex
+            - name: Prometheus
               type: prometheus
               uid: cortex
               url: http://cortex-nginx.infra-cortex.svc/prometheus
