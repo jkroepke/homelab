@@ -87,7 +87,7 @@ spec:
         store_gateway:
           enabled: true
           persistentVolume:
-            enabled: false
+            enabled: true
           serviceMonitor:
             enabled: true
             additionalLabels:
