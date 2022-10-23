@@ -22,10 +22,10 @@ spec:
             release: kube-prometheus-stack
         configuration:
           lockTtl: 30m
-          drainGracePeriod: 30s
+          drainGracePeriod: 30
           drainTimeout: 10m
           forceReboot: true
-          skipWaitForDeleteTimeout: 2m
+          skipWaitForDeleteTimeout: 120
           timeZone: Europe/Berlin
 
   syncPolicy:
