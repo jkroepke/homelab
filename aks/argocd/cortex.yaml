@@ -32,7 +32,6 @@ spec:
           replicas: 1
           serviceMonitor:
             enabled: true
-            namespace: infra-prometheus
             additionalLabels:
               release: kube-prometheus-stack
 
@@ -43,7 +42,6 @@ spec:
             enabled: true
           serviceMonitor:
             enabled: true
-            namespace: infra-prometheus
             additionalLabels:
               release: kube-prometheus-stack
           podAnnotations:
@@ -60,7 +58,6 @@ spec:
             azure.workload.identity/inject-proxy-sidecar: "true"
           serviceMonitor:
             enabled: true
-            namespace: infra-prometheus
             additionalLabels:
               release: kube-prometheus-stack
         
@@ -71,7 +68,6 @@ spec:
             azure.workload.identity/inject-proxy-sidecar: "true"
           serviceMonitor:
             enabled: true
-            namespace: infra-prometheus
             additionalLabels:
               release: kube-prometheus-stack
         
@@ -80,7 +76,6 @@ spec:
           replicas: 1
           serviceMonitor:
             enabled: true
-            namespace: infra-prometheus
             additionalLabels:
               release: kube-prometheus-stack
 
@@ -88,7 +83,6 @@ spec:
           replicas: 1
           serviceMonitor:
             enabled: true
-            namespace: infra-prometheus
             additionalLabels:
               release: kube-prometheus-stack
         
@@ -103,7 +97,6 @@ spec:
             storageClass: jokmspaks
           serviceMonitor:
             enabled: true
-            namespace: infra-prometheus
             additionalLabels:
               release: kube-prometheus-stack
           podAnnotations:
@@ -114,7 +107,6 @@ spec:
           replicas: 1
           serviceMonitor:
             enabled: true
-            namespace: infra-prometheus
             additionalLabels:
               release: kube-prometheus-stack
           podAnnotations:
