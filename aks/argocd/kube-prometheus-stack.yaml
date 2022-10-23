@@ -96,6 +96,8 @@ spec:
           ingress:
             enabled: true
             annotations:
+              nginx.ingress.kubernetes.io/auth-url: "https://$host/oauth2/auth"
+              nginx.ingress.kubernetes.io/auth-signin: "https://$host/oauth2/start?rd=$escaped_request_uri"
               cert-manager.io/cluster-issuer: letsencrypt
             ingressClassName: nginx
             servicePort: 8080
