@@ -39,6 +39,7 @@ spec:
           prometheusSpec:
             scrapeInterval: 30s
             retention: 6h
+            disableCompaction: true
             remoteWrite:
             - url: http://cortex-nginx.infra-cortex.svc/api/v1/push
             remoteWriteDashboards: true
