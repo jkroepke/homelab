@@ -71,11 +71,15 @@ spec:
           
         write:
           replicas: 1
+          persistence:
+            storageClass: jokmspaks
           podAnnotations:
             azure.workload.identity/inject-proxy-sidecar: "true"
         
         read:
           replicas: 1
+          persistence:
+            storageClass: jokmspaks
           podAnnotations:
             azure.workload.identity/inject-proxy-sidecar: "true"
         

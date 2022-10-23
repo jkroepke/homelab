@@ -20,6 +20,14 @@ resource "azurerm_storage_account" "aks" {
   }
 }
 
+resource "azurerm_storage_share" "aks" {
+  name                  = "aks"
+  storage_account_name  = azurerm_storage_account.aks.name
+  container_access_type = "private"
+  quota                 = 100
+  access_tier           = "Hot"
+}
+
 resource "azurerm_storage_container" "cortex_alertmanager" {
   name                  = "alertmanager"
   storage_account_name  = azurerm_storage_account.aks.name

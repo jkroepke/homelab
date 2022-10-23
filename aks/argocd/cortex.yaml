@@ -34,6 +34,7 @@ spec:
             enabled: true
             additionalLabels:
               release: kube-prometheus-stack
+
         ingester:
           enabled: true
           replicas: 1
@@ -48,6 +49,8 @@ spec:
           persistentVolume:
             # semi-stateful
             enabled: true
+            storageClass: jokmspaks
+        
         ruler:
           enabled: true
           replicas: 1
@@ -57,6 +60,7 @@ spec:
             enabled: true
             additionalLabels:
               release: kube-prometheus-stack
+        
         querier:
           enabled: true
           replicas: 1
@@ -90,6 +94,7 @@ spec:
           enabled: true
           persistentVolume:
             enabled: true
+            storageClass: jokmspaks
           serviceMonitor:
             enabled: true
             additionalLabels:
@@ -108,6 +113,7 @@ spec:
             azure.workload.identity/inject-proxy-sidecar: "true"
           persistentVolume:
             enabled: false
+            storageClass: jokmspaks
         
         config:
           auth_enabled: false
