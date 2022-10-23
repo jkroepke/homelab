@@ -18,11 +18,11 @@ spec:
         - name: config.cookieSecret
           path: secrets+literal://ref+azurekeyvault://aks-credentials/oauth2-proxy-cookie-secret
         - name: config.clientSecret
-          path: secrets+literal://ref+azurekeyvault://aks-credentials/dexidp-prometheus-client-secret
+          path: secrets+literal://ref+azurekeyvault://aks-credentials/dexidp-oauth2-proxy-client-secret
       # language=yaml
       values: |
         config:
-          clientID: prometheus
+          clientID: oauth2-proxy
             
         ingress:
           enabled: ture
@@ -30,20 +30,19 @@ spec:
           path: /oauth2/
           pathType: Prefix
           hosts:
-          - prometheus.aks.jkroepke.de
+          - login.aks.jkroepke.de
           annotations:
             cert-manager.io/cluster-issuer: letsencrypt
           tls:
-            - secretName: prometheus-ingress-tls
+            - secretName: ingress-tls
               hosts:
-                - prometheus.aks.jkroepke.de
+                - login.aks.jkroepke.de
         extraArgs:
           code-challenge-method: S256
           provider: oidc
           provider-display-name: login.aks.jkroepke.de
           redirect-url: https://login.aks.jkroepke.de/oauth2/callback
           oidc-issuer-url: https://login.aks.jkroepke.de/dex
-          upstream: http://127.0.0.1:9090/
           email-domain: "*"
           http-address: ":4180"
 
