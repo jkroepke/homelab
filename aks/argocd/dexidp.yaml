@@ -60,7 +60,7 @@ spec:
               secretEnv: GRAFANA_CLIENT_SECRET
             - id: prometheus
               redirectURIs:
-                - 'https://grafana.aks.jkroepke.de/oauth2/callback'
+                - 'https://login.aks.jkroepke.de/oauth2/callback'
               name: 'Prometheus'
               secretEnv: PROMETHEUS_CLIENT_SECRET
         
