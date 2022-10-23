@@ -84,6 +84,8 @@ spec:
                   value: https://login.aks.jkroepke.de/dex
                 - name: OAUTH2_PROXY_UPSTREAM
                   value: http://127.0.0.1:9090/
+                - name: OAUTH2_EMAIL_DOMAIN
+                  value: "*"
           
           service:
             additionalPorts:
