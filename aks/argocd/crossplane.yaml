@@ -31,7 +31,7 @@ spec:
             memory: 0
         provider:
           packages:
-            - xpkg.upbound.io/crossplane-contrib/provider-azure:v0.20.0
+            - crossplane/provider-jet-azure:v0.12.0-preview
 
 
   syncPolicy:
