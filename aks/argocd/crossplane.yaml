@@ -10,7 +10,7 @@ spec:
   source:
     chart: crossplane
     repoURL: https://charts.crossplane.io/stable
-    targetRevision: 1.9.1
+    targetRevision: 1.10.0
     helm:
       releaseName: crossplane
       values: |
@@ -47,7 +47,7 @@ spec:
     server: "https://kubernetes.default.svc"
     namespace: infra-crossplane
 ---
-apiVersion: pkg.crossplane.io/v1
+apiVersion: meta.pkg.crossplane.io/v1
 kind: Provider
 metadata:
   name: provider-azure
