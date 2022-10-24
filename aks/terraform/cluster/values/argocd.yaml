@@ -30,6 +30,7 @@ server:
     url: "https://argocd.aks.jkroepke.de"
     statusbadge.enabled: "true"
     admin.enabled: "false"
+    application.resourceTrackingMethod: annotation
     resource.compareoptions: |
       # disables status field diffing in specified resource types
       ignoreAggregatedRoles: true

@@ -4,10 +4,6 @@ locals {
       namespace = "infra-external-dns"
       client-id = data.azurerm_user_assigned_identity.external-dns.client_id
     }
-    crossplane = {
-      namespace = "infra-crossplane"
-      client-id = data.azurerm_user_assigned_identity.external-dns.client_id
-    }
     cortex = {
       namespace = "infra-cortex"
       client-id = data.azurerm_user_assigned_identity.aks-storage-account.client_id
