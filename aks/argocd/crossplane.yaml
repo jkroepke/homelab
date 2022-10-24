@@ -29,11 +29,6 @@ spec:
           requests:
             cpu: 0
             memory: 0
-        provider:
-          packages:
-            - crossplane/provider-jet-azure:v0.12.0-preview
-
-
   syncPolicy:
     automated:
       prune: true
@@ -50,14 +45,21 @@ spec:
     server: "https://kubernetes.default.svc"
     namespace: infra-crossplane
 ---
-apiVersion: azure.crossplane.io/v1beta1
-kind: ProviderConfig
+apiVersion: pkg.crossplane.io/v1alpha1
+kind: ControllerConfig
 metadata:
-  name: default
+  name: jet-azure-config
+  labels:
+    app: crossplane-provider-jet-azure
 spec:
-  credentials:
-    source: Secret
-    secretRef:
-      namespace: infra-crossplane
-      name: azure-account-creds
-      key: credentials
+  image: crossplane/provider-jet-azure-controller:v0.12.0-preview
+  args: ["-d"]
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: crossplane-provider-jet-azure
+spec:
+  package: crossplane/provider-jet-azure:v0.12.0-preview
+  controllerConfigRef:
+    name: jet-azure-config
