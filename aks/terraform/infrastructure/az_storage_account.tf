@@ -65,7 +65,6 @@ resource "azurerm_storage_management_policy" "loki" {
     }
     actions {
       base_blob {
-        tier_to_archive_after_days_since_modification_greater_than = 14
         delete_after_days_since_modification_greater_than          = 28
       }
       snapshot {
