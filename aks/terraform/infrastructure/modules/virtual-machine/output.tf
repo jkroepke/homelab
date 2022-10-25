@@ -1,5 +1,5 @@
 output "vm_id" {
-  value = azurerm_linux_virtual_machine.bastion.id
+  value = local.virtual_machine_id
 }
 
 output "public_ipv4_id" {
