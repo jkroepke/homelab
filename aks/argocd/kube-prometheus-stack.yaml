@@ -32,7 +32,7 @@ spec:
             kubeSchedulerRecording: false
           disabled:
             PrometheusNotConnectedToAlertmanagers: true
-    
+        
         alertmanager:
           enabled: false
         prometheus:
@@ -79,7 +79,7 @@ spec:
               - secretName: prometheus-ingress-tls
                 hosts:
                   - prometheus.aks.jkroepke.de
-   
+        
         prometheusOperator:
           prometheusConfigReloader:
             resources:

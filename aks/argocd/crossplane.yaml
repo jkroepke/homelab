@@ -44,22 +44,22 @@ spec:
   destination:
     server: "https://kubernetes.default.svc"
     namespace: infra-crossplane
----
-apiVersion: pkg.crossplane.io/v1alpha1
-kind: ControllerConfig
-metadata:
-  name: jet-azure-config
-  labels:
-    app: crossplane-provider-jet-azure
-spec:
-  image: crossplane/provider-jet-azure-controller:v0.12.0-preview
-  args: ["-d"]
----
-apiVersion: pkg.crossplane.io/v1
-kind: Provider
-metadata:
-  name: crossplane-provider-jet-azure
-spec:
-  package: crossplane/provider-jet-azure:v0.12.0-preview
-  controllerConfigRef:
-    name: jet-azure-config
+# ---
+# apiVersion: pkg.crossplane.io/v1alpha1
+# kind: ControllerConfig
+# metadata:
+#   name: jet-azure-config
+#   labels:
+#     app: crossplane-provider-jet-azure
+# spec:
+#   image: crossplane/provider-jet-azure-controller:v0.12.0-preview
+#   args: ["-d"]
+# ---
+# apiVersion: pkg.crossplane.io/v1
+# kind: Provider
+# metadata:
+#   name: crossplane-provider-jet-azure
+# spec:
+#   package: crossplane/provider-jet-azure:v0.12.0-preview
+#   controllerConfigRef:
+#     name: jet-azure-config
