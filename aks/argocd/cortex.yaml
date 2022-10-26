@@ -50,6 +50,7 @@ spec:
             # semi-stateful
             enabled: true
             storageClass: jokmspaks
+            size: 10Gi
         
         ruler:
           enabled: true
@@ -114,6 +115,7 @@ spec:
           persistentVolume:
             enabled: false
             storageClass: jokmspaks
+            size: 10Gi
         
         config:
           auth_enabled: false
