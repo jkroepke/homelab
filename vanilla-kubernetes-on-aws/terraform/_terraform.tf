@@ -1,5 +1,5 @@
 terraform {
-  required_version = "~> 0.13"
+  required_version = "~> 0.15"
 
   backend "s3" {
     bucket  = "adorsys-sandbox-terraform-state-files"
