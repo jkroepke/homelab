@@ -24,7 +24,7 @@ sidecars:
     tag: "v1.1.0"
   resizerImage:
     repository: quay.io/k8scsi/csi-resizer
-    tag: "v0.3.0"
+    tag: "v1.1.0"
   nodeDriverRegistrarImage:
     repository: quay.io/k8scsi/csi-node-driver-registrar
     tag: "v1.1.0"
