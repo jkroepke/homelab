@@ -26,7 +26,7 @@
   - name: Start test registry
     docker_container:
       name: '{{ registry_name }}'
-      image: registry:2.6.1
+      image: registry:2.8.1
       ports: 5000
     register: registry_container
   - name: Get registry URL
