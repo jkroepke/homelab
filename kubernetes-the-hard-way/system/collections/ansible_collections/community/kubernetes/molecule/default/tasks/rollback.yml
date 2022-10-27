@@ -118,7 +118,7 @@
                     effect: NoSchedule
                 containers:
                   - name: fluentd-elasticsearch
-                    image: quay.io/fluentd_elasticsearch/fluentd:v2.5.2
+                    image: quay.io/fluentd_elasticsearch/fluentd:v4.2.2
                     resources:
                       limits:
                         memory: 200Mi
