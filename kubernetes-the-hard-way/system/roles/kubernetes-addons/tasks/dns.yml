@@ -1,9 +1,0 @@
-- name: Prepare Template
-  template:
-    src: coredns.yml.j2
-    dest: /etc/kubernetes/config/addons/coredns.yml
-
-- name: Install DNS Add-Ons
-  command: kubectl apply -f /etc/kubernetes/config/addons/coredns.yml
-  environment:
-    KUBECONFIG: /root/admin.kubeconfig

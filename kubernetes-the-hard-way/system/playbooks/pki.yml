@@ -1,7 +1,0 @@
-- name: Setup pki
-  hosts: localhost
-  gather_facts: false
-  roles:
-    - pki
-  tags:
-    - pki

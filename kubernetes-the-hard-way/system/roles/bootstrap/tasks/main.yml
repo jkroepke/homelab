@@ -1,4 +1,0 @@
-- import_tasks: hostname.yml
-- import_tasks: pki.yml
-- import_tasks: kubeconfig.yml
-- import_tasks: cluster-config.yml

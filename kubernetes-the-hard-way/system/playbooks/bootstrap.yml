@@ -1,6 +1,0 @@
-- name: Bootstrap Hosts
-  hosts: tag_project_jkr_kubernetes_the_hard_way
-  roles:
-    - bootstrap
-  tags:
-    - bootstrap

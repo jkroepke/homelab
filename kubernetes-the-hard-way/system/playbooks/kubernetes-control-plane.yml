@@ -1,6 +1,0 @@
-- name: Bootstrapping the Kubernetes Control Plane
-  hosts: tag_controller_true
-  roles:
-    - kubernetes-control-plane
-  tags:
-    - kubernetes-control-plane

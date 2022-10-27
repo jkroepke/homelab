@@ -1,6 +1,0 @@
-- name: Deploying Cluster Add-ons
-  hosts: tag_controller_true[0]
-  roles:
-    - kubernetes-addons
-  tags:
-    - kubernetes-addons

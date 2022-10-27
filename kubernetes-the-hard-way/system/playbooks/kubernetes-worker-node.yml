@@ -1,6 +1,0 @@
-- name: Bootstrapping the Kubernetes Worker Nodes
-  hosts: tag_worker_true
-  roles:
-    - kubernetes-worker-node
-  tags:
-    - kubernetes-worker-node

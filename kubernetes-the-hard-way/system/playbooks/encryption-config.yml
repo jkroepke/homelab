@@ -1,7 +1,0 @@
-- name: Configure encryption config
-  hosts: localhost
-  gather_facts: false
-  roles:
-    - encryption-config
-  tags:
-    - encryption-config
