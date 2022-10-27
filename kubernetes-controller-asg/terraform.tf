@@ -13,7 +13,7 @@ terraform {
     aws = {}
     ct = {
       source  = "poseidon/ct"
-      version = "~> 0.10"
+      version = "~> 0.11"
     }
   }
 
