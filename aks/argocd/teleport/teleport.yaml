@@ -11,7 +11,7 @@ spec:
     chart: teleport-cluster
     repoURL: https://charts.releases.teleport.dev
     # https://artifacthub.io/packages/helm/cert-manager/cert-manager
-    targetRevision: 10.3.4
+    targetRevision: 11.0.0
     helm:
       releaseName: teleport-cluster
       # language=yaml
