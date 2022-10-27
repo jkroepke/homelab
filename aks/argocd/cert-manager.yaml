@@ -27,6 +27,7 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
+      - SkipDryRunOnMissingResource=true
     retry:
       limit: 2
       backoff:
