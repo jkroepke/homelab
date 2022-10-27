@@ -1,5 +1,5 @@
 resource "azurerm_public_ip" "this" {
-  for_each = toset(["4", "6"])
+  for_each = toset(var.enable_public_interface ? ["4", "6"] : [])
 
   name                = "${var.name}${each.key}"
   location            = var.location
@@ -7,6 +7,11 @@ resource "azurerm_public_ip" "this" {
   allocation_method   = "Static"
   ip_version          = "IPv${each.key}"
   sku                 = "Standard"
+
+  # https://github.com/hashicorp/terraform-provider-azurerm/issues/15483
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "azurerm_network_interface" "this" {
@@ -21,7 +26,7 @@ resource "azurerm_network_interface" "this" {
     subnet_id                     = var.subnet_id
     private_ip_address_allocation = "Dynamic"
     private_ip_address_version    = "IPv4"
-    public_ip_address_id          = azurerm_public_ip.this["4"].id
+    public_ip_address_id          = try(azurerm_public_ip.this["4"].id, null)
     primary                       = true
   }
 
@@ -30,12 +35,14 @@ resource "azurerm_network_interface" "this" {
     subnet_id                     = var.subnet_id
     private_ip_address_allocation = "Dynamic"
     private_ip_address_version    = "IPv6"
-    public_ip_address_id          = azurerm_public_ip.this["6"].id
+    public_ip_address_id          = try(azurerm_public_ip.this["6"].id, null)
     primary                       = false
   }
 }
 
 resource "azurerm_network_interface_security_group_association" "default" {
+  count = var.enable_public_interface ? 1 : 0
+
   network_interface_id      = azurerm_network_interface.this.id
   network_security_group_id = azurerm_network_security_group.this.id
 }
@@ -45,16 +52,19 @@ resource "azurerm_network_security_group" "this" {
   location            = var.location
   resource_group_name = var.resource_group_name
 
-  security_rule {
-    name                       = "SSH"
-    priority                   = 100
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "Tcp"
-    source_port_range          = "*"
-    destination_port_range     = "22"
-    source_address_prefix      = "*"
-    destination_address_prefix = "*"
+  dynamic "security_rule" {
+    for_each = toset(var.enable_public_interface ? [true] : [])
+    content {
+      name                       = "SSH"
+      priority                   = 100
+      direction                  = "Inbound"
+      access                     = "Allow"
+      protocol                   = "Tcp"
+      source_port_range          = "*"
+      destination_port_range     = "22"
+      source_address_prefix      = "*"
+      destination_address_prefix = "*"
+    }
   }
 
   security_rule {

@@ -24,7 +24,7 @@ resource "azurerm_kubernetes_cluster" "jok" {
 
   default_node_pool {
     name     = "system"
-    vm_size  = "Standard_B1ls"
+    vm_size  = "Standard_B2s"
     zones    = ["1"]
     max_pods = 110
 
@@ -36,7 +36,7 @@ resource "azurerm_kubernetes_cluster" "jok" {
     min_count           = 1
     max_count           = 1
 
-    os_disk_size_gb = 20
+    os_disk_size_gb = 30
 
     # The Virtual Machine size Standard_A2_v2 does not support EncryptionAtHost.
     enable_host_encryption = false
@@ -44,6 +44,8 @@ resource "azurerm_kubernetes_cluster" "jok" {
     #os_disk_type           = "Ephemeral"
     # The virtual machine size Standard_A2_v2 has a max temporary disk size of 21474836480 bytes, but the kubelet disk requires 32212254720 bytes. Use a VM size with larger temporary disk or use the OS disk for kubelet.
     #kubelet_disk_type      = "Temporary"
+
+    only_critical_addons_enabled = true
   }
 
   linux_profile {
@@ -151,7 +153,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "workload" {
   min_count           = 1
   max_count           = 1
 
-  os_disk_size_gb = 100
+  os_disk_size_gb = 50
 
   # The Virtual Machine size Standard_A2_v2 does not support EncryptionAtHost.
   enable_host_encryption = false

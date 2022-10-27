@@ -30,13 +30,13 @@ resource "azurerm_monitor_data_collection_rule" "vminsights" {
 }
 
 resource "azurerm_monitor_data_collection_rule_association" "bastionvminsights" {
-  name                    = "bastion"
-  target_resource_id      = module.bastion.vm_id
+  name                    = module.bastion_linux.vm_name
+  target_resource_id      = module.bastion_linux.vm_id
   data_collection_rule_id = azurerm_monitor_data_collection_rule.vminsights.id
 }
 
 resource "azurerm_monitor_data_collection_rule_association" "bastionwinvminsights" {
-  name                    = "bastion-win"
+  name                    = module.bastion_windows.vm_name
   target_resource_id      = module.bastion_windows.vm_id
   data_collection_rule_id = azurerm_monitor_data_collection_rule.vminsights.id
 }
