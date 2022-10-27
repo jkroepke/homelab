@@ -23,8 +23,8 @@ resource "azurerm_kubernetes_cluster" "jok" {
   }
 
   default_node_pool {
-    name     = "default"
-    vm_size  = "Standard_A2m_v2"
+    name     = "system"
+    vm_size  = "Standard_B1ls"
     zones    = ["1"]
     max_pods = 110
 
@@ -36,7 +36,7 @@ resource "azurerm_kubernetes_cluster" "jok" {
     min_count           = 1
     max_count           = 1
 
-    os_disk_size_gb = 100
+    os_disk_size_gb = 20
 
     # The Virtual Machine size Standard_A2_v2 does not support EncryptionAtHost.
     enable_host_encryption = false
@@ -69,11 +69,6 @@ resource "azurerm_kubernetes_cluster" "jok" {
   node_resource_group       = "${azurerm_resource_group.default.name}-aks"
   oidc_issuer_enabled       = true
   workload_identity_enabled = true
-
-  key_vault_secrets_provider {
-    secret_rotation_enabled  = false
-    secret_rotation_interval = "2m"
-  }
 
   maintenance_window {
     allowed {
@@ -139,4 +134,29 @@ resource "azurerm_role_assignment" "jok" {
   scope                = azurerm_kubernetes_cluster.jok.id
   role_definition_name = "Azure Kubernetes Service RBAC Cluster Admin"
   principal_id         = data.azurerm_client_config.this.object_id
+}
+
+resource "azurerm_kubernetes_cluster_node_pool" "workload" {
+  kubernetes_cluster_id = azurerm_kubernetes_cluster.jok.id
+  name                  = "workload"
+  vm_size               = "Standard_A2m_v2"
+  zones                 = ["1"]
+  os_sku                = "Ubuntu"
+  max_pods              = 250
+
+  vnet_subnet_id = azurerm_subnet.default.id
+
+  enable_auto_scaling = true
+  node_count          = 1
+  min_count           = 1
+  max_count           = 1
+
+  os_disk_size_gb = 100
+
+  # The Virtual Machine size Standard_A2_v2 does not support EncryptionAtHost.
+  enable_host_encryption = false
+  # The Virtual Machine size Standard_A2_v2 does not support Ephemeral OS disk."
+  #os_disk_type           = "Ephemeral"
+  # The virtual machine size Standard_A2_v2 has a max temporary disk size of 21474836480 bytes, but the kubelet disk requires 32212254720 bytes. Use a VM size with larger temporary disk or use the OS disk for kubelet.
+  #kubelet_disk_type      = "Temporary"
 }
