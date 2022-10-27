@@ -1,2 +1,2 @@
-coverage==4.5.4
+coverage==6.5.0
 pytest-xdist
