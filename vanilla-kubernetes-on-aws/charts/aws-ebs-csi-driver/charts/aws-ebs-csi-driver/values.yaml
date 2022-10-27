@@ -21,7 +21,7 @@ sidecars:
     tag: "v2.1.1"
   livenessProbeImage:
     repository: quay.io/k8scsi/livenessprobe
-    tag: "v1.1.0"
+    tag: "v2.2.0"
   resizerImage:
     repository: quay.io/k8scsi/csi-resizer
     tag: "v0.3.0"
