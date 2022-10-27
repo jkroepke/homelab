@@ -15,7 +15,7 @@ sidecars:
     tag: "v1.5.0"
   attacherImage:
     repository: quay.io/k8scsi/csi-attacher
-    tag: "v1.2.0"
+    tag: "v3.1.0"
   snapshotterImage:
     repository: quay.io/k8scsi/csi-snapshotter
     tag: "v2.1.1"
