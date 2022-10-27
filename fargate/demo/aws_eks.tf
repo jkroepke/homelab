@@ -1,6 +1,6 @@
 module "vpc_cni_irsa" {
   source  = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
-  version = "~> 5.3.0"
+  version = "~> 5.5.0"
 
   role_name             = "vpc_cni"
   attach_vpc_cni_policy = true
