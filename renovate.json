@@ -9,7 +9,10 @@
     },
     {
       "matchPaths": ["aks/**"],
-      "enabled": true
+      "enabled": true,
+      "argocd": {
+        "fileMatch": ["argocd/.+\\.yaml$"]
+      }
     }
   ]
 }

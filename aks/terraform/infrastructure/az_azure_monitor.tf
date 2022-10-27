@@ -7,11 +7,18 @@ resource "azurerm_monitor_data_collection_rule" "vminsights" {
     azure_monitor_metrics {
       name = "metrics"
     }
+
+    destinations {
+      log_analytics {
+        workspace_resource_id = azurerm_log_analytics_workspace.default.id
+        name                  = "law"
+      }
+    }
   }
 
   data_flow {
     streams      = ["Microsoft-InsightsMetrics"]
-    destinations = ["metrics"]
+    destinations = ["metrics", "law"]
   }
 
   data_sources {
@@ -31,7 +38,7 @@ resource "azurerm_monitor_data_collection_rule_association" "bastionvminsights" 
 }
 
 resource "azurerm_monitor_data_collection_rule_association" "bastionwinvminsights" {
-  name                    = "bastion"
+  name                    = "bastion-win"
   target_resource_id      = module.bastion_windows.vm_id
   data_collection_rule_id = azurerm_monitor_data_collection_rule.vminsights.id
 }
