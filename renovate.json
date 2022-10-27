@@ -4,12 +4,12 @@
     "config:base"
   ],
   "packageRules": [{    
-		  "packagePatterns": ["*"],
-	  	"enabled": false
-	  },
+      "packagePatterns": ["*"],
+      "enabled": false
+    },
     {
       "matchPaths": ["aks/**"],
-	  	"enabled": true
+      "enabled": true
     }
   ]
 }
