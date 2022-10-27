@@ -25,11 +25,11 @@
           spec:
             initContainers:
               - name: init-01
-                image: python:3.7-alpine
+                image: python:3.11-alpine
                 command: ['sh', '-c', 'sleep 20']
             containers:
               - name: utilitypod-01
-                image: python:3.7-alpine
+                image: python:3.11-alpine
                 command: ['sh', '-c', 'sleep 360']
 
     - name: Wait and gather information about new pod
@@ -79,11 +79,11 @@
           spec:
             initContainers:
               - name: init-01
-                image: python:3.7-alpine
+                image: python:3.11-alpine
                 command: ['sh', '-c', 'sleep 25']
             containers:
               - name: multi-pod-01
-                image: python:3.7-alpine
+                image: python:3.11-alpine
                 command: ['sh', '-c', 'sleep 360']
 
     - name: Create another pod with same label as previous pod
@@ -99,11 +99,11 @@
           spec:
             initContainers:
               - name: init-02
-                image: python:3.7-alpine
+                image: python:3.11-alpine
                 command: ['sh', '-c', 'sleep 25']
             containers:
               - name: multi-pod-02
-                image: python:3.7-alpine
+                image: python:3.11-alpine
                 command: ['sh', '-c', 'sleep 360']
 
     - name: Wait and gather information about new pods
