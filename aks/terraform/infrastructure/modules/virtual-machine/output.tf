@@ -21,3 +21,7 @@ output "public_ipv4_ip" {
 output "public_ipv6_ip" {
   value = try(azurerm_public_ip.this["6"].ip_address, null)
 }
+
+output "azurerm_linux_virtual_machine" {
+  value = azurerm_linux_virtual_machine.this
+}
