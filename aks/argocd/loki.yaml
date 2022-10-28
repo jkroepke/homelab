@@ -19,6 +19,9 @@ spec:
           path: "kubectl://infra-loki/sa/loki/jsonpath={.metadata.annotations.azure\\\\.workload\\\\.identity/client-id}"
       #language=yaml
       values: |
+        test:
+          enabled: false        
+
         serviceAccount:
           create: false
           name: loki
@@ -84,7 +87,7 @@ spec:
           serviceMonitor:
             labels:
               release: kube-prometheus-stack
-          
+
           selfMonitoring:
             enabled: false
             grafanaAgent:
