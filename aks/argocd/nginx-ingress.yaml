@@ -74,6 +74,7 @@ spec:
       selfHeal: true
     syncOptions:
       - ServerSideApply=true
+      - ApplyOutOfSyncOnly=true
       - CreateNamespace=true
     retry:
       limit: 2
