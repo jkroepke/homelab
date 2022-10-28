@@ -87,6 +87,7 @@ spec:
           serviceMonitor:
             labels:
               release: kube-prometheus-stack
+            enabled: false
 
           selfMonitoring:
             enabled: false
