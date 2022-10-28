@@ -36,6 +36,7 @@ spec:
       prune: true
       selfHeal: true
     syncOptions:
+      - ServerSideApply=true
       - CreateNamespace=true
     retry:
       limit: 2
@@ -46,4 +47,3 @@ spec:
   destination:
     server: "https://kubernetes.default.svc"
     namespace: infra-trivy-system
-

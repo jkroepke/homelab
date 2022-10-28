@@ -37,6 +37,7 @@ spec:
       prune: true
       selfHeal: true
     syncOptions:
+      - ServerSideApply=true
       - CreateNamespace=false
     retry:
       limit: 2
@@ -47,4 +48,3 @@ spec:
   destination:
     server: "https://kubernetes.default.svc"
     namespace: infra-external-dns
-
