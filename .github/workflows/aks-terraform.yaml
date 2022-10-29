@@ -2,7 +2,7 @@
 name: "aks"
 
 env:
-  ARM_USE_MSI: true
+  ARM_USE_OIDC: true
   ARM_CLIENT_ID: e61bb1a2-a6c6-411d-b1a1-26a9e7e06945
 
 on:
