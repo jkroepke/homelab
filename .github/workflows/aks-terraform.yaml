@@ -24,9 +24,16 @@ jobs:
     if: "!contains(github.event.head_commit.message, '[ci skip]')"
     environment: aks
     concurrency: aks
+
+    strategy:
+      matrix:
+        working-directory:
+          - cluster
+          - infrastructure
+
     defaults:
       run:
-        working-directory: aks
+        working-directory: aks/terraform/${{ matrix.working-directory }}
 
     permissions:
       pull-requests: write
