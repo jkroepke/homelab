@@ -23,6 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[ci skip]')"
     environment: aks-terraform-${{ matrix.working-directory }}
+    concurrency: aks-terraform-${{ matrix.working-directory }}
 
     strategy:
       fail-fast: false
