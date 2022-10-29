@@ -40,7 +40,7 @@ resource "azurerm_automation_account" "vm-stop-start-automation" {
 }
 
 resource "azurerm_automation_runbook" "shutdownstart-vms-by-tag" {
-  name = "Shutdown/Start VMs by tag"
+  name = "ShutDownStartByTag"
 
   location            = azurerm_resource_group.default.location
   resource_group_name = azurerm_resource_group.default.name
