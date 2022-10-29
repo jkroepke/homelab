@@ -20,7 +20,6 @@ applications:
         selfHeal: true
       syncOptions:
         - CreateNamespace=false
-        - SkipDryRunOnMissingResource=true
       retry:
         limit: 2
         backoff:
