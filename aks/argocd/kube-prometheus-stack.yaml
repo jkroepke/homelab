@@ -246,6 +246,7 @@ spec:
       - ServerSideApply=false
       - ApplyOutOfSyncOnly=true
       - CreateNamespace=true
+      - Replace=true
     retry:
       limit: 2
       backoff:
