@@ -1,36 +1,20 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: external-dns
+  name: k8s-event-logger
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   source:
-    chart: external-dns
-    repoURL: https://kubernetes-sigs.github.io/external-dns/
-    targetRevision: 1.11.0
+    chart: k8s-event-logger
+    repoURL: https://charts.deliveryhero.io/
+    targetRevision: 1.1.0
     helm:
-      releaseName: external-dns
+      releaseName: k8s-event-logger
       # language=yaml
       values: |
-        serviceAccount:
-          create: false
-          name: external-dns
-        podAnnotations:
-          azure.workload.identity/inject-proxy-sidecar: "true"
-        serviceMonitor:
-          enabled: true
-        provider: azure
-        
-        extraVolumeMounts:
-        - name: azure-config-file
-          mountPath: /etc/kubernetes/
-        extraVolumes:
-        - name: azure-config-file
-          configMap:
-            name: azure-config-file
         tolerations:
           - key: CriticalAddonsOnly
             operator: Exists
@@ -61,4 +45,4 @@ spec:
         maxDuration: 3m
   destination:
     server: "https://kubernetes.default.svc"
-    namespace: infra-external-dns
+    namespace: infra-k8s-event-logger
