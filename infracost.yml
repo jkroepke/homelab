@@ -1,8 +1,5 @@
 version: 0.1
 
 projects:
-  - path: aks/terraform/cluster
-    name: aks-terraform-cluster
-
   - path: aks/terraform/infrastructure
     name: aks-terraform-infrastructure
