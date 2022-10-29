@@ -6,7 +6,8 @@ module "mi-github-actions" {
   oidc_issuer_url     = "https://token.actions.githubusercontent.com"
   subjects = [
     "repo:jkroepke/homelab:ref:refs/heads/main",
-    "repo:jkroepke/homelab:environment:aks"
+    "repo:jkroepke/homelab:environment:aks-terraform-infrastructure",
+    "repo:jkroepke/homelab:environment:aks-terraform-cluster",
   ]
 }
 
