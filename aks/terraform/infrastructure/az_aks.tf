@@ -153,7 +153,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "workload" {
   min_count           = 1
   max_count           = 1
 
-  os_disk_size_gb = 50
+  os_disk_size_gb = 100
 
   # The Virtual Machine size Standard_A2_v2 does not support EncryptionAtHost.
   enable_host_encryption = false

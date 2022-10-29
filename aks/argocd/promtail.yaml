@@ -21,6 +21,21 @@ spec:
           namespace: infra-prometheus
           labels:
             release: kube-prometheus-stack
+            
+        tolerations:
+        - key: CriticalAddonsOnly
+          operator: Exists
+        - key: node.kubernetes.io/unreachable
+          operator: Exists
+          effect: NoExecute
+          tolerationSeconds: 30
+        - key: node.kubernetes.io/not-ready
+          operator: Exists
+          effect: NoExecute
+          tolerationSeconds: 30
+        - key: node.kubernetes.io/memory-pressure
+          operator: Exists
+          effect: NoSchedule
 
   syncPolicy:
     automated:
