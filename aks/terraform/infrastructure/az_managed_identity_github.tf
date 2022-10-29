@@ -11,9 +11,13 @@ module "mi-github-actions" {
   ]
 }
 
+# Reader and Data Access
+# FIX: does not have authorization to perform action 'Microsoft.Storage/storageAccounts/listKeys/action' over scope
 resource "azurerm_role_assignment" "mi-github-actions-reader" {
+  for_each = toset(["Reader", "Reader and Data Access"])
+
   scope                = data.azurerm_subscription.current.id
-  role_definition_name = "Reader"
+  role_definition_name = each.key
   principal_id         = module.mi-github-actions.principal_id
 }
 
