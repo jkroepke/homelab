@@ -11,7 +11,7 @@ spec:
     chart: kured
     repoURL: https://kubereboot.github.io/charts
     # https://artifacthub.io/packages/helm/kured/kured
-    targetRevision: 4.0.3
+    targetRevision: 4.0.4
     helm:
       releaseName: kured
       # language=yaml
@@ -25,8 +25,16 @@ spec:
           drainGracePeriod: 30
           drainTimeout: 10m
           forceReboot: true
-          # skipWaitForDeleteTimeout: 120
+          skipWaitForDeleteTimeout: 120
           timeZone: Europe/Berlin
+        
+        tolerations:
+        - key: CriticalAddonsOnly
+          operator: Exists
+        - operator: Exists
+          effect: NoExecute
+        - operator: Exists
+          effect: NoSchedule
 
   syncPolicy:
     automated:
