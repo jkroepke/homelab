@@ -27,15 +27,6 @@ spec:
           forceReboot: true
           skipWaitForDeleteTimeout: 120
           timeZone: Europe/Berlin
-        
-        tolerations:
-        - key: CriticalAddonsOnly
-          operator: Exists
-        - operator: Exists
-          effect: NoExecute
-        - operator: Exists
-          effect: NoSchedule
-
   syncPolicy:
     automated:
       prune: true
