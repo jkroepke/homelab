@@ -11,12 +11,12 @@ on:
     branches:
       - main
     paths:
-      - 'aks/**'
+      - 'aks/terraform/**'
   push:
     branches:
       - main
     paths:
-      - 'aks/**'
+      - 'aks/terraform/**'
 
 jobs:
   lint:
