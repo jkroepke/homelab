@@ -31,6 +31,19 @@ spec:
         - name: azure-config-file
           configMap:
             name: azure-config-file
+        tolerations:
+          - key: CriticalAddonsOnly
+            operator: Exists
+        affinity:
+          nodeAffinity:
+            preferredDuringSchedulingIgnoredDuringExecution:
+              - weight: 100
+                preference:
+                  matchExpressions:
+                    - key: kubernetes.azure.com/mode
+                      operator: In
+                      values:
+                        - system
 
   syncPolicy:
     automated:

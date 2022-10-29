@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: kube-prometheus-stack-oauth2-proxy
+  name: oauth2-proxy
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -49,6 +49,19 @@ spec:
           skip-provider-button: ''
           silence-ping-logging: ''
           whitelist-domain: '*.aks.jkroepke.de'
+        tolerations:
+          - key: CriticalAddonsOnly
+            operator: Exists
+        affinity:
+          nodeAffinity:
+            preferredDuringSchedulingIgnoredDuringExecution:
+              - weight: 100
+                preference:
+                  matchExpressions:
+                    - key: kubernetes.azure.com/mode
+                      operator: In
+                      values:
+                        - system
 
   syncPolicy:
     automated:

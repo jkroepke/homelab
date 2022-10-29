@@ -78,6 +78,19 @@ spec:
             - secretName: ingress-tls
               hosts:
                 - login.aks.jkroepke.de
+        tolerations:
+          - key: CriticalAddonsOnly
+            operator: Exists
+        affinity:
+          nodeAffinity:
+            preferredDuringSchedulingIgnoredDuringExecution:
+              - weight: 100
+                preference:
+                  matchExpressions:
+                    - key: kubernetes.azure.com/mode
+                      operator: In
+                      values:
+                        - system
   syncPolicy:
     automated:
       prune: true
