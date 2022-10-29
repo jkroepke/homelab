@@ -119,3 +119,45 @@ jobs:
                 body: output
               })
             }
+
+      - name: Terraform Plan
+        run: terraform plan -out tfplan.binary -lock=false
+        continue-on-error: true
+
+      - name: Terraform show
+        run: terraform show -json tfplan.binary > plan.json
+        continue-on-error: true
+
+      # Install the Infracost CLI, see https://github.com/infracost/actions/tree/master/setup
+      # for other inputs such as version, and pricing-api-endpoint (for self-hosted users).
+      - name: Setup Infracost
+        uses: infracost/actions/setup@v2
+        with:
+          api-key: ${{ secrets.INFRACOST_API_KEY }}
+
+      # Generate Infracost JSON output, the following docs might be useful:
+      # Multi-project/workspaces: https://www.infracost.io/docs/features/config_file
+      # Combine Infracost JSON files: https://www.infracost.io/docs/features/cli_commands/#combined-output-formats
+      - name: Generate Infracost JSON
+        run: infracost diff --path plan.json --format json --out-file /tmp/infracost.json
+        working-directory: ${{ env.working-directory }}
+        # Env vars can be set using the usual GitHub Actions syntax
+        # See the list of supported Infracost env vars here: https://www.infracost.io/docs/integrations/environment_variables/
+        # env:
+        #   MY_ENV: ${{ secrets.MY_ENV }}
+
+      # See https://www.infracost.io/docs/features/cli_commands/#comment-on-pull-requests for other options.
+      - name: Post Infracost comment
+        if: github.event_name == 'pull_request'
+        run: |
+          # Posts a comment to the PR using the 'update' behavior.
+          # This creates a single comment and updates it. The "quietest" option.
+          # The other valid behaviors are:
+          #   delete-and-new - Delete previous comments and create a new one.
+          #   hide-and-new - Minimize previous comments and create a new one.
+          #   new - Create a new cost estimate comment on every push.
+          infracost comment github --path /tmp/infracost.json \
+                                   --repo ${{github.repository}} \
+                                   --github-token ${{github.token}} \
+                                   --pull-request ${{github.event.pull_request.number}} \
+                                   --behavior update
