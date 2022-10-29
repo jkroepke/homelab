@@ -32,3 +32,29 @@ resource "azurerm_key_vault_access_policy" "mi-github-actions-keyvault-access" {
     "Get",
   ]
 }
+
+# https://www.brandonbarnett.io/blog/2018/08/securely-enabling-az-aks-get-credentials/
+resource "azurerm_role_definition" "aks-cluster-config-reader" {
+  name        = "AKS Cluster Configuration Reader"
+  scope       = data.azurerm_subscription.current.id
+  description = "Can get AKS configuration"
+
+  permissions {
+    actions     = [
+      "Microsoft.ContainerService/managedClusters/accessProfiles/listCredential/action",
+      "Microsoft.ContainerService/managedClusters/listClusterUserCredential/action"
+    ]
+    not_actions = []
+  }
+
+  assignable_scopes = [
+    data.azurerm_subscription.current.id,
+  ]
+}
+resource "azurerm_role_assignment" "mi-aks-cluster-config-reader" {
+  scope                = data.azurerm_subscription.current.id
+  role_definition_name = azurerm_role_definition.aks-cluster-config-reader.role_definition_resource_id
+  principal_id         = module.mi-github-actions.principal_id
+}
+
+
