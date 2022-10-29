@@ -13,6 +13,8 @@ resource "azapi_resource" "federated_identity_credential" {
   parent_id                 = azurerm_user_assigned_identity.this.id
   type                      = "Microsoft.ManagedIdentity/userAssignedIdentities/federatedIdentityCredentials@2022-01-31-preview"
 
+  locks = [azurerm_user_assigned_identity.this.id]
+
   body = jsonencode({
     properties = {
       issuer    = var.oidc_issuer_url
