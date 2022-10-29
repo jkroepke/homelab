@@ -15,11 +15,11 @@ on:
       - main
     paths:
       - 'aks/terraform/**'
-  push:
-    branches:
-      - main
-    paths:
-      - 'aks/terraform/**'
+  # push:
+  #   branches:
+  #     - main
+  #   paths:
+  #     - 'aks/terraform/**'
 
 jobs:
   lint:
