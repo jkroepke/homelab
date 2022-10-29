@@ -3,7 +3,7 @@ module "mi-github-actions" {
   name                = "github-actions"
   resource_group_name = azurerm_resource_group.default.name
   location            = azurerm_resource_group.default.location
-  oidc_issuer_url     = azurerm_kubernetes_cluster.jok.oidc_issuer_url
+  oidc_issuer_url     = "https://token.actions.githubusercontent.com"
   subjects            = [
     "repo:jkroepke/homelab:ref:refs/heads/main",
     "repo:jkroepke/homelab:environment:aks"
