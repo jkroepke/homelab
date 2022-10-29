@@ -52,9 +52,9 @@ resource "azurerm_role_definition" "aks-cluster-config-reader" {
   ]
 }
 resource "azurerm_role_assignment" "mi-aks-cluster-config-reader" {
-  scope                = data.azurerm_subscription.current.id
-  role_definition_name = azurerm_role_definition.aks-cluster-config-reader.role_definition_resource_id
-  principal_id         = module.mi-github-actions.principal_id
+  scope              = data.azurerm_subscription.current.id
+  role_definition_id = azurerm_role_definition.aks-cluster-config-reader.role_definition_resource_id
+  principal_id       = module.mi-github-actions.principal_id
 }
 
 

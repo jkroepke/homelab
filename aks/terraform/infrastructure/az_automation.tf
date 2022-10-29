@@ -8,7 +8,8 @@ resource "azurerm_role_definition" "stop_start_vm" {
       "Microsoft.Compute/*/read",
       "Microsoft.Compute/virtualMachines/start/action",
       "Microsoft.Compute/virtualMachines/restart/action",
-    "Microsoft.Compute/virtualMachines/deallocate/action"]
+      "Microsoft.Compute/virtualMachines/deallocate/action"
+    ]
     not_actions = []
   }
 }
@@ -38,20 +39,20 @@ resource "azurerm_automation_account" "vm-stop-start-automation" {
   }
 }
 
-/*
-resource "azurerm_automation_runbook" "example" {
-  name                = "Get-AzureVMTutorial"
-  location            = "${azurerm_resource_group.example.location}"
-  resource_group_name = "${azurerm_resource_group.example.name}"
-  account_name        = "${azurerm_automation_account.example.name}"
-  log_verbose         = "true"
-  log_progress        = "true"
-  description         = "This is an example runbook"
-  runbook_type        = "PowerShellWorkflow"
+resource "azurerm_automation_runbook" "shutdownstart-vms-by-tag" {
+  name = "Shutdown/Start VMs by tag"
+
+  location            = azurerm_resource_group.default.location
+  resource_group_name = azurerm_resource_group.default.name
+
+  automation_account_name = azurerm_automation_account.vm-stop-start-automation.name
+
+  log_progress = false
+  log_verbose  = false
+
+  runbook_type = "PowerShellWorkflow"
 
   publish_content_link {
-    uri = "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/c4935ffb69246a6058eb24f54640f53f69d3ac9f/101-automation-runbook-getvms/Runbooks/Get-AzureVMTutorial.ps1"
+    uri = "https://raw.githubusercontent.com/azureautomation/shutdownstart-vms-by-tag/master/shutdownstartbytag.ps1"
   }
-  automation_account_name = ""
 }
-*/
