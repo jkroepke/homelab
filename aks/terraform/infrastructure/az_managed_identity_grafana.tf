@@ -4,7 +4,7 @@ module "mi-monitoring-reader" {
   resource_group_name = azurerm_resource_group.default.name
   location            = azurerm_resource_group.default.location
   oidc_issuer_url     = azurerm_kubernetes_cluster.jok.oidc_issuer_url
-  subjects            = [
+  subjects = [
     "system:serviceaccount:infra-prometheus:grafana"
   ]
 }

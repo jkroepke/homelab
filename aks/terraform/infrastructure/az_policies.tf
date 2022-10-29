@@ -275,8 +275,8 @@ resource "azurerm_subscription_policy_assignment" "vmss-vm-insights-extension" {
   }
 
   parameters = jsonencode({
-    "userAssignedManagedIdentity": {
-      "value": azurerm_user_assigned_identity.aks-kubelet.id,
+    "userAssignedManagedIdentity" : {
+      "value" : azurerm_user_assigned_identity.aks-kubelet.id,
     }
   })
 
@@ -299,8 +299,8 @@ resource "azurerm_subscription_policy_assignment" "vmss-vm-insights-dcra" {
   }
 
   parameters = jsonencode({
-    "dataCollectionRuleId": {
-      "value": azurerm_monitor_data_collection_rule.vminsights.id,
+    "dataCollectionRuleId" : {
+      "value" : azurerm_monitor_data_collection_rule.vminsights.id,
     }
   })
 

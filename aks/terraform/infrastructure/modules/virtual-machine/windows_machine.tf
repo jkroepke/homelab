@@ -5,8 +5,8 @@ resource "azurerm_windows_virtual_machine" "this" {
   resource_group_name = var.resource_group_name
   location            = var.location
 
-  admin_username      = "adminuser"
-  admin_password      = coalesce(random_string.password.result, "")
+  admin_username = "adminuser"
+  admin_password = coalesce(random_string.password.result, "")
 
   network_interface_ids = [
     azurerm_network_interface.this.id,
@@ -23,7 +23,7 @@ resource "azurerm_windows_virtual_machine" "this" {
     storage_account_type = "Standard_LRS"
   }
 
-  size                = "Standard_B1ms"
+  size = "Standard_B1ms"
 
   source_image_reference {
     publisher = "MicrosoftWindowsServer"

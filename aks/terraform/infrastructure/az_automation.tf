@@ -4,11 +4,11 @@ resource "azurerm_role_definition" "stop_start_vm" {
   description = "Allow stopping and starting VMs in the primary subscription"
 
   permissions {
-    actions     = ["Microsoft.Network/*/read",
+    actions = ["Microsoft.Network/*/read",
       "Microsoft.Compute/*/read",
       "Microsoft.Compute/virtualMachines/start/action",
       "Microsoft.Compute/virtualMachines/restart/action",
-      "Microsoft.Compute/virtualMachines/deallocate/action"]
+    "Microsoft.Compute/virtualMachines/deallocate/action"]
     not_actions = []
   }
 }
@@ -33,7 +33,7 @@ resource "azurerm_automation_account" "vm-stop-start-automation" {
   sku_name            = "Basic"
 
   identity {
-    type = "UserAssigned"
+    type         = "UserAssigned"
     identity_ids = [azurerm_user_assigned_identity.vm-stop-start-automation.id]
   }
 }

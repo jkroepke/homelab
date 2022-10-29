@@ -24,7 +24,7 @@ resource "azurerm_storage_account" "aks" {
       versions                        = ["SMB3.1.1"]
       authentication_types            = ["NTLMv2", "Kerberos"]
       kerberos_ticket_encryption_type = ["AES-256"]
-      channel_encryption_type         = ["AES-128-GCM","AES-256-GCM"]
+      channel_encryption_type         = ["AES-128-GCM", "AES-256-GCM"]
     }
   }
 }
@@ -65,7 +65,7 @@ resource "azurerm_storage_management_policy" "loki" {
     }
     actions {
       base_blob {
-        delete_after_days_since_modification_greater_than          = 28
+        delete_after_days_since_modification_greater_than = 28
       }
       snapshot {
         delete_after_days_since_creation_greater_than = 28
@@ -86,7 +86,7 @@ module "mi-cortex" {
   resource_group_name = azurerm_resource_group.default.name
   location            = azurerm_resource_group.default.location
   oidc_issuer_url     = azurerm_kubernetes_cluster.jok.oidc_issuer_url
-  subjects            = [
+  subjects = [
     "system:serviceaccount:infra-loki:loki",
     "system:serviceaccount:infra-cortex:cortex"
   ]

@@ -27,7 +27,7 @@ resource "kubernetes_storage_class" "jokmspaks" {
 
 resource "kubernetes_secret" "csi-jokmspaks-azure-secret" {
   metadata {
-    name = "csi-jokmspaks-azure-secret"
+    name      = "csi-jokmspaks-azure-secret"
     namespace = "kube-system"
   }
 

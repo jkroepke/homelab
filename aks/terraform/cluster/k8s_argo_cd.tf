@@ -28,7 +28,7 @@ resource "helm_release" "argocd" {
   set_sensitive {
     name  = "notifications.secret.items.github-client-secret"
     value = base64decode(data.azurerm_key_vault_secret.aks-credentials["argocd-notifications-github-app-private-key"].value)
-    type = "string"
+    type  = "string"
   }
 }
 
