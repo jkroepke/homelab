@@ -15,7 +15,7 @@ spec:
       releaseName: github-exporter
       parameters:
         - name: env.GITHUB_EXPORTER_REPOSITORY
-          value: jkroepke/github_exporter,jkroepke/helm-secrets,jkroepke/2Moons,jkroepke/draw-io-cncf-shape,jkroepke/homebrew-openlens,jkroepke/helm-kubectl
+          value: jkroepke/github_exporter,jkroepke/helm-secrets,jkroepke/2Moons,jkroepke/draw-io-cncf-shape,jkroepke/homebrew-openlens,jkroepke/helm-kubectl,jkroepke/terraform-provider-azureakscommand
         - name: metrics.serviceMonitor.enabled
           value: "true"
       fileParameters:
