@@ -13,6 +13,7 @@ spec:
     # https://artifacthub.io/packages/helm/prometheus-community/kube-prometheus-stack
     targetRevision: 41.7.2
     helm:
+      skipCrds: true
       releaseName: kube-prometheus-stack
       fileParameters:
         - name: grafana.grafana\.ini.auth\.generic_oauth.client_secret
