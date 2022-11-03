@@ -19,7 +19,7 @@ spec:
         - name: metrics.serviceMonitor.enabled
           value: "true"
       fileParameters:
-        - name: secrets.GITHUB_EXPORTER_TOKEN
+        - name: secrets.GITHUB_EXPORTER_AUTH
           path: secrets+literal://ref+azurekeyvault://aks-credentials/github-pat
 
   syncPolicy:
