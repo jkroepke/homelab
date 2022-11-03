@@ -10,7 +10,7 @@ spec:
   source:
     chart: github-exporter
     repoURL: https://jkroepke.github.io/helm-charts/
-    targetRevision: 1.0.2
+    targetRevision: 1.0.3
     helm:
       releaseName: github-exporter
       parameters:
