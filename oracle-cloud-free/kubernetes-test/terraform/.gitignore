@@ -1,0 +1,3 @@
+.terraform
+versions.tf
+backend.tf

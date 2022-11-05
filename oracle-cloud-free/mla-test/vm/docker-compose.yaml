@@ -1,0 +1,119 @@
+version: "3.7"
+services:
+  traefik:
+    image: "traefik:v2.9"
+    container_name: "traefik"
+    network_mode: host
+    restart: unless-stopped
+    command:
+      #- "--log.level=DEBUG"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.letsencrypt.acme.httpchallenge=true"
+      - "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web"
+      #- "--certificatesresolvers.letsencrypt.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
+      - "--certificatesresolvers.letsencrypt.acme.email=acme@jkroepke.de"
+      - "--certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json"
+      - "--metrics.prometheus=true"
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "/etc/mla/letsencrypt:/letsencrypt"
+    labels:
+      - "prometheus.job=traefik"
+      - "prometheus.port=8080"
+  prometheus:
+    image: "prom/prometheus"
+    container_name: "prometheus"
+    network_mode: host
+    restart: unless-stopped
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+      - --web.console.libraries=/usr/share/prometheus/console_libraries
+      - --web.console.templates=/usr/share/prometheus/consoles
+      - --storage.tsdb.retention.size=180GB
+      - --storage.tsdb.wal-compression
+      - --enable-feature=memory-snapshot-on-shutdown,new-service-discovery-manager
+    group_add:
+      - "113"
+    ports:
+      - "9090:9090"
+    volumes:
+      - "/etc/mla/prometheus:/etc/prometheus"
+      - "/etc/mla/prometheus/data:/prometheus"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    labels:
+      - "prometheus.job=prometheus"
+      - "prometheus.port=9090"
+  node_exporter:
+    image: quay.io/prometheus/node-exporter:latest
+    container_name: node_exporter
+    command:
+      - '--path.rootfs=/host'
+    network_mode: host
+    pid: host
+    restart: unless-stopped
+    volumes:
+      - '/:/host:ro,rslave'
+    labels:
+      - "prometheus.job=node_exporter"
+      - "prometheus.port=9100"
+      - "prometheus.path=/metrics"
+  grafana:
+    image: "grafana/grafana"
+    container_name: "grafana"
+    network_mode: host
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.grafana-mla.rule=Host(`grafana.oracle.jkroepke.de`)"
+      - "traefik.http.routers.grafana-mla.entrypoints=websecure"
+      - "traefik.http.routers.grafana-mla.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.grafana-mla.middlewares=grafana-mla-redirect-to-https"
+      - "traefik.http.middlewares.grafana-mla-redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.grafana-mla-redirect-to-https.redirectscheme.permanent=true"
+      - "traefik.http.services.grafana-mla.loadbalancer.server.port=3000"
+      - "prometheus.job=grafana"
+      - "prometheus.port=3000"
+    volumes:
+      - "/etc/mla/grafana/data:/var/lib/grafana"
+  github_exporter:
+    image: jkroepke/github_exporter
+    env_file:
+      - .env
+    container_name: "github_exporter"
+    network_mode: host
+    restart: unless-stopped
+    labels:
+      - "prometheus.job=github_exporter"
+      - "prometheus.port=9171"
+      - "prometheus.path=/metrics"
+  pushgatway:
+    image: prom/pushgateway
+    container_name: "pushgatway"
+    network_mode: host
+    restart: unless-stopped
+    ports:
+      - "9091:9091"
+    command:
+      - --persistence.file="/data/metrics"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.pushgatway-mla.rule=Host(`pushgateway.oracle.jkroepke.de`,`pushgateway.office.com`)"
+      - "traefik.http.routers.pushgatway-mla.entrypoints=web"
+      - "traefik.http.routers.pushgatway-mla.middlewares=pushgatway-mla-auth"
+      - "traefik.http.middlewares.pushgatway-mla-auth.basicauth.users=pushgateway:$2y$05$.isvsAIAnm0.jjVIPfCKWe3YwYaNmVpMOQQX7BXp/cGXIrvw5Uhf6"
+      - "traefik.http.services.pushgatway-mla.loadbalancer.server.port=9091"
+      - "prometheus.job=pushgatway"
+      - "prometheus.port=9091"
+    volumes:
+      - "/etc/mla/pushgateway/data:/data"
