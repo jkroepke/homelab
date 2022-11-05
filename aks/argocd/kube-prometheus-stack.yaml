@@ -44,7 +44,8 @@ spec:
             - url: http://cortex-nginx.infra-cortex.svc/api/v1/push
             remoteWriteDashboards: true
             # https://github.com/prometheus-operator/prometheus-operator/blob/5a23b12b3902995a3fee0b9588e2fb4cc8fa1ce8/pkg/prometheus/promcfg.go#L425-L434      
-            ruleSelector: ~            
+            ruleSelector: ~
+            ruleSelectorNilUsesHelmValues: false
             enableFeatures:
               - new-service-discovery-manager
               - agent
