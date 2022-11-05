@@ -105,7 +105,7 @@ services:
     ports:
       - "9091:9091"
     command:
-      - --persistence.file="/data/metrics"
+      - "--persistence.file=/data/metrics"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.pushgatway-mla.rule=Host(`pushgateway.oracle.jkroepke.de`,`pushgateway.office.com`)"
