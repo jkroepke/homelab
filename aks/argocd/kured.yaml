@@ -11,7 +11,7 @@ spec:
     chart: kured
     repoURL: https://kubereboot.github.io/charts
     # https://artifacthub.io/packages/helm/kured/kured
-    targetRevision: 4.0.4
+    targetRevision: 4.1.0
     helm:
       releaseName: kured
       # language=yaml
