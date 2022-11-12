@@ -1,0 +1,12 @@
+nested:
+  nested: 1
+  var: '{{ $.Release.Name }}'
+
+args:
+  - --one
+  - --two
+  - --three
+  - '{{ $.Release.Namespace }}'
+
+keyVar:
+  "{{ $.Release.Name }}": '{{ $.Release.Namespace }}'

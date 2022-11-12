@@ -1,0 +1,5 @@
+{{- range $key, $value := .Values }}
+---
+{{ $key }}:
+  {{- tpl (toYaml .) $ | nindent 2 }}
+{{- end }}
