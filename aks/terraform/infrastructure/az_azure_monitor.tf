@@ -54,7 +54,11 @@ resource "azurerm_role_assignment" "policy-azure-monitor" {
 }
 
 resource "azurerm_subscription_policy_assignment" "vm-insights" {
-  name                 = "Ops.Stack - Enable VMInsights"
+  name         = "opsstack-enable-vminsights"
+  display_name = "Ops.Stack - Enable VMInsights"
+
+  description = "This policy definition enables VMInsights and dependencies on all VMs and VMSSs"
+
   policy_definition_id = module.vm-insights-policies.policy_set_id
   subscription_id      = data.azurerm_subscription.current.id
 

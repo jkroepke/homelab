@@ -1,9 +1,5 @@
-output "bastion_ip4" {
+output "bastion_ip" {
   value = module.bastion_linux.public_ipv4_ip
-}
-
-output "bastion_ip6" {
-  value = module.bastion_linux.public_ipv6_ip
 }
 
 output "vm_id" {

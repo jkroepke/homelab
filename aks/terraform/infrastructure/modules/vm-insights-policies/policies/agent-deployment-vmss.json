@@ -66,59 +66,21 @@
               }
             },
             "variables": {
-              "deployVMExtensionName": "[concat('deployVMExtension-', uniqueString(deployment().name))]"
+              "versionWindowsAgent": "1.8",
+              "versionLinuxAgent": "1.22"
             },
             "resources": [
               {
-                "type": "Microsoft.Resources/deployments",
-                "apiVersion": "2020-06-01",
-                "name": "[variables('deployVMExtensionName')]",
+                "name": "[concat(parameters('resourceName'), '/AzureMonitorAgent')]",
+                "type": "Microsoft.Compute/virtualMachineScaleSets/extensions",
+                "location": "[parameters('location')]",
+                "apiVersion": "2019-07-01",
                 "properties": {
-                  "mode": "Incremental",
-                  "expressionEvaluationOptions": {
-                    "scope": "inner"
-                  },
-                  "parameters": {
-                    "resourceName": {
-                      "value": "[parameters('resourceName')]"
-                    },
-                    "location": {
-                      "value": "[parameters('location')]"
-                    },
-                    "osType": {
-                      "value": "[parameters('osType')]"
-                    }
-                  },
-                  "template": {
-                    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-                    "contentVersion": "1.0.0.0",
-                    "parameters": {
-                      "resourceName": {
-                        "type": "string"
-                      },
-                      "location": {
-                        "type": "string"
-                      },
-                      "osType": {
-                        "type": "string"
-                      }
-                    },
-                    "resources": [
-                      {
-                        "name": "[concat(parameters('resourceName'), '/AzureMonitorAgent')]",
-                        "type": "Microsoft.Compute/virtualMachineScaleSets/extensions",
-                        "location": "[parameters('location')]",
-                        "apiVersion": "2019-07-01",
-                        "properties": {
-                          "publisher": "Microsoft.Azure.Monitor",
-                          "type": "[if(equals(parameters('osType'), 'Windows'), 'AzureMonitorWindowsAgent', 'AzureMonitorLinuxAgent')]",
-                          "typeHandlerVersion": "[if(equals(parameters('osType'), 'Windows'), '1.8', '1.22')]",
-                          "autoUpgradeMinorVersion": true,
-                          "enableAutomaticUpgrade": true
-                        }
-                      }
-                    ]
-                  }
+                  "publisher": "Microsoft.Azure.Monitor",
+                  "type": "[if(equals(parameters('osType'), 'Windows'), 'AzureMonitorWindowsAgent', 'AzureMonitorLinuxAgent')]",
+                  "typeHandlerVersion": "[if(equals(parameters('osType'), 'Windows'), variables('versionWindowsAgent'), variables('versionLinuxAgent'))]",
+                  "autoUpgradeMinorVersion": true,
+                  "enableAutomaticUpgrade": true
                 }
               }
             ]

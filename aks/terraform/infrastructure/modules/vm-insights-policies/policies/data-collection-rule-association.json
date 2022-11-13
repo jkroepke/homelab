@@ -41,9 +41,6 @@
             "resourceType": {
               "value": "[field('type')]"
             },
-            "location": {
-              "value": "[field('location')]"
-            },
             "dcrResourceId": {
               "value": "[parameters('dcrResourceId')]"
             }
@@ -56,9 +53,6 @@
                 "type": "string"
               },
               "resourceType": {
-                "type": "string"
-              },
-              "location": {
                 "type": "string"
               },
               "dcrResourceId": {

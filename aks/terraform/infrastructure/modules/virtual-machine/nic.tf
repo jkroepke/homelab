@@ -1,12 +1,12 @@
 resource "azurerm_public_ip" "this" {
-  for_each = toset(var.enable_public_interface ? ["4", "6"] : [])
+  for_each = toset(var.enable_public_interface ? ["4"] : [])
 
   name                = "${var.name}${each.key}"
   location            = var.location
   resource_group_name = var.resource_group_name
   allocation_method   = "Static"
   ip_version          = "IPv${each.key}"
-  sku                 = "Standard"
+  sku                 = "Basic"
 
   # https://github.com/hashicorp/terraform-provider-azurerm/issues/15483
   lifecycle {
@@ -28,15 +28,6 @@ resource "azurerm_network_interface" "this" {
     private_ip_address_version    = "IPv4"
     public_ip_address_id          = try(azurerm_public_ip.this["4"].id, null)
     primary                       = true
-  }
-
-  ip_configuration {
-    name                          = "${var.name}-internal6"
-    subnet_id                     = var.subnet_id
-    private_ip_address_allocation = "Dynamic"
-    private_ip_address_version    = "IPv6"
-    public_ip_address_id          = try(azurerm_public_ip.this["6"].id, null)
-    primary                       = false
   }
 }
 
