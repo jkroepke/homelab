@@ -1,3 +1,5 @@
+
+
 resource "azurerm_policy_definition" "vmss-vm-insights-extension" {
   name         = "vmss-vm-insights-extension"
   policy_type  = "Custom"
