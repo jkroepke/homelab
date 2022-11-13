@@ -29,14 +29,47 @@ resource "azurerm_monitor_data_collection_rule" "vminsights" {
   }
 }
 
-resource "azurerm_monitor_data_collection_rule_association" "bastionvminsights" {
-  name                    = module.bastion_linux.vm_name
-  target_resource_id      = module.bastion_linux.vm_id
-  data_collection_rule_id = azurerm_monitor_data_collection_rule.vminsights.id
+module "vm-insights-policies" {
+  source = "./modules/vm-insights-policies"
 }
 
-resource "azurerm_monitor_data_collection_rule_association" "bastionwinvminsights" {
-  name                    = module.bastion_windows.vm_name
-  target_resource_id      = module.bastion_windows.vm_id
-  data_collection_rule_id = azurerm_monitor_data_collection_rule.vminsights.id
+resource "azurerm_user_assigned_identity" "policy-azure-monitor" {
+  name                = "policy-azure-monitor"
+  resource_group_name = azurerm_resource_group.default.name
+  location            = azurerm_resource_group.default.location
+}
+
+resource "azurerm_role_assignment" "policy-azure-monitor" {
+  for_each = toset([
+    "Managed Identity Contributor",
+    "Managed Identity Operator",
+    "Virtual Machine Contributor",
+    "Monitoring Contributor",
+    "Log Analytics Contributor"
+  ])
+
+  scope                = data.azurerm_subscription.current.id
+  role_definition_name = each.key
+  principal_id         = azurerm_user_assigned_identity.policy-azure-monitor.principal_id
+}
+
+resource "azurerm_subscription_policy_assignment" "vm-insights" {
+  name                 = "Ops.Stack - Enable VMInsights"
+  policy_definition_id = module.vm-insights-policies.policy_set_id
+  subscription_id      = data.azurerm_subscription.current.id
+
+  parameters = jsonencode({
+    dcrResourceId = {
+      value = azurerm_monitor_data_collection_rule.vminsights.id
+    }
+  })
+
+  location = azurerm_resource_group.default.location
+
+  identity {
+    type         = "UserAssigned"
+    identity_ids = [azurerm_user_assigned_identity.policy-azure-monitor.id]
+  }
+
+  depends_on = [azurerm_role_assignment.policy-azure-monitor]
 }

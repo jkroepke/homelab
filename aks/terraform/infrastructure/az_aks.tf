@@ -124,8 +124,6 @@ resource "azurerm_kubernetes_cluster" "jok" {
   sku_tier            = "Free"
 
   depends_on = [
-    azurerm_subscription_policy_assignment.vmss-vm-insights-extension,
-    azurerm_subscription_policy_assignment.vmss-vm-insights-dcra,
     azurerm_resource_provider_registration.ContainerService,
     azurerm_role_assignment.mi-aks-contributor,
     azurerm_role_assignment.mi-aks-mi-operator
