@@ -1,3 +1,5 @@
+nameOverride: "'"
+
 nested:
   nested: 1
   var: '{{ $.Release.Name }}'
@@ -10,3 +12,5 @@ args:
 
 keyVar:
   "{{ $.Release.Name }}": '{{ $.Release.Namespace }}'
+  "multiline": >-
+    {{ template "to-yaml.labels" $ }}

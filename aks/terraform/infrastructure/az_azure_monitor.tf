@@ -16,7 +16,7 @@ resource "azurerm_monitor_data_collection_rule" "vminsights" {
 
   data_flow {
     streams      = ["Microsoft-InsightsMetrics"]
-    destinations = ["metrics", "law"]
+    destinations = ["metrics"]
   }
 
   data_sources {

@@ -72,7 +72,7 @@
             "resources": [
               {
                 "name": "[concat(parameters('resourceName'), '/AzureMonitorAgent')]",
-                "type": "Microsoft.Compute/virtualMachineScaleSets/extensions",
+                "type": "Microsoft.Compute/virtualMachines/extensions",
                 "location": "[parameters('location')]",
                 "apiVersion": "2019-07-01",
                 "properties": {
