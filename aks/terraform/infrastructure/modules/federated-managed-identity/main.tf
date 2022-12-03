@@ -4,22 +4,13 @@ resource "azurerm_user_assigned_identity" "this" {
   location            = var.location
 }
 
-# https://github.com/hashicorp/terraform-provider-azurerm/issues/18617
-resource "azapi_resource" "federated_identity_credential" {
+resource "azurerm_federated_identity_credential" "this" {
   for_each = toset(var.subjects)
 
-  schema_validation_enabled = true
-  name                      = replace(replace(each.value, ":", "-"), "/", "-")
-  parent_id                 = azurerm_user_assigned_identity.this.id
-  type                      = "Microsoft.ManagedIdentity/userAssignedIdentities/federatedIdentityCredentials@2022-01-31-preview"
-
-  locks = [azurerm_user_assigned_identity.this.id]
-
-  body = jsonencode({
-    properties = {
-      issuer    = var.oidc_issuer_url
-      subject   = each.value
-      audiences = ["api://AzureADTokenExchange"]
-    }
-  })
+  name                = replace(replace(each.value, ":", "-"), "/", "-")
+  resource_group_name = var.resource_group_name
+  audience            = ["api://AzureADTokenExchange"]
+  issuer              = var.oidc_issuer_url
+  parent_id           = azurerm_user_assigned_identity.this.id
+  subject             = each.value
 }

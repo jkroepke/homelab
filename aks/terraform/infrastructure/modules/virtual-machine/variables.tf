@@ -10,7 +10,17 @@ variable "enable_public_interface" {
   type    = bool
   default = false
 }
+
 variable "type" {
   type    = string
   default = "linux"
+}
+
+variable "size" {
+  type    = string
+  default = "Standard_B1ms"
+}
+
+variable "disk_encryption_set_id" {
+  type    = string
 }

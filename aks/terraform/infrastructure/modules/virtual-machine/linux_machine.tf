@@ -24,7 +24,7 @@ resource "azurerm_linux_virtual_machine" "this" {
     azurerm_network_interface.this.id,
   ]
 
-  size = "Standard_B1ms"
+  size = var.size
 
   os_disk {
     caching              = "ReadWrite"

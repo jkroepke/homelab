@@ -16,14 +16,18 @@ resource "azurerm_windows_virtual_machine" "this" {
     storage_account_uri = var.boot_diagnostics_storage_account_uri
   }
 
+  enable_automatic_updates   = true
+
   os_disk {
-    caching              = "ReadWrite"
-    disk_size_gb         = 50
-    name                 = "${var.name}-root"
-    storage_account_type = "Standard_LRS"
+    caching                  = "ReadWrite"
+    disk_size_gb             = 50
+    name                     = "${var.name}-root"
+    storage_account_type     = "Standard_LRS"
+    # security_encryption_type = "DiskWithVMGuestState"
+    disk_encryption_set_id = var.disk_encryption_set_id
   }
 
-  size = "Standard_B1ms"
+  size = var.size
 
   source_image_reference {
     publisher = "MicrosoftWindowsServer"
