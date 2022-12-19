@@ -24,7 +24,6 @@ resource "azurerm_windows_virtual_machine" "this" {
     name                     = "${var.name}-root"
     storage_account_type     = "Standard_LRS"
     # security_encryption_type = "DiskWithVMGuestState"
-    disk_encryption_set_id = var.disk_encryption_set_id
   }
 
   size = var.size
@@ -44,6 +43,10 @@ resource "azurerm_windows_virtual_machine" "this" {
   # For Azure Monitor
   identity {
     type = "SystemAssigned"
+  }
+
+  lifecycle {
+    ignore_changes = [tags]
   }
 }
 

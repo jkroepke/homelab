@@ -20,7 +20,3 @@ variable "size" {
   type    = string
   default = "Standard_B1ms"
 }
-
-variable "disk_encryption_set_id" {
-  type    = string
-}

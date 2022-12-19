@@ -49,4 +49,20 @@ resource "azurerm_linux_virtual_machine" "this" {
   identity {
     type = "SystemAssigned"
   }
+
+  tags                            = {
+    "opsstack-cpu-critical"        = "93"
+    "opsstack-cpu-warning"         = "81"
+    "opsstack-disk-critical-C:"    = "88"
+    "opsstack-disk-warning-C:"     = "87"
+    "opsstack-disk-critical-D:"    = "89"
+    "opsstack-disk-critical-|"     = "3"
+    "opsstack-disk-critical-|mnt|" = "15"
+    "opsstack-memory-critical"     = "3"
+    "opsstack-memory-warning"      = "15"
+  }
+
+  lifecycle {
+    ignore_changes = [tags]
+  }
 }

@@ -1,8 +1,13 @@
 nameOverride: "'"
 
+test: |-
+  '
+  value: 0 #
+
 nested:
-  nested: 1
-  var: '{{ $.Release.Name }}'
+  nested: '!!int 1'
+  var: >-
+    {{ tpl $.Values.test $ }}
 
 args:
   - --one

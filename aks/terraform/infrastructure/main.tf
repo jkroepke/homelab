@@ -33,4 +33,9 @@ resource "azurerm_resource_provider_registration" "ContainerService" {
     name       = "AKS-EnableDualStack"
     registered = true
   }
+
+  feature {
+    name       = "EnableImageCleanerPreview"
+    registered = true
+  }
 }
