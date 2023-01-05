@@ -1,4 +1,6 @@
 resource "azurerm_log_analytics_workspace" "default" {
+  count = 0
+
   name                = "default"
   location            = azurerm_resource_group.default.location
   resource_group_name = azurerm_resource_group.default.name

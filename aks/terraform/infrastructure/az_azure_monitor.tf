@@ -7,11 +7,6 @@ resource "azurerm_monitor_data_collection_rule" "vminsights" {
     azure_monitor_metrics {
       name = "metrics"
     }
-
-    log_analytics {
-      workspace_resource_id = azurerm_log_analytics_workspace.default.id
-      name                  = "law"
-    }
   }
 
   data_flow {
