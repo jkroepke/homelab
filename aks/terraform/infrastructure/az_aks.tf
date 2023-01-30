@@ -120,6 +120,12 @@ resource "azurerm_kubernetes_cluster" "jok" {
     dns_service_ip     = "100.64.0.53"
   }
 
+  storage_profile {
+    blob_driver_enabled = true
+    disk_driver_enabled = true
+    file_driver_enabled = true
+  }
+
   public_network_access_enabled     = true
   role_based_access_control_enabled = true
 
