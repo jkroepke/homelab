@@ -72,7 +72,7 @@ resource "azurerm_kubernetes_cluster" "jok" {
   oidc_issuer_enabled       = true
   workload_identity_enabled = true
 
-  image_cleaner_enabled = true
+  image_cleaner_enabled        = true
   image_cleaner_interval_hours = 48
 
   maintenance_window {

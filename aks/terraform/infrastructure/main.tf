@@ -38,4 +38,30 @@ resource "azurerm_resource_provider_registration" "ContainerService" {
     name       = "EnableImageCleanerPreview"
     registered = true
   }
+
+
+  feature {
+    name       = "AKS-PrometheusAddonPreview"
+    registered = true
+  }
+  feature {
+    name       = "CustomNodeConfigPreview"
+    registered = true
+  }
+  feature {
+    name       = "EnableEphemeralOSDiskPreview"
+    registered = true
+  }
+  feature {
+    name       = "FleetResourcePreview"
+    registered = true
+  }
+  feature {
+    name       = "MaxSurgePreview"
+    registered = true
+  }
+  feature {
+    name       = "WindowsNetworkPolicyPreview"
+    registered = false
+  }
 }

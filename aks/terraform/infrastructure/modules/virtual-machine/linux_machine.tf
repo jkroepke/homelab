@@ -50,7 +50,7 @@ resource "azurerm_linux_virtual_machine" "this" {
     type = "SystemAssigned"
   }
 
-  tags                            = {
+  tags = {
     "opsstack-cpu-critical"        = "93"
     "opsstack-cpu-warning"         = "81"
     "opsstack-disk-critical-C:"    = "88"

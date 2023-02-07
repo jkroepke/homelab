@@ -40,7 +40,7 @@ resource "azurerm_role_definition" "aks-cluster-config-reader" {
   description = "Can get AKS configuration"
 
   permissions {
-    actions     = [
+    actions = [
       "Microsoft.ContainerService/managedClusters/accessProfiles/listCredential/action",
       "Microsoft.ContainerService/managedClusters/listClusterUserCredential/action"
     ]

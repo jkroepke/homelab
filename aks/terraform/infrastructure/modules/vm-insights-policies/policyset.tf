@@ -3,7 +3,7 @@ resource "azurerm_policy_set_definition" "opsstack-vm-insights" {
   policy_type  = "Custom"
   display_name = "Ops.Stack: VMInsights"
 
-  metadata = jsonencode({ category: "Ops.Stack" })
+  metadata = jsonencode({ category : "Ops.Stack" })
 
   parameters = <<PARAMETERS
     {
@@ -37,7 +37,7 @@ PARAMETERS
   policy_definition_reference {
     policy_definition_id = azurerm_policy_definition.opsstack-vm-insights-data-collection-rule-association.id
     # language=json
-    parameter_values     = <<VALUE
+    parameter_values = <<VALUE
     {
       "dcrResourceId": {"value": "[parameters('dcrResourceId')]"}
     }
