@@ -10,11 +10,17 @@ Place for homelab projects.
 * https://github.com/FairwindsOps/rbac-manager
 
 
-```plantuml
+<div hidden>
+  
+```
 @startuml firstDiagram
 
 Alice -> Bob: Hello
 Bob -> Alice: Hi!
-
+		
 @enduml
 ```
+  
+</div>
+
+![](firstDiagram.svg)
