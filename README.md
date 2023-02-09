@@ -8,3 +8,13 @@ Place for homelab projects.
 
 
 * https://github.com/FairwindsOps/rbac-manager
+
+
+```
+@startuml firstDiagram
+
+Alice -> Bob: Hello
+Bob -> Alice: Hi!
+
+@enduml
+```
