@@ -10,7 +10,7 @@ Place for homelab projects.
 * https://github.com/FairwindsOps/rbac-manager
 
 
-```
+```plantuml
 @startuml firstDiagram
 
 Alice -> Bob: Hello
