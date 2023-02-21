@@ -1,0 +1,25 @@
+---
+plugin: azure.azcollection.azure_rm
+auth_source: cli
+strict: true
+subscription_id: e1608e24-0728-4efd-ba5b-a05693b53c5a
+plain_host_names: true
+keyed_groups:
+  # places each host in a group named 'tag_(tag name)_(tag value)' for each tag on a VM.
+  #- prefix: tag
+  #  key: tags
+  # places each host in a group named 'azure_loc_(location name)', depending on the VM's location
+  - prefix: azure_loc
+    key: location
+  # places each host in a group named 'azure_loc_(location name)', depending on the VM's location
+  - prefix: azure_rg
+    key: resource_group
+  # places each host in a group named 'azure_loc_(location name)', depending on the VM's location
+  - prefix: azure_vm_os
+    key: os_profile['system']
+exclude_host_filters:
+  # excludes hosts that are powered off
+  - powerstate != 'running'
+hostvar_expressions:
+  ansible_host: (public_ipv4_addresses + private_ipv4_addresses) | first
+use_extra_vars: true

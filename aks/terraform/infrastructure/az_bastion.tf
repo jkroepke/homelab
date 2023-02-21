@@ -26,4 +26,6 @@ module "bastion_windows" {
   dns_resource_group_name              = data.azurerm_dns_zone.aks_jkroepke_de.resource_group_name
   public_key                           = local.public_key
   type                                 = "windows"
+
+  enable_public_interface = true
 }

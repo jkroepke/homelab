@@ -46,13 +46,13 @@ resource "azurerm_network_security_group" "this" {
   dynamic "security_rule" {
     for_each = toset(var.enable_public_interface ? [true] : [])
     content {
-      name                       = "SSH"
+      name                       = "ALLOW_INSECURE_PORTS"
       priority                   = 100
       direction                  = "Inbound"
       access                     = "Allow"
       protocol                   = "Tcp"
       source_port_range          = "*"
-      destination_port_range     = "22"
+      destination_port_ranges    = ["22", "3389", "5985", "5986"]
       source_address_prefix      = "*"
       destination_address_prefix = "*"
     }

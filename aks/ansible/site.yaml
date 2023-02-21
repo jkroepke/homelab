@@ -1,0 +1,12 @@
+- name: Gather facts for all hosts
+  hosts: all
+  gather_facts: true
+  tags: always
+
+- name: Setup Fileserver
+  tags: printserver
+  gather_facts: false
+  hosts: printserver
+  roles:
+    - printserver
+
