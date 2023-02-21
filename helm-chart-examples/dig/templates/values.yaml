@@ -1,3 +1,4 @@
 ---
 demo: |
-  {{ dig "a" "b" "c" "d" "e" . }}
+  {{ dig "serviceAccount" "annotations" "azure.workload.identity/client-id" (index .Values "cert-manager" ) | quote }}
+

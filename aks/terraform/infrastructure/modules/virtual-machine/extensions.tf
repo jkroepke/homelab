@@ -9,8 +9,3 @@ resource "azurerm_virtual_machine_extension" "AzureMonitorAgent" {
 
   virtual_machine_id = local.virtual_machine_id
 }
-
-moved {
-  from = azurerm_virtual_machine_extension.AzureMonitorLinuxAgent
-  to   = azurerm_virtual_machine_extension.AzureMonitorAgent
-}
