@@ -31,6 +31,7 @@ func main() {
 		ResultType:      nil,
 		Metricnamespace: to.Ptr("microsoft.compute/virtualmachines"),
 	})
+
 	if err != nil {
 		log.Fatalf("failed to finish the request: %v", err)
 	}
