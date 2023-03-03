@@ -1,0 +1,3 @@
+{{- $azurerm_kubernetes_cluster := (index (ds "terraform").provider_schemas "registry.terraform.io/hashicorp/azurerm").resource_schemas.azurerm_kubernetes_cluster -}}
+
+{{ tmpl.Exec "var_attributes" (coll.Slice $azurerm_kubernetes_cluster "") }}

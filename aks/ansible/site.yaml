@@ -1,7 +1,40 @@
+- name: Fetch password from azure keyvault
+  hosts: azure_vm_os_windows
+  gather_facts: false
+  tags: always
+  tasks:
+    - name: Fetch VM password from Azure Key Vault
+      delegate_to: localhost
+      loop:
+        - username
+        - password
+      azure.azcollection.azure_rm_keyvaultsecret_info:
+        subscription_id: "{{ credential_keyvault.subscription_id }}"
+        vault_uri: "{{ credential_keyvault.uri }}"
+        name: "{{ computer_name }}-{{ item }}"
+      register: secrets
+
+    - name: Set credentials from KeyVault
+      set_fact:
+        ansible_user: "{{ secrets | community.general.json_query('results[?item==`username`].secrets[0].secret') | first }}"
+        ansible_password: "{{ secrets | community.general.json_query('results[?item==`password`].secrets[0].secret') | first }}"
+
+    #- name: Set credentials from KeyVault
+    #  set_fact:
+    #    ansible_user: "{{ lookup('azure.azcollection.azure_keyvault_secret', inventory_hostname + '-username', tenant_id=, vault_url='https://aks-credentials.vault.azure.net/') }}"
+    #    ansible_password: "{{ lookup('azure.azcollection.azure_keyvault_secret', inventory_hostname + '-password', vault_url=credential_keyvault.url) }}"
+
 - name: Gather facts for all hosts
   hosts: all
   gather_facts: true
   tags: always
+
+- name: Setup AD Server
+  tags: printserver
+  gather_facts: false
+  hosts: printserver
+  roles:
+    - adserver
 
 - name: Setup Fileserver
   tags: printserver

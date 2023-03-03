@@ -1,0 +1,7 @@
+{{- $azurerm_kubernetes_cluster := (index (ds "terraform").provider_schemas "registry.terraform.io/hashicorp/azurerm").resource_schemas.azurerm_kubernetes_cluster -}}
+
+resource "azurerm_kubernetes_cluster" "this" {
+  count = var.existing_aks_cluster ? 0 : 1
+
+  {{ tmpl.Exec "resource_attributes" (coll.Slice $azurerm_kubernetes_cluster "") }}
+}

@@ -2,19 +2,18 @@
 
 ## Prepare
 
-```
+### Setup venv
+
+Setup virtual environment to prevent any conflicting issues with system azure cli, e.g....
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+pip install ansible "pywinrm>=0.3.0"
+
 ansible-galaxy collection install azure.azcollection
 ansible-galaxy collection install ansible.windows
 
-ansible-galaxy collection install keepersecurity.keeper_secrets_manager
-
 # for login with CLI
-pip3 -U install azure-cli
-
-# Connection to Windows hosts
-pip3 -U install "pywinrm>=0.3.0"
-
-
-# OPTIONAL: for getting passwords from keeper
-pip3 -U install keeper-secrets-manager-cli keeper_secrets_manager_ansible
+pip install -r ~/.ansible/collections/ansible_collections/azure/azcollection/requirements-azure.txt
 ```

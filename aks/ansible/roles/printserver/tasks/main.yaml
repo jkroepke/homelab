@@ -1,0 +1,9 @@
+- name: Install Print-Services with sub features
+  ansible.windows.win_feature:
+    name: Print-Services
+    state: present
+    include_sub_features: yes
+  register: win_feature
+
+
+- debug: var=win_feature

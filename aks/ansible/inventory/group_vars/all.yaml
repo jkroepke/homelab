@@ -1,0 +1,3 @@
+credential_keyvault:
+  tenant:
+  uri: https://aks-credentials.vault.azure.net/
