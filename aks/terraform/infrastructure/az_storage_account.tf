@@ -1,7 +1,7 @@
 resource "azurerm_storage_account" "aks" {
   name                     = "jokmspaks"
-  location                 = azurerm_resource_group.default.location
-  resource_group_name      = azurerm_resource_group.default.name
+  location                 = azurerm_resource_group.jok-default.location
+  resource_group_name      = azurerm_resource_group.jok-default.name
   account_tier             = "Standard"
   account_replication_type = "LRS"
 
@@ -83,8 +83,8 @@ resource "azurerm_storage_container" "loki-ruler" {
 module "mi-cortex" {
   source              = "./modules/federated-managed-identity"
   name                = "aks-storage-account"
-  resource_group_name = azurerm_resource_group.default.name
-  location            = azurerm_resource_group.default.location
+  resource_group_name = azurerm_resource_group.jok-default.name
+  location            = azurerm_resource_group.jok-default.location
   oidc_issuer_url     = azurerm_kubernetes_cluster.jok.oidc_issuer_url
   subjects = [
     "system:serviceaccount:infra-loki:loki",

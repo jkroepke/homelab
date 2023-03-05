@@ -1,8 +1,8 @@
 module "mi-keyvault-access" {
   source              = "./modules/federated-managed-identity"
   name                = "keyvault-access"
-  resource_group_name = azurerm_resource_group.default.name
-  location            = azurerm_resource_group.default.location
+  resource_group_name = azurerm_resource_group.jok-default.name
+  location            = azurerm_resource_group.jok-default.location
   oidc_issuer_url     = azurerm_kubernetes_cluster.jok.oidc_issuer_url
   subjects            = ["system:serviceaccount:argocd:argocd-repo-server"]
 }

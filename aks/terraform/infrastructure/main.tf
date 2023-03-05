@@ -6,62 +6,74 @@ locals {
 data "azurerm_client_config" "this" {}
 data "azurerm_subscription" "current" {}
 
+resource "null_resource" "ContainerService_Feature_Preview" {
+  for_each = toset([
+    "EnableWorkloadIdentityPreview",
+    "EnablePodIdentityPreview",
+    "EnableOIDCIssuerPreview",
+    "KubeletDisk",
+    "AKS-EnableDualStack",
+    "EnableImageCleanerPreview",
+    "AKS-PrometheusAddonPreview",
+    "CustomNodeConfigPreview",
+    "EnableEphemeralOSDiskPreview",
+    "FleetResourcePreview",
+    "MaxSurgePreview",
+    "WindowsNetworkPolicyPreview",
+    "EnableAPIServerVnetIntegrationPreview",
+    "CiliumDataplanePreview",
+    "AzureOverlayPreview",
+    "PodSubnetPreview",
+  ])
+
+  triggers = {
+    feature = each.key
+  }
+
+  provisioner "local-exec" {
+    command = "az feature register --namespace Microsoft.ContainerService --name ${self.triggers.feature}"
+  }
+}
+
+resource "null_resource" "ContainerService_Refresh_Register" {
+  triggers = {
+    features = join(",", [for i in null_resource.ContainerService_Feature_Preview : i.triggers.feature])
+  }
+
+  provisioner "local-exec" {
+    command = "az provider register --namespace Microsoft.ContainerService"
+  }
+}
+
+
 resource "azurerm_resource_provider_registration" "ContainerService" {
+  count = 0
+
   name = "Microsoft.ContainerService"
 
-  feature {
-    name       = "EnableWorkloadIdentityPreview"
-    registered = true
-  }
+  dynamic "feature" {
+    for_each = toset([
+      "EnableWorkloadIdentityPreview",
+      "EnablePodIdentityPreview",
+      "EnableOIDCIssuerPreview",
+      "KubeletDisk",
+      "AKS-EnableDualStack",
+      "EnableImageCleanerPreview",
+      "AKS-PrometheusAddonPreview",
+      "CustomNodeConfigPreview",
+      "EnableEphemeralOSDiskPreview",
+      "FleetResourcePreview",
+      "MaxSurgePreview",
+      "WindowsNetworkPolicyPreview",
+      "EnableAPIServerVnetIntegrationPreview",
+      "CiliumDataplanePreview",
+      "AzureOverlayPreview",
+      "PodSubnetPreview",
+    ])
 
-  feature {
-    name       = "EnablePodIdentityPreview"
-    registered = true
-  }
-
-  feature {
-    name       = "EnableOIDCIssuerPreview"
-    registered = true
-  }
-
-  feature {
-    name       = "KubeletDisk"
-    registered = true
-  }
-
-  feature {
-    name       = "AKS-EnableDualStack"
-    registered = true
-  }
-
-  feature {
-    name       = "EnableImageCleanerPreview"
-    registered = true
-  }
-
-
-  feature {
-    name       = "AKS-PrometheusAddonPreview"
-    registered = true
-  }
-  feature {
-    name       = "CustomNodeConfigPreview"
-    registered = true
-  }
-  feature {
-    name       = "EnableEphemeralOSDiskPreview"
-    registered = true
-  }
-  feature {
-    name       = "FleetResourcePreview"
-    registered = true
-  }
-  feature {
-    name       = "MaxSurgePreview"
-    registered = true
-  }
-  feature {
-    name       = "WindowsNetworkPolicyPreview"
-    registered = false
+    content {
+      name       = feature.key
+      registered = true
+    }
   }
 }

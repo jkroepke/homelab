@@ -1,4 +1,4 @@
-resource "azurerm_resource_group" "default" {
-  location = "westus3"
-  name     = "default"
+resource "azurerm_resource_group" "jok-default" {
+  location = "Central India"
+  name     = "jok-default"
 }

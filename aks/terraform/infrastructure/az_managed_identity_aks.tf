@@ -1,11 +1,11 @@
 resource "azurerm_user_assigned_identity" "aks" {
   name                = "jok-aks"
-  resource_group_name = azurerm_resource_group.default.name
-  location            = azurerm_resource_group.default.location
+  resource_group_name = azurerm_resource_group.jok-default.name
+  location            = azurerm_resource_group.jok-default.location
 }
 
 resource "azurerm_role_assignment" "mi-aks-contributor" {
-  scope                = azurerm_resource_group.default.id
+  scope                = azurerm_resource_group.jok-default.id
   role_definition_name = "Contributor"
   principal_id         = azurerm_user_assigned_identity.aks.principal_id
 }
@@ -17,13 +17,13 @@ resource "azurerm_role_assignment" "mi-aks-mi-operator" {
 }
 
 resource "azurerm_role_assignment" "mi-aks-monitoring-metrics-publisher" {
-  scope                = azurerm_resource_group.default.id
+  scope                = azurerm_resource_group.jok-default.id
   role_definition_name = "Monitoring Metrics Publisher"
   principal_id         = azurerm_user_assigned_identity.aks.principal_id
 }
 
 resource "azurerm_user_assigned_identity" "aks-kubelet" {
   name                = "jok-aks-kubelet"
-  resource_group_name = azurerm_resource_group.default.name
-  location            = azurerm_resource_group.default.location
+  resource_group_name = azurerm_resource_group.jok-default.name
+  location            = azurerm_resource_group.jok-default.location
 }

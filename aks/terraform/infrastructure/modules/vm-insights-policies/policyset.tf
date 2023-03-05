@@ -17,6 +17,7 @@ resource "azurerm_policy_set_definition" "opsstack-vm-insights" {
     }
 PARAMETERS
 
+
   # policy_definition_reference {
   #   # [Preview]: Configure system-assigned managed identity to enable Azure Monitor assignments on VMs
   #   policy_definition_id = "/providers/Microsoft.Authorization/policyDefinitions/17b3de92-f710-4cf4-aa55-0e7859f1ed7b"
@@ -24,14 +25,17 @@ PARAMETERS
 
   policy_definition_reference {
     policy_definition_id = azurerm_policy_definition.opsstack-system-assigned-managed-identity.id
+    parameter_values     = jsonencode({})
   }
 
   policy_definition_reference {
     policy_definition_id = azurerm_policy_definition.opsstack-vm-insights-deploy-agent-vm.id
+    parameter_values     = jsonencode({})
   }
 
   policy_definition_reference {
     policy_definition_id = azurerm_policy_definition.opsstack-vm-insights-deploy-agent-vmss.id
+    parameter_values     = jsonencode({})
   }
 
   policy_definition_reference {

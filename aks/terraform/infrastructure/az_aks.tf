@@ -1,17 +1,24 @@
 data "azurerm_kubernetes_service_versions" "current" {
-  location        = azurerm_resource_group.default.location
+  location        = azurerm_resource_group.jok-default.location
   include_preview = false
 }
 
 resource "azurerm_kubernetes_cluster" "jok" {
-  resource_group_name = azurerm_resource_group.default.name
-  location            = azurerm_resource_group.default.location
+  resource_group_name = azurerm_resource_group.jok-default.name
+  location            = azurerm_resource_group.jok-default.location
 
   name               = "jok"
   kubernetes_version = data.azurerm_kubernetes_service_versions.current.latest_version
 
+  private_cluster_enabled   = false
   automatic_channel_upgrade = "rapid"
   dns_prefix                = "jok"
+
+  api_server_access_profile {
+    authorized_ip_ranges     = ["0.0.0.0/0"]
+    vnet_integration_enabled = true
+    subnet_id                = azurerm_subnet.jok-aks-api.id
+  }
 
   auto_scaler_profile {
     expander = "least-waste"
@@ -24,12 +31,12 @@ resource "azurerm_kubernetes_cluster" "jok" {
 
   default_node_pool {
     name     = "system"
-    vm_size  = "Standard_A2m_v2"
-    zones    = ["1"]
+    vm_size  = "Standard_E2as_v5"
     max_pods = 250
 
     os_sku         = "Ubuntu"
-    vnet_subnet_id = azurerm_subnet.default.id
+    vnet_subnet_id = azurerm_subnet.jok-default.id
+    pod_subnet_id  = azurerm_subnet.jok-aks-pods.id
 
     enable_auto_scaling = true
     node_count          = 1
@@ -39,7 +46,8 @@ resource "azurerm_kubernetes_cluster" "jok" {
     os_disk_size_gb = 100
 
     # The Virtual Machine size Standard_A2_v2 does not support EncryptionAtHost.
-    enable_host_encryption = false
+    # SubscriptionNotEnabledEncryptionAtHost
+    #enable_host_encryption = true
     # The Virtual Machine size Standard_A2_v2 does not support Ephemeral OS disk."
     #os_disk_type           = "Ephemeral"
     # The virtual machine size Standard_A2_v2 has a max temporary disk size of 21474836480 bytes, but the kubelet disk requires 32212254720 bytes. Use a VM size with larger temporary disk or use the OS disk for kubelet.
@@ -67,8 +75,12 @@ resource "azurerm_kubernetes_cluster" "jok" {
     user_assigned_identity_id = azurerm_user_assigned_identity.aks-kubelet.id
   }
 
+  key_vault_secrets_provider {
+    secret_rotation_enabled = true
+  }
+
   local_account_disabled    = true
-  node_resource_group       = "${azurerm_resource_group.default.name}-aks"
+  node_resource_group       = "${azurerm_resource_group.jok-default.name}-aks"
   oidc_issuer_enabled       = true
   workload_identity_enabled = true
 
@@ -109,7 +121,10 @@ resource "azurerm_kubernetes_cluster" "jok" {
   network_profile {
     network_plugin = "azure"
     network_mode   = "transparent"
-    network_policy = "calico"
+    #network_policy      = "azure"
+    #network_plugin_mode = "Overlay"
+
+    ebpf_data_plane = "cilium"
 
     outbound_type     = "loadBalancer"
     load_balancer_sku = "standard"
@@ -133,7 +148,7 @@ resource "azurerm_kubernetes_cluster" "jok" {
   sku_tier            = "Free"
 
   depends_on = [
-    azurerm_resource_provider_registration.ContainerService,
+    null_resource.ContainerService_Refresh_Register,
     azurerm_role_assignment.mi-aks-contributor,
     azurerm_role_assignment.mi-aks-mi-operator
   ]
@@ -163,7 +178,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "workload" {
   os_sku                = "Ubuntu"
   max_pods              = 250
 
-  vnet_subnet_id = azurerm_subnet.default.id
+  vnet_subnet_id = azurerm_subnet.jok-default.id
 
   enable_auto_scaling = true
   node_count          = 1

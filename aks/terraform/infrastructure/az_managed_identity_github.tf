@@ -1,8 +1,8 @@
 module "mi-github-actions" {
   source              = "./modules/federated-managed-identity"
   name                = "github-actions"
-  resource_group_name = azurerm_resource_group.default.name
-  location            = azurerm_resource_group.default.location
+  resource_group_name = azurerm_resource_group.jok-default.name
+  location            = azurerm_resource_group.jok-default.location
   oidc_issuer_url     = "https://token.actions.githubusercontent.com"
   subjects = [
     "repo:jkroepke/homelab:ref:refs/heads/main",

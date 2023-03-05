@@ -1,7 +1,7 @@
 resource "azurerm_monitor_data_collection_rule" "vminsights" {
   name                = "VMInsights"
-  resource_group_name = azurerm_resource_group.default.name
-  location            = azurerm_resource_group.default.location
+  resource_group_name = azurerm_resource_group.jok-default.name
+  location            = azurerm_resource_group.jok-default.location
 
   destinations {
     azure_monitor_metrics {
@@ -37,7 +37,7 @@ resource "azurerm_monitor_data_collection_rule" "vminsights" {
     performance_counter {
       streams                       = ["Microsoft-Perf"]
       sampling_frequency_in_seconds = 60
-      counter_specifiers            = [
+      counter_specifiers = [
         "\\System\\Processes",
         "\\Process(_Total)\\Thread Count",
         "\\Process(_Total)\\Handle Count",
@@ -47,16 +47,16 @@ resource "azurerm_monitor_data_collection_rule" "vminsights" {
         "\\Process(explorer)\\% Processor Time",
         "\\Process(calc)\\% Processor Time",
       ]
-      name                          = "VMInsightsPerfCounters"
+      name = "VMInsightsPerfCounters"
     }
 
     performance_counter {
       streams                       = ["Microsoft-InsightsMetrics"]
       sampling_frequency_in_seconds = 60
-      counter_specifiers            = [
+      counter_specifiers = [
         "\\VmInsights\\DetailedMetrics"
       ]
-      name                          = "InsightsMetrics"
+      name = "InsightsMetrics"
     }
   }
 }
@@ -67,8 +67,8 @@ module "vm-insights-policies" {
 
 resource "azurerm_user_assigned_identity" "policy-azure-monitor" {
   name                = "policy-azure-monitor"
-  resource_group_name = azurerm_resource_group.default.name
-  location            = azurerm_resource_group.default.location
+  resource_group_name = azurerm_resource_group.jok-default.name
+  location            = azurerm_resource_group.jok-default.location
 }
 
 resource "azurerm_role_assignment" "policy-azure-monitor" {
@@ -100,7 +100,7 @@ resource "azurerm_subscription_policy_assignment" "vm-insights" {
     }
   })
 
-  location = azurerm_resource_group.default.location
+  location = azurerm_resource_group.jok-default.location
 
   identity {
     type         = "UserAssigned"

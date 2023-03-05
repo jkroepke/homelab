@@ -6,8 +6,8 @@ data "azurerm_dns_zone" "aks_jkroepke_de" {
 module "mi-external-dns" {
   source              = "./modules/federated-managed-identity"
   name                = "external-dns"
-  resource_group_name = azurerm_resource_group.default.name
-  location            = azurerm_resource_group.default.location
+  resource_group_name = azurerm_resource_group.jok-default.name
+  location            = azurerm_resource_group.jok-default.location
   oidc_issuer_url     = azurerm_kubernetes_cluster.jok.oidc_issuer_url
   subjects            = ["system:serviceaccount:infra-external-dns:external-dns"]
 }

@@ -15,8 +15,8 @@ resource "azurerm_role_definition" "stop_start_vm" {
 }
 
 resource "azurerm_user_assigned_identity" "vm-stop-start-automation" {
-  resource_group_name = azurerm_resource_group.default.name
-  location            = azurerm_resource_group.default.location
+  resource_group_name = azurerm_resource_group.jok-default.name
+  location            = azurerm_resource_group.jok-default.location
 
   name = "vm-stop-start-automation"
 }
@@ -29,8 +29,8 @@ resource "azurerm_role_assignment" "vm-stop-start-automation" {
 
 resource "azurerm_automation_account" "vm-stop-start-automation" {
   name                = "vm-stop-start-automation"
-  location            = azurerm_resource_group.default.location
-  resource_group_name = azurerm_resource_group.default.name
+  location            = azurerm_resource_group.jok-default.location
+  resource_group_name = azurerm_resource_group.jok-default.name
   sku_name            = "Basic"
 
   identity {
@@ -42,8 +42,8 @@ resource "azurerm_automation_account" "vm-stop-start-automation" {
 resource "azurerm_automation_runbook" "shutdownstart-vms-by-tag" {
   name = "ShutDownStartByTag"
 
-  location            = azurerm_resource_group.default.location
-  resource_group_name = azurerm_resource_group.default.name
+  location            = azurerm_resource_group.jok-default.location
+  resource_group_name = azurerm_resource_group.jok-default.name
 
   automation_account_name = azurerm_automation_account.vm-stop-start-automation.name
 

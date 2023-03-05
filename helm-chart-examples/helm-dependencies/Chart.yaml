@@ -1,0 +1,4 @@
+apiVersion: v2
+name: helm-dependencies
+version: 1.0.0
+dependencies: []
