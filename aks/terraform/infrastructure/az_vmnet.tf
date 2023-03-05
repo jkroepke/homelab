@@ -12,7 +12,7 @@ resource "azurerm_subnet" "jok-aks-api" {
   address_prefixes     = ["10.0.0.0/28"]
 
   delegation {
-    name = "aks"
+    name = "aks-delegation"
     service_delegation {
       name = "Microsoft.ContainerService/managedClusters"
       actions = [
@@ -47,6 +47,8 @@ resource "azurerm_subnet" "jok-aks-pods" {
   resource_group_name  = azurerm_resource_group.jok-default.name
   virtual_network_name = azurerm_virtual_network.jok-default.name
   address_prefixes     = ["10.0.128.0/18"]
+
+  /*
   delegation {
     name = "aks-delegation"
 
@@ -57,6 +59,7 @@ resource "azurerm_subnet" "jok-aks-pods" {
       name = "Microsoft.ContainerService/managedClusters"
     }
   }
+  */
 }
 
 resource "azurerm_subnet" "jok-default" {

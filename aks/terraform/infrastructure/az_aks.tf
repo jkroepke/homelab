@@ -36,7 +36,7 @@ resource "azurerm_kubernetes_cluster" "jok" {
 
     os_sku         = "Ubuntu"
     vnet_subnet_id = azurerm_subnet.jok-default.id
-    pod_subnet_id  = azurerm_subnet.jok-aks-pods.id
+    #pod_subnet_id  = azurerm_subnet.jok-aks-pods.id
 
     enable_auto_scaling = true
     node_count          = 1
@@ -119,12 +119,11 @@ resource "azurerm_kubernetes_cluster" "jok" {
   }
 
   network_profile {
-    network_plugin = "azure"
-    network_mode   = "transparent"
+    network_plugin      = "azure"
+    network_mode        = "transparent"
     #network_policy      = "azure"
-    #network_plugin_mode = "Overlay"
-
-    ebpf_data_plane = "cilium"
+    network_plugin_mode = "Overlay"
+    ebpf_data_plane     = "cilium"
 
     outbound_type     = "loadBalancer"
     load_balancer_sku = "standard"
