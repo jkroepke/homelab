@@ -52,7 +52,7 @@ variable "{{ $key }}" {
   {{- else }}
   type        = {{ $options.type }}
     {{- if not (has $options "optional") }}
-  default     = {{ $defaults | jsonpath (printf ".*.%s" $key) | toJSON }}
+  default     = {{ $defaults | toJSON }}
     {{- end }}
   {{- end }}
   description = ""

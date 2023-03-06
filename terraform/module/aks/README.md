@@ -46,9 +46,9 @@ No modules.
 | <a name="input_run_command_enabled"></a> [run\_command\_enabled](#input\_run\_command\_enabled) | n/a | `bool` | n/a | yes |
 | <a name="input_sku_tier"></a> [sku\_tier](#input\_sku\_tier) | n/a | `string` | n/a | yes |
 | <a name="input_workload_identity_enabled"></a> [workload\_identity\_enabled](#input\_workload\_identity\_enabled) | n/a | `bool` | n/a | yes |
-| <a name="input_location"></a> [location](#input\_location) | n/a | `string` | `null` | no |
-| <a name="input_name"></a> [name](#input\_name) | n/a | `string` | `null` | no |
-| <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | n/a | `string` | `null` | no |
+| <a name="input_location"></a> [location](#input\_location) | n/a | `string` | <pre>{<br>  "sku_tier": "Free"<br>}</pre> | no |
+| <a name="input_name"></a> [name](#input\_name) | n/a | `string` | <pre>{<br>  "sku_tier": "Free"<br>}</pre> | no |
+| <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | n/a | `string` | <pre>{<br>  "sku_tier": "Free"<br>}</pre> | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | n/a | `map(string)` | `{}` | no |
 
 ## Outputs
