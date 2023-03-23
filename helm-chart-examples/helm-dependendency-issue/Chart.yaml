@@ -1,0 +1,8 @@
+apiVersion: v2
+name: helm-dependency-issue
+version: 1.0.0
+dependencies:
+  - name: values
+    alias: yaml
+    version: 1.0.2
+    repository: https://jkroepke.github.io/helm-charts/
