@@ -1,6 +1,6 @@
 dependencies:
 - name: values
   repository: https://jkroepke.github.io/helm-charts/
-  version: 1.0.2
-digest: sha256:76d0a0ace22c70c0045f04f5de43126838631497c339252f91c4f8d42fb6531b
-generated: "2023-03-23T12:35:07.752412+01:00"
+  version: 1.0.3
+digest: sha256:9276cfd83ae7a91108d59ffb4e69dff9f392908090eb6456e9d155628fe48d1c
+generated: "2023-03-23T12:37:42.489801+01:00"
