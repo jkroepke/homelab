@@ -37,7 +37,7 @@ resource "helm_release" "argocd-apps" {
   repository      = "https://argoproj.github.io/argo-helm"
   chart           = "argocd-apps"
   namespace       = "argocd"
-  version         = "0.0.8"
+  version         = "0.0.9"
   atomic          = true
   cleanup_on_fail = true
   lint            = true
