@@ -62,7 +62,7 @@ func main() {
 	scope := "/subscriptions/" + os.Getenv("AZURE_SUBSCRIPTION_ID")
 
 	res := armcostmanagement.QueryProperties{
-		NextLink: to.Ptr("https://management.azure.com" + scope + "/providers/Microsoft.CostManagement/query?api-version=2021-10-01&$top=100"),
+		NextLink: to.Ptr("https://management.azure.com" + scope + "/providers/Microsoft.CostManagement/query?api-version=2021-10-01&$top=1000"),
 		Columns:  nil,
 		Rows:     [][]interface{}{},
 	}
@@ -71,25 +71,37 @@ func main() {
 	for res.NextLink != nil && *res.NextLink != "" {
 		log.Println(*res.NextLink)
 		host, err := url.ParseRequestURI(*res.NextLink)
-		// TODO: error handling
+		if err != nil {
+			log.Panic(err)
+		}
+
 		request, err := http.NewRequest(http.MethodPost, host.String(), bytes.NewBuffer(body))
-		// TODO: error handling
+		if err != nil {
+			log.Panic(err)
+		}
+
 		request.Header.Set("Content-Type", "application/json")
 		nextPage, err := client.Do(request)
-		// TODO: error handling
+		if err != nil {
+			log.Panic(err)
+		}
+		log.Println(string(rune(nextPage.StatusCode)) + ":" + nextPage.Status)
 
 		decoder := json.NewDecoder(nextPage.Body)
 		data := &armcostmanagement.QueryClientUsageResponse{}
 		if err = decoder.Decode(data); err != nil {
 			log.Panic(err)
 		}
+
 		res.Columns = data.Properties.Columns
 		res.NextLink = data.Properties.NextLink
 		res.Rows = append(res.Rows, data.Properties.Rows...) // at the end you have all rows inside this struct
+
+		// chill with rate limits
+		time.Sleep(time.Second * 3)
 	}
 
 	for _, row := range res.Rows {
-
 		log.Printf("%v\n", row)
 	}
 	log.Println(len(res.Rows))
