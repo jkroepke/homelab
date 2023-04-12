@@ -62,13 +62,14 @@ func main() {
 	scope := "/subscriptions/" + os.Getenv("AZURE_SUBSCRIPTION_ID")
 
 	res := armcostmanagement.QueryProperties{
-		NextLink: to.Ptr("https://management.azure.com" + scope + "/providers/Microsoft.CostManagement/query?api-version=2021-10-01"),
+		NextLink: to.Ptr("https://management.azure.com" + scope + "/providers/Microsoft.CostManagement/query?api-version=2021-10-01&$top=100"),
 		Columns:  nil,
 		Rows:     [][]interface{}{},
 	}
 
 	// pull the data
 	for res.NextLink != nil && *res.NextLink != "" {
+		log.Println(*res.NextLink)
 		host, err := url.ParseRequestURI(*res.NextLink)
 		// TODO: error handling
 		request, err := http.NewRequest(http.MethodPost, host.String(), bytes.NewBuffer(body))
@@ -87,5 +88,9 @@ func main() {
 		res.Rows = append(res.Rows, data.Properties.Rows...) // at the end you have all rows inside this struct
 	}
 
+	for _, row := range res.Rows {
+
+		log.Printf("%v\n", row)
+	}
 	log.Println(len(res.Rows))
 }
