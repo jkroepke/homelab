@@ -1,0 +1,3 @@
+a: |
+  {{ .Values.a | values }}
+

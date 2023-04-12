@@ -35,52 +35,75 @@ dynamic "{{ $key }}" {
   {{- end }}
 {{- end }}
 
-
-
-{{- define "var_attributes" }}
-  {{- $defaults := (ds "defaults") }}
+{{- define "var_root_attributes" }}
   {{- $resource := (index . 0) }}
   {{- $prefix := (index . 1) }}
+  {{- $defaults := (index . 2) }}
   {{- if has $resource.block "attributes" }}
     {{- range $key, $options := $resource.block.attributes }}
       {{- if not (has $options "computed") }}
-        {{- if eq $prefix "" }}
 variable "{{ $key }}" {
   {{- if eq $key "tags" }}
   type        = map(string)
   default     = {}
   {{- else }}
   type        = {{ $options.type }}
-    {{- if not (has $options "optional") }}
-  default     = {{ $defaults | toJSON }}
+    {{- if has $options "optional" }}
+      {{- if has $defaults $key }}
+  default     = {{ index $defaults $key | toJSON }}
+      {{- else }}
+  default     = null
+      {{- end }}
     {{- end }}
   {{- end }}
   description = ""
 }
-        {{- else }}
-          {{ $key }} = {{ if has $options "optional" }}try({{ end }}var{{ $prefix }}.{{ $key }}{{ if has $options "optional" }}, null){{ end }}
+      {{- end }}
+    {{- end }}
+    {{- if has $resource.block "block_types" }}
+      {{- range $key, $options := $resource.block.block_types }}
+        {{- if not (has $options "computed") }}
+variable "{{ $key }}" {
+  type        = {{ tmpl.Exec "var_type" (coll.Slice $options (printf "%s." $key) $defaults) }}
+  {{- if has $options "optional" }}
+    {{- if has $defaults $key }}
+  default     = {{ index $defaults $key | toJSON }}
+    {{- else }}
+  default     = null
+    {{- end }}
+  {{- end }}
+  description = ""
+}
         {{- end }}
       {{- end }}
     {{- end }}
   {{- end }}
-
 {{- end }}
 
-{{- define "var_blocks" }}
-  {{- $resource := (index . 0) }}
-  {{- $prefix := (index . 1) }}
-  {{- if has $resource.block "block_types" }}
-    {{- range $key, $options := $resource.block.block_types }}
+
+
+{{- define "var_type" }}
+  {{- $resource := (index . 0) -}}
+  {{- $prefix := (index . 1) -}}
+  {{- $defaults := (index . 2) -}}
+object({
+  {{- if has $resource.block "attributes" }}
+    {{- range $key, $options := $resource.block.attributes }}
       {{- if not (has $options "computed") }}
-
-dynamic "{{ $key }}" {
-for_each = var{{ (printf "%s.%s" $prefix $key) }} != null ? [1] : []
-
-content {
-{{- tmpl.Exec "resource_attributes" (coll.Slice $options (printf "%s.%s" $prefix $key)) }}
-}
-}
-{{- end }}
+        {{- if has $options "optional" }}
+          {{ $key }} = optional({{ $options.type }})
+        {{- else }}
+          {{ $key }} = {{ $options.type }}
+        {{- end }}
+      {{- end }}
     {{- end }}
   {{- end }}
+})
+{{- end }}
+
+{{- define "type" }}
+  {{- $type := (index . 0) -}}
+  {{- $prefix := (index . 1) -}}
+  {{- $defaults := (index . 2) -}}
+{{- if not contains }}
 {{- end }}

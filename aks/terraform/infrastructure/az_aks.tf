@@ -31,7 +31,8 @@ resource "azurerm_kubernetes_cluster" "jok" {
 
   default_node_pool {
     name     = "system"
-    vm_size  = "Standard_E2as_v5"
+    vm_size  = "Standard_A2m_v2"
+    zones    = ["1"]
     max_pods = 250
 
     os_sku         = "Ubuntu"
