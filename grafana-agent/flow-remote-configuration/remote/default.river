@@ -1,0 +1,55 @@
+// prometheus.exporter.unix {}
+
+remote.http "idms" {
+    url            = "http://169.254.169.254/metadata/instance/compute/resourceId?api-version=2021-02-01&format=text"
+    poll_frequency = "86400s"
+    poll_timeout   = "500ms"
+}
+
+prometheus.scrape "self" {
+	targets    = [{"__address__" = "localhost:12345"}]
+	forward_to = [prometheus.remote_write.prometheus.receiver]
+}
+
+prometheus.remote_write "prometheus" {
+    endpoint {
+        url = "http://localhost:9090/api/v1/write"
+    }
+    external_labels = {
+        resourceID = remote.http.idms.content,
+    }
+}
+
+export "receiver" {
+    value = prometheus.remote_write.prometheus
+}
+
+remote.http "config_os" {
+    url = "http://localhost:8000/remote/os/" + constants.os + ".river"
+
+    poll_frequency = "10s"
+    poll_timeout   = "3s"
+}
+
+module.string "config_os" {
+    content = remote.http.config_os.content
+    arguments = {
+        forward_to = prometheus.remote_write.prometheus.receiver,
+    }
+}
+
+remote.http "config_hostname" {
+    url = "http://localhost:8000/remote/hostname/" + constants.hostname + ".river"
+
+    poll_frequency = "10s"
+    poll_timeout   = "3s"
+}
+
+module.string "config_hostname" {
+    content = remote.http.config_hostname.content
+    arguments = {
+        forward_to = prometheus.remote_write.prometheus.receiver,
+    }
+}
+
+

@@ -1,0 +1,9 @@
+remote.http "config_default" {
+  url            = "http://localhost:8000/remote/default.river"
+  poll_frequency = "10s"
+  poll_timeout   = "3s"
+}
+
+module.string "config_default" {
+  content = remote.http.config_default.content
+}

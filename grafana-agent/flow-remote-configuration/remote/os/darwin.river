@@ -1,0 +1,61 @@
+argument "forward_to" { }
+
+prometheus.exporter.windows "this" { }
+
+//prometheus.scrape "exporter_unix" {
+//  targets         = prometheus.exporter.unix.targets
+//  forward_to      = [argument.forward_to.value]
+//  scrape_interval = "10s"
+//}
+
+prometheus.scrape "exporter_windows" {
+    targets         = prometheus.exporter.windows.this.targets
+    forward_to      = [argument.forward_to.value]
+    scrape_interval = "10s"
+}
+
+prometheus.exporter.blackbox "example" {
+	config_file = "blackbox_module.yml"
+
+	target "example_com" {
+		address = "http://example.com"
+		module  = "http_2xx"
+	}
+
+	target "grafana_com" {
+		address = "http://grafana.com"
+		module  = "http_2xx"
+	}
+}
+
+discovery.relabel "blackbox_example" {
+  targets = prometheus.exporter.blackbox.example.targets
+
+  rule {
+    source_labels = ["job"]
+    regex         = "integrations/blackbox/(.+)$"
+    target_label  = "job"
+  }
+
+  rule {
+    source_labels = ["__meta_agent_integration_instance"]
+    target_label  = "component"
+  }
+
+  rule {
+    source_labels = ["__param_target"]
+    separator     = "|"
+    target_label  = "instance"
+  }
+
+  rule {
+    source_labels = ["__param_module"]
+    target_label  = "module"
+  }
+}
+
+prometheus.scrape "blackbox_example" {
+  targets         = discovery.relabel.blackbox_example.output
+  forward_to      = [argument.forward_to.value]
+  scrape_interval = "10s"
+}
