@@ -2,8 +2,18 @@ remote.http "config_default" {
   url            = "http://localhost:8000/remote/default.river"
   poll_frequency = "10s"
   poll_timeout   = "3s"
+
+  arguments {
+    node_exporter_targets = prometheus.exporter.unix.targets
+  }
 }
 
 module.string "config_default" {
   content = remote.http.config_default.content
 }
+
+// this must be in this root module
+// https://github.com/grafana/agent/issues/3155
+prometheus.exporter.unix {}
+
+

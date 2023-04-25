@@ -1,0 +1,9 @@
+argument "forward_to" { }
+
+prometheus.exporter.windows "this" { }
+
+prometheus.scrape "exporter_windows" {
+    targets         = prometheus.exporter.windows.this.targets
+    forward_to      = [argument.forward_to.value]
+    scrape_interval = "10s"
+}

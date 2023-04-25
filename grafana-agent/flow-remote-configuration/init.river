@@ -1,8 +1,0 @@
-logging {
-  level  = "info"
-  format = "logfmt"
-}
-
-module.file "config" {
-  filename = "config.river"
-}

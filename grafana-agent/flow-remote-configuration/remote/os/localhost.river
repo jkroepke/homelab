@@ -1,19 +1,5 @@
 argument "forward_to" { }
 
-prometheus.exporter.windows "this" { }
-
-//prometheus.scrape "exporter_unix" {
-//  targets         = prometheus.exporter.unix.targets
-//  forward_to      = [argument.forward_to.value]
-//  scrape_interval = "10s"
-//}
-
-prometheus.scrape "exporter_windows" {
-    targets         = prometheus.exporter.windows.this.targets
-    forward_to      = [argument.forward_to.value]
-    scrape_interval = "10s"
-}
-
 prometheus.exporter.blackbox "example" {
 	config_file = "blackbox_module.yml"
 

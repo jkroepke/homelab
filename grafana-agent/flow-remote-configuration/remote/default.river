@@ -1,14 +1,30 @@
-// prometheus.exporter.unix {}
+// node_exporter - START
+argument "node_exporter_targets" { }
 
+prometheus.scrape "node_exporter" {
+	  targets    = argument.node_exporter_targets.value
+    forward_to = [prometheus.remote_write.prometheus.receiver]
+}
+// node_exporter - END
+
+
+
+// Fetch resourceId from IMDS
 remote.http "idms" {
     url            = "http://169.254.169.254/metadata/instance/compute/resourceId?api-version=2021-02-01&format=text"
+    headers {
+      metadata = "true"
+    }
     poll_frequency = "86400s"
     poll_timeout   = "500ms"
 }
 
+
+
+// Scrape Agent Metrics (self scrape)
 prometheus.scrape "self" {
-	targets    = [{"__address__" = "localhost:12345"}]
-	forward_to = [prometheus.remote_write.prometheus.receiver]
+    targets    = [{"__address__" = "localhost:12345"}]
+	  forward_to = [prometheus.remote_write.prometheus.receiver]
 }
 
 prometheus.remote_write "prometheus" {
@@ -20,10 +36,8 @@ prometheus.remote_write "prometheus" {
     }
 }
 
-export "receiver" {
-    value = prometheus.remote_write.prometheus
-}
 
+// Additional OS related configuration (like windows_exporter)
 remote.http "config_os" {
     url = "http://localhost:8000/remote/os/" + constants.os + ".river"
 
@@ -38,6 +52,9 @@ module.string "config_os" {
     }
 }
 
+
+
+// Additional host related configuration (like blackbox_exporter)
 remote.http "config_hostname" {
     url = "http://localhost:8000/remote/hostname/" + constants.hostname + ".river"
 
@@ -53,3 +70,6 @@ module.string "config_hostname" {
 }
 
 
+export "receiver" {
+    value = prometheus.remote_write.prometheus
+}
