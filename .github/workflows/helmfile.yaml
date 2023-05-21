@@ -1,0 +1,33 @@
+name: "helmfile"
+on:
+  workflow_dispatch:
+jobs:
+  plan:
+    name: Plan
+    runs-on: ${{ inputs.runner }}
+    outputs:
+      exit-code: ${{ steps.plan.outputs.ExitCode }}
+    env:
+      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+
+      - uses: azure/setup-helm@v3
+        with:
+          version: 3.12.0
+      - uses: helmfile/helmfile-action@v1.0.0
+        with:
+          helmfile-version: 'v0.153.1'
+          helm-version: 'v3.11.1'
+          helm-plugins: https://github.com/databus23/helm-diff
+          helmfile-args: version
+      - uses: helmfile/helmfile-action@v1.0.0
+        with:
+          helmfile-version: 'v0.153.1'
+          helm-version: 'v3.12.0'
+          helm-plugins: https://github.com/databus23/helm-diff
+          helmfile-args: version

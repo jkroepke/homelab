@@ -2,10 +2,11 @@ package main
 
 import (
 	"errors"
+	stdlog "log"
+
 	"github.com/go-kit/log"
 	"github.com/go-kit/log/level"
 	"github.com/prometheus/common/promlog"
-	stdlog "log"
 )
 
 func main() {
@@ -27,4 +28,5 @@ func main() {
 
 	err := errors.New("write tcp 127.0.0.1:9182->127.0.0.1:60125: wsasend: Eine bestehende Verbindung wurde softwaregesteuert\r\ndurch den Hostcomputer abgebrochen.")
 	stdlogger.Println("error encoding and sending metric family:", err)
+	stdlog.Printf("error encoding and sending metric family: %v", err)
 }
