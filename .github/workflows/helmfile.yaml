@@ -5,11 +5,11 @@ jobs:
   plan:
     name: test
     runs-on: ubuntu-latest
+    container:
+      image: ubuntu
     steps:
       - name: checkout
         uses: actions/checkout@v3
-
-      - run: which helm
 
       - uses: azure/setup-helm@v3
         with:
