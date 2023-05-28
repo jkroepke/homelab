@@ -1,0 +1,19 @@
+name: "flock"
+on:
+  workflow_dispatch:
+jobs:
+  windows:
+    runs-on: windows-2019
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install rush
+        run: |
+          curl.exe -sSfLO https://github.com/shenwei356/rush/releases/download/v0.5.0/rush_windows_amd64.exe.tar.gz
+          tar xzf rush_windows_amd64.exe.tar.gz -C bin
+          curl.exe -sSfLO https://mirror.msys2.org/msys/x86_64/util-linux-2.35.2-3-x86_64.pkg.tar.zst
+          tar xvJf util-linux-2.35.2-3-x86_64.pkg.tar.zst -C bin --strip-components 2 usr/bin/flock.exe
+          Add-Content $env:GITHUB_PATH $pwd+"\bin"
+        if: contains(matrix.env_vars, 'rush')
+      - run: |
+          flock.exe --help
+          rush.exe --version
