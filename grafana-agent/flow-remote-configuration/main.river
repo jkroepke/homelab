@@ -1,3 +1,3 @@
 // this must be in this root module
 // https://github.com/grafana/agent/issues/3155
-prometheus.exporter.unix {}
+prometheus.exporter.unix {
