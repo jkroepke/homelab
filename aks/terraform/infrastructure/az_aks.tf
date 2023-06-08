@@ -15,7 +15,7 @@ resource "azurerm_kubernetes_cluster" "jok" {
   dns_prefix                = "jok"
 
   api_server_access_profile {
-    authorized_ip_ranges     = ["0.0.0.0/0"]
+    #authorized_ip_ranges     = ["0.0.0.0/0"]
     vnet_integration_enabled = true
     subnet_id                = azurerm_subnet.jok-aks-api.id
   }
@@ -124,7 +124,6 @@ resource "azurerm_kubernetes_cluster" "jok" {
     network_mode        = "transparent"
     #network_policy      = "azure"
     network_plugin_mode = "Overlay"
-    ebpf_data_plane     = "cilium"
 
     outbound_type     = "loadBalancer"
     load_balancer_sku = "standard"
@@ -168,22 +167,21 @@ resource "azurerm_role_assignment" "jok" {
   principal_id         = data.azurerm_client_config.this.object_id
 }
 
-resource "azurerm_kubernetes_cluster_node_pool" "workload" {
-  count = 0
-
+resource "azurerm_kubernetes_cluster_node_pool" "win" {
   kubernetes_cluster_id = azurerm_kubernetes_cluster.jok.id
-  name                  = "workload"
-  vm_size               = "Standard_A2m_v2"
+  name                  = "win"
+  vm_size               = "Standard_A2_v2"
   zones                 = ["1"]
-  os_sku                = "Ubuntu"
+  os_type               = "Windows"
+  os_sku                = "Windows2022"
   max_pods              = 250
 
   vnet_subnet_id = azurerm_subnet.jok-default.id
 
-  enable_auto_scaling = true
-  node_count          = 1
-  min_count           = 1
-  max_count           = 1
+  enable_auto_scaling = false
+  node_count          = 0
+
+  enable_node_public_ip = false
 
   os_disk_size_gb = 100
 

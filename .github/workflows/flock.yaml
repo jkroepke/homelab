@@ -15,5 +15,5 @@ jobs:
           Add-Content $env:GITHUB_PATH $pwd+"\bin"
         if: contains(matrix.env_vars, 'rush')
       - run: |
-          flock.exe --help
+          flock.exe --version
           rush.exe --version
