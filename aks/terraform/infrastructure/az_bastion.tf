@@ -29,3 +29,33 @@ module "bastion_windows" {
 
   enable_public_interface = true
 }
+
+resource "azurerm_virtual_machine_extension" "hostname" {
+  name                 = "hostname"
+  virtual_machine_id   = module.bastion_linux.vm_id
+  publisher            = "Microsoft.Azure.Extensions"
+  type                 = "CustomScript"
+  type_handler_version = "2.1"
+
+  settings = <<SETTINGS
+ {
+  "commandToExecute": "hostname && uptime"
+ }
+SETTINGS
+}
+
+resource "azurerm_virtual_machine_extension" "hostname2" {
+  count = 0
+
+  name                 = "hostname2"
+  virtual_machine_id   = module.bastion_linux.vm_id
+  publisher            = "Microsoft.Azure.Extensions"
+  type                 = "CustomScript"
+  type_handler_version = "2.1"
+
+  settings = <<SETTINGS
+ {
+  "commandToExecute": "hostname && uptime"
+ }
+SETTINGS
+}
