@@ -1,0 +1,44 @@
+{
+  "handler": "Microsoft.Compute.VmExtension",
+  "version": "0.0.1-preview",
+  "parameters": {
+    "elements": [
+      {
+        "name": "username",
+        "type": "Microsoft.Compute.UserNameTextBox",
+        "label": "Username",
+        "defaultValue": "",
+        "toolTip": "A valid username.",
+        "constraints": {
+          "required": true
+        },
+        "osPlatform": "Windows",
+        "visible": true
+      },
+      {
+        "name": "password",
+        "type": "Microsoft.Common.PasswordBox",
+        "label": {
+          "password": "Password",
+          "confirmPassword": "Confirm password"
+        },
+        "toolTip": "A password.",
+        "constraints": {
+          "required": true,
+          "regex": "",
+          "validationMessage": ""
+        },
+        "options": {
+          "hideConfirmation": false
+        },
+        "visible": true
+      }
+    ],
+    "outputs": {
+      "vmName": "[vmName()]",
+      "location": "[location()]",
+      "username": "[elements('username')]",
+      "password": "[elements('password')]"
+    }
+  }
+}
