@@ -1,9 +1,14 @@
-name: "helmfile"
+name: "oidc"
 on:
   workflow_dispatch:
   push:
     branches:
       - oidc
+
+permissions:
+  contents: read
+  id-token: write
+
 jobs:
   plan:
     name: test
@@ -13,7 +18,6 @@ jobs:
         id: oidc
         with:
           script: |
-            const core = require("@actions/core");
             const jwt = require("jsonwebtoken");
             (async function() {
                 try {

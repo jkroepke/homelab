@@ -31,7 +31,7 @@ func main() {
 		}
 	}
 
-	err = logger.Info(neLogOemCode, msg)
+	err = logger.Info(neLogOemCode, msg, "", "", "", "", "", "", "", "", "")
 	if err != nil {
 		panic(err)
 	}
