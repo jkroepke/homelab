@@ -11,7 +11,7 @@ spec:
     chart: cert-manager
     repoURL: https://charts.jetstack.io
     # https://artifacthub.io/packages/helm/cert-manager/cert-manager
-    targetRevision: v1.12.2
+    targetRevision: v1.13.0
     helm:
       releaseName: cert-manager
       parameters:
