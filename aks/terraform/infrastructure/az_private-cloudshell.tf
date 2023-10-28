@@ -16,7 +16,7 @@ resource "azurerm_network_profile" "aci_profile" {
 
 # ref: https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/relay_namespace
 resource "azurerm_relay_namespace" "relay" {
-  name                = "jok-cshell-relay"
+  name                = "relay-jok-cshell-relay"
   location            = azurerm_resource_group.jok-default.location
   resource_group_name = azurerm_resource_group.jok-default.name
   sku_name            = "Standard"

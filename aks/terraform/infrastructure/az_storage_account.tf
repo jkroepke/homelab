@@ -1,5 +1,5 @@
 resource "azurerm_storage_account" "aks" {
-  name                     = "jokmspaks"
+  name                     = "stjokmspaks"
   location                 = azurerm_resource_group.jok-default.location
   resource_group_name      = azurerm_resource_group.jok-default.name
   account_tier             = "Standard"
@@ -49,33 +49,6 @@ resource "azurerm_storage_container" "cortex_storage" {
 
 resource "azurerm_storage_container" "loki" {
   name                  = "loki"
-  storage_account_name  = azurerm_storage_account.aks.name
-  container_access_type = "private"
-}
-
-resource "azurerm_storage_management_policy" "loki" {
-  storage_account_id = azurerm_storage_account.aks.id
-
-  rule {
-    name    = "loki"
-    enabled = true
-    filters {
-      prefix_match = [azurerm_storage_container.loki.name]
-      blob_types   = ["blockBlob"]
-    }
-    actions {
-      base_blob {
-        delete_after_days_since_modification_greater_than = 28
-      }
-      snapshot {
-        delete_after_days_since_creation_greater_than = 28
-      }
-    }
-  }
-}
-
-resource "azurerm_storage_container" "loki-ruler" {
-  name                  = "loki-ruler"
   storage_account_name  = azurerm_storage_account.aks.name
   container_access_type = "private"
 }

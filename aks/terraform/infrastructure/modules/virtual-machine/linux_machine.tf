@@ -15,7 +15,7 @@ resource "azurerm_linux_virtual_machine" "this" {
   }
 
   boot_diagnostics {
-    storage_account_uri = var.boot_diagnostics_storage_account_uri
+    storage_account_uri = null
   }
 
   disable_password_authentication = true

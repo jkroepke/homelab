@@ -13,7 +13,7 @@ resource "azurerm_windows_virtual_machine" "this" {
   ]
 
   boot_diagnostics {
-    storage_account_uri = var.boot_diagnostics_storage_account_uri
+    storage_account_uri = null
   }
 
   enable_automatic_updates = true

@@ -88,41 +88,26 @@ resource "azurerm_kubernetes_cluster" "jok" {
   image_cleaner_enabled        = true
   image_cleaner_interval_hours = 48
 
-  maintenance_window {
-    allowed {
-      day   = "Sunday"
-      hours = [23, 0, 1, 2, 3, 4, 5, 6]
-    }
-    allowed {
-      day   = "Monday"
-      hours = [23, 0, 1, 2, 3, 4, 5, 6]
-    }
-    allowed {
-      day   = "Tuesday"
-      hours = [23, 0, 1, 2, 3, 4, 5, 6]
-    }
-    allowed {
-      day   = "Wednesday"
-      hours = [23, 0, 1, 2, 3, 4, 5, 6]
-    }
-    allowed {
-      day   = "Thursday"
-      hours = [23, 0, 1, 2, 3, 4, 5, 6]
-    }
-    allowed {
-      day   = "Friday"
-      hours = [23, 0, 1, 2, 3, 4, 5, 6]
-    }
-    allowed {
-      day   = "Saturday"
-      hours = [23, 0, 1, 2, 3, 4, 5, 6]
-    }
+  maintenance_window_auto_upgrade {
+    frequency   = "Weekly"
+    duration    = 6
+    interval    = 1
+    start_time  = "00:00"
+    day_of_week = "Tuesday"
+  }
+
+  maintenance_window_node_os {
+    frequency  = "Daily"
+    duration   = 6
+    interval   = 1
+    start_time = "00:00"
   }
 
   network_profile {
     network_plugin      = "azure"
+    ebpf_data_plane     = "cilium"
     network_mode        = "transparent"
-    #network_policy      = "azure"
+    network_policy      = "cilium"
     network_plugin_mode = "Overlay"
 
     outbound_type     = "loadBalancer"
@@ -130,7 +115,6 @@ resource "azurerm_kubernetes_cluster" "jok" {
 
     ip_versions        = ["IPv4"]
     service_cidr       = "100.64.0.0/16"
-    docker_bridge_cidr = "172.18.0.1/16"
     dns_service_ip     = "100.64.0.53"
   }
 
@@ -140,7 +124,6 @@ resource "azurerm_kubernetes_cluster" "jok" {
     file_driver_enabled = true
   }
 
-  public_network_access_enabled     = true
   role_based_access_control_enabled = true
 
   run_command_enabled = true

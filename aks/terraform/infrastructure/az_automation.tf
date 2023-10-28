@@ -1,5 +1,5 @@
 resource "azurerm_role_definition" "stop_start_vm" {
-  name        = "StopStartVM"
+  name        = "StopStartVM2"
   scope       = data.azurerm_subscription.current.id
   description = "Allow stopping and starting VMs in the primary subscription"
 

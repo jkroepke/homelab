@@ -35,7 +35,7 @@ resource "azurerm_key_vault_access_policy" "mi-github-actions-keyvault-access" {
 
 # https://www.brandonbarnett.io/blog/2018/08/securely-enabling-az-aks-get-credentials/
 resource "azurerm_role_definition" "aks-cluster-config-reader" {
-  name        = "AKS Cluster Configuration Reader"
+  name        = "AKS Cluster Configuration Reader2"
   scope       = data.azurerm_subscription.current.id
   description = "Can get AKS configuration"
 
