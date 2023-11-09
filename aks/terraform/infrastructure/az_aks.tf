@@ -89,6 +89,7 @@ resource "azurerm_kubernetes_cluster" "jok" {
   image_cleaner_interval_hours = 48
 
   maintenance_window_auto_upgrade {
+    utc_offset   = "+00:00"
     frequency   = "Weekly"
     duration    = 6
     interval    = 1
@@ -97,6 +98,7 @@ resource "azurerm_kubernetes_cluster" "jok" {
   }
 
   maintenance_window_node_os {
+    utc_offset   = "+00:00"
     frequency  = "Daily"
     duration   = 6
     interval   = 1
@@ -108,7 +110,7 @@ resource "azurerm_kubernetes_cluster" "jok" {
     ebpf_data_plane     = "cilium"
     network_mode        = "transparent"
     network_policy      = "cilium"
-    network_plugin_mode = "Overlay"
+    network_plugin_mode = "overlay"
 
     outbound_type     = "loadBalancer"
     load_balancer_sku = "standard"
@@ -151,6 +153,8 @@ resource "azurerm_role_assignment" "jok" {
 }
 
 resource "azurerm_kubernetes_cluster_node_pool" "win" {
+  count = 0
+
   kubernetes_cluster_id = azurerm_kubernetes_cluster.jok.id
   name                  = "win"
   vm_size               = "Standard_A2_v2"
