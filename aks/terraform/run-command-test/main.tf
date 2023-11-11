@@ -1,7 +1,26 @@
 data "azurerm_kubernetes_cluster" "jok" {
   name                = "jok"
-  resource_group_name = "default"
+  resource_group_name = "jok-mpn-default"
 }
+
+resource "azureakscommand_invoke" "example" {
+  resource_group_name = data.azurerm_kubernetes_cluster.jok.resource_group_name
+  name                = data.azurerm_kubernetes_cluster.jok.name
+
+  command = "kubectl cluster-info"
+
+  lifecycle {
+    postcondition {
+      condition     = self.exit_code == 0
+      error_message = "exit code invalid"
+    }
+  }
+}
+
+output "azureakscommand_invoke" {
+  value = azureakscommand_invoke.example.output
+}
+
 /*
 data "external" "kubelogin" {
   program = [
@@ -15,7 +34,7 @@ data "external" "kubelogin" {
   ]
 }
 */
-
+/*
 # https://learn.microsoft.com/en-us/rest/api/aks/managed-clusters/run-command?tabs=HTTP
 resource "azapi_resource_action" "runCommand" {
   type        = "Microsoft.ContainerService/managedClusters@2022-07-01"
@@ -30,6 +49,7 @@ resource "azapi_resource_action" "runCommand" {
     clusterToken = var.clusterToken
   })
 }
+*/
 
 /*
 {
@@ -47,9 +67,10 @@ resource "azapi_resource_action" "runCommand" {
 }
 */
 
+/*
 output "command_output" {
   value = jsondecode(azapi_resource_action.runCommand.output)
 }
-
+*/
 # https://management.azure.com/subscriptions/e1608e24-0728-4efd-ba5b-a05693b53c5a/resourceGroups/default/providers/Microsoft.ContainerService/managedClusters/jok/runCommand?api-version=2022-07-01
 # https://management.azure.com/subscriptions/e1608e24-0728-4efd-ba5b-a05693b53c5a/resourceGroups/default/providers/Microsoft.ContainerService/managedClusters/jok/runCommand
