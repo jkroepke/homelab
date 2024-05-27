@@ -6,6 +6,7 @@ require (
 	github.com/json-iterator/go v1.1.12
 	github.com/stretchr/testify v1.9.0
 	github.com/trivago/tgo v1.0.7
+	gopkg.in/yaml.v2 v2.4.0
 )
 
 require (

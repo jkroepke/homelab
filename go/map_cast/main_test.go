@@ -7,9 +7,61 @@ import (
 	jsoniter "github.com/json-iterator/go"
 	"github.com/stretchr/testify/require"
 	"github.com/trivago/tgo/tcontainer"
+	yamlv2 "gopkg.in/yaml.v2"
+	yamlv3 "gopkg.in/yaml.v3"
 )
 
+type jira struct {
+	Fields map[string]any `yaml:"fields"`
+}
+
 var (
+	expectedYAML = []byte(`---
+fields:
+  customfield_10001:
+    value: green
+    child:
+      value: blue
+  customfield_10002: '2011-10-03'
+  customfield_10003: '2011-10-19T10:29:29.908+1100'
+  customfield_10004: Free text goes here.  Type away!
+  customfield_10005:
+    name: jira-developers
+  customfield_10007:
+  - name: admins
+  - name: jira-developers
+  - name: jira-users
+  customfield_10008:
+  - value: red
+  - value: blue
+  - value: green
+  customfield_10009:
+  - name: charlie
+  - name: bjones
+  - name: tdurden
+  customfield_10010: 42.07
+  customfield_10011:
+    key: JRADEV
+  customfield_10012:
+    value: red
+  customfield_10013:
+    value: red
+  customfield_10014:
+    name: '5.0'
+  customfield_10015: Is anything better than text?
+  customfield_10016: http://www.atlassian.com
+  customfield_10017:
+    name: brollins
+  customfield_10018:
+  - name: '1.0'
+  - name: 1.1.1
+  - name: '2.0'
+  customfield_10019:
+  - 24
+  timetracking:
+    originalEstimate: 1d 2h
+    remainingEstimate: 3h 25m
+`)
 	expectedJson = []byte(`{"customfield_10001":{"value":"green", "child":{"value":"blue"} },"customfield_10002":"2011-10-03","customfield_10003":"2011-10-19T10:29:29.908+1100","customfield_10004":"Free text goes here.  Type away!","customfield_10005":{ "name":"jira-developers" },"customfield_10007":[{ "name":"admins" }, { "name":"jira-developers" }, { "name":"jira-users" }],"customfield_10008":[ {"value":"red" }, {"value":"blue" }, {"value":"green" }],"customfield_10009":[ {"name":"charlie" }, {"name":"bjones" }, {"name":"tdurden" }],"customfield_10010":42.07,"customfield_10011":{ "key":"JRADEV" },"customfield_10012":{ "value":"red" },"customfield_10013":{ "value":"red" },"customfield_10014":{ "name":"5.0" },"customfield_10015":"Is anything better than text?","customfield_10016":"http://www.atlassian.com","customfield_10017":{ "name":"brollins" },"customfield_10018":[{ "name":"1.0" }, { "name":"1.1.1" }, { "name":"2.0" }],"customfield_10019":[24],"timetracking":{"originalEstimate":"1d 2h","remainingEstimate":"3h 25m"}}`)
 	jiraFieldMap = map[string]any{
 		"customfield_10001": map[any]any{
@@ -65,7 +117,28 @@ var (
 
 func TestJsonStdlib(t *testing.T) {
 	fieldJSON, err := json.Marshal(jiraFieldMap)
+	require.NoError(t, err)
+	require.JSONEq(t, string(expectedJson), string(fieldJSON))
+}
 
+func TestJsonYamlV2(t *testing.T) {
+	var jiraFields jira
+
+	err := yamlv2.Unmarshal(expectedYAML, &jiraFields)
+	require.NoError(t, err)
+
+	fieldJSON, err := json.Marshal(jiraFields.Fields)
+	require.NoError(t, err)
+	require.JSONEq(t, string(expectedJson), string(fieldJSON))
+}
+
+func TestJsonYamlV3(t *testing.T) {
+	var jiraFields jira
+
+	err := yamlv3.Unmarshal(expectedYAML, &jiraFields)
+	require.NoError(t, err)
+
+	fieldJSON, err := json.Marshal(jiraFields.Fields)
 	require.NoError(t, err)
 	require.JSONEq(t, string(expectedJson), string(fieldJSON))
 }
