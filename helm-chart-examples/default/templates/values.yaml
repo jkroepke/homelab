@@ -1,0 +1,3 @@
+---
+demo: |
+  {{ (get .Values.not  "a" ).a | default "default"  }}

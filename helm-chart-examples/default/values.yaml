@@ -1,0 +1,11 @@
+a:
+  b:
+    c:
+      d:
+        e: Hello
+
+cert-manager:
+  serviceAccount:
+    annotations:
+      "azure.workload.identity/client-id": ABCD
+

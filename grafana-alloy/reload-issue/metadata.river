@@ -1,0 +1,23 @@
+declare "config" {
+    remote.http "test" {
+        url = "http://localhost:8000/test.txt"
+        poll_frequency = "5s"
+        poll_timeout = "1s"
+    }
+
+    export "direct" {
+        value = remote.http.test.content
+    }
+
+    export "coalesce" {
+        value = coalesce(remote.http.test.content, "unset")
+    }
+
+    export "nonsensitive" {
+        value = nonsensitive(remote.http.test.content)
+    }
+
+    export "opsstack" {
+        value = coalesce(env("OPSSTACK_AGENT_ROLE"), to_lower(join(json_path(nonsensitive(remote.http.test.content), "$.tagsList[?(@.name=='cdt-opsstack-role')].value"), "")), "none")
+    }
+}

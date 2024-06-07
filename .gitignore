@@ -17,3 +17,8 @@ credentials.auto.tfvars
 !**/.local/.gitkeep
 
 ansible.log
+
+.idea
+data-*/
+*-amd64
+*-arm64

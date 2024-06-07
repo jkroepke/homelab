@@ -1,0 +1,22 @@
+import.file "metadata" {
+    filename       = "metadata.river"
+    detector       = "poll"
+    poll_frequency = "86400s"
+}
+
+metadata.config "this" {}
+
+import.file "module" {
+    filename       = "module.river"
+    detector       = "poll"
+    poll_frequency = "86400s"
+}
+
+module.config "this" {
+    external_labels = {
+        direct  = metadata.config.this.direct,
+        coalesce  = metadata.config.this.coalesce,
+        nonsensitive  = metadata.config.this.nonsensitive,
+        opsstack  = metadata.config.this.opsstack,
+    }
+}

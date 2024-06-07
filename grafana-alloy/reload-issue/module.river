@@ -1,0 +1,35 @@
+declare "config" {
+
+    argument "external_labels" {
+        optional = true
+        default  = {}
+    }
+
+    prometheus.exporter.self "alloy" {}
+
+    prometheus.scrape "alloy" {
+      targets    = prometheus.exporter.self.alloy.targets
+      forward_to = [prometheus.relabel.alloy.receiver]
+    }
+
+    prometheus.relabel "alloy" {
+      forward_to = []
+
+      rule {
+        target_label = "direct"
+        replacement  = argument.external_labels.value.direct
+      }
+      rule {
+        target_label = "coalesce"
+        replacement  = argument.external_labels.value.coalesce
+      }
+      rule {
+        target_label = "nonsensitive"
+        replacement  = argument.external_labels.value.nonsensitive
+      }
+      rule {
+        target_label = "opsstack"
+        replacement  = argument.external_labels.value.opsstack
+      }
+    }
+}
