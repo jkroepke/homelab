@@ -11,7 +11,7 @@ spec:
     chart: ingress-nginx
     repoURL: https://kubernetes.github.io/ingress-nginx
     # https://artifacthub.io/packages/helm/ingress-nginx/ingress-nginx
-    targetRevision: 4.10.1
+    targetRevision: 4.11.1
     helm:
       releaseName: ingress-nginx
       parameters:
