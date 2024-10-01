@@ -10,7 +10,7 @@ spec:
   source:
     chart: k8s-event-logger
     repoURL: https://charts.deliveryhero.io/
-    targetRevision: 1.1.6
+    targetRevision: 1.1.7
     helm:
       releaseName: k8s-event-logger
       # language=yaml
