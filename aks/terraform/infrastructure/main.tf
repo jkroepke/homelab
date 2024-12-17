@@ -6,6 +6,26 @@ locals {
 data "azurerm_client_config" "this" {}
 data "azurerm_subscription" "current" {}
 
+import {
+  id = "/subscriptions/${data.azurerm_client_config.this.subscription_id}/providers/Microsoft.Compute"
+  to = azurerm_resource_provider_registration.encryption_at_host
+}
+
+resource "azurerm_resource_provider_registration" "encryption_at_host" {
+  name = "Microsoft.Compute"
+
+  feature {
+    name       = "EncryptionAtHost"
+    registered = true
+  }
+
+  lifecycle {
+    ignore_changes = [
+      feature,
+    ]
+  }
+}
+
 resource "null_resource" "ContainerService_Feature_Preview" {
   for_each = toset([
     "EnableWorkloadIdentityPreview",

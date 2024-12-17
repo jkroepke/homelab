@@ -31,25 +31,25 @@ resource "azurerm_storage_account" "aks" {
 
 resource "azurerm_storage_container" "cortex_alertmanager" {
   name                  = "alertmanager"
-  storage_account_name  = azurerm_storage_account.aks.name
+  storage_account_id  = azurerm_storage_account.aks.id
   container_access_type = "private"
 }
 
 resource "azurerm_storage_container" "cortex_ruler" {
   name                  = "ruler"
-  storage_account_name  = azurerm_storage_account.aks.name
+  storage_account_id  = azurerm_storage_account.aks.id
   container_access_type = "private"
 }
 
 resource "azurerm_storage_container" "cortex_storage" {
   name                  = "cortex"
-  storage_account_name  = azurerm_storage_account.aks.name
+  storage_account_id  = azurerm_storage_account.aks.id
   container_access_type = "private"
 }
 
 resource "azurerm_storage_container" "loki" {
   name                  = "loki"
-  storage_account_name  = azurerm_storage_account.aks.name
+  storage_account_id  = azurerm_storage_account.aks.id
   container_access_type = "private"
 }
 

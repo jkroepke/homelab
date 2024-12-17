@@ -3,52 +3,49 @@ data "azurerm_kubernetes_service_versions" "current" {
   include_preview = false
 }
 
+import {
+  id = "/subscriptions/1988b893-553c-4652-bd9b-52f089b21ead/resourceGroups/jok-mpn-default/providers/Microsoft.ContainerService/managedClusters/aks-test-jok"
+  to = azurerm_kubernetes_cluster.jok
+}
+
 resource "azurerm_kubernetes_cluster" "jok" {
   resource_group_name = azurerm_resource_group.jok-default.name
   location            = azurerm_resource_group.jok-default.location
 
-  name               = "jok"
+  name               = "aks-test-jok"
   kubernetes_version = data.azurerm_kubernetes_service_versions.current.latest_version
 
   private_cluster_enabled   = false
-  automatic_channel_upgrade = "rapid"
+  automatic_upgrade_channel = "rapid"
   dns_prefix                = "jok"
-
-  api_server_access_profile {
-    #authorized_ip_ranges     = ["0.0.0.0/0"]
-    vnet_integration_enabled = true
-    subnet_id                = azurerm_subnet.jok-aks-api.id
-  }
 
   auto_scaler_profile {
     expander = "least-waste"
   }
 
   azure_active_directory_role_based_access_control {
-    managed            = true
     azure_rbac_enabled = true
+    tenant_id          = data.azurerm_client_config.this.tenant_id
   }
 
   default_node_pool {
     name     = "system"
-    vm_size  = "Standard_A2m_v2"
-    zones    = ["1"]
-    max_pods = 250
+    vm_size  = "Standard_E4ps_v6"
+    zones    = ["2"]
+    max_pods = 100
 
     os_sku         = "Ubuntu"
     vnet_subnet_id = azurerm_subnet.jok-default.id
     #pod_subnet_id  = azurerm_subnet.jok-aks-pods.id
 
-    enable_auto_scaling = true
+    auto_scaling_enabled = true
     node_count          = 1
     min_count           = 1
     max_count           = 1
 
     os_disk_size_gb = 100
 
-    # The Virtual Machine size Standard_A2_v2 does not support EncryptionAtHost.
-    # SubscriptionNotEnabledEncryptionAtHost
-    #enable_host_encryption = true
+    host_encryption_enabled = true
     # The Virtual Machine size Standard_A2_v2 does not support Ephemeral OS disk."
     #os_disk_type           = "Ephemeral"
     # The virtual machine size Standard_A2_v2 has a max temporary disk size of 21474836480 bytes, but the kubelet disk requires 32212254720 bytes. Use a VM size with larger temporary disk or use the OS disk for kubelet.
@@ -81,11 +78,11 @@ resource "azurerm_kubernetes_cluster" "jok" {
   }
 
   local_account_disabled    = true
-  node_resource_group       = "${azurerm_resource_group.jok-default.name}-aks"
+  node_resource_group       = "rg-${azurerm_resource_group.jok-default.name}-aks"
   oidc_issuer_enabled       = true
   workload_identity_enabled = true
 
-  image_cleaner_enabled        = true
+  image_cleaner_enabled        = false
   image_cleaner_interval_hours = 48
 
   maintenance_window_auto_upgrade {
@@ -107,9 +104,7 @@ resource "azurerm_kubernetes_cluster" "jok" {
 
   network_profile {
     network_plugin      = "azure"
-    ebpf_data_plane     = "cilium"
-    network_mode        = "transparent"
-    network_policy      = "cilium"
+    network_policy      = "azure"
     network_plugin_mode = "overlay"
 
     outbound_type     = "loadBalancer"
@@ -132,6 +127,7 @@ resource "azurerm_kubernetes_cluster" "jok" {
   sku_tier            = "Free"
 
   depends_on = [
+    azurerm_resource_provider_registration.encryption_at_host,
     null_resource.ContainerService_Refresh_Register,
     azurerm_role_assignment.mi-aks-contributor,
     azurerm_role_assignment.mi-aks-mi-operator
@@ -165,15 +161,15 @@ resource "azurerm_kubernetes_cluster_node_pool" "win" {
 
   vnet_subnet_id = azurerm_subnet.jok-default.id
 
-  enable_auto_scaling = false
+  auto_scaling_enabled = false
   node_count          = 0
 
-  enable_node_public_ip = false
+  node_public_ip_enabled = false
 
   os_disk_size_gb = 100
 
   # The Virtual Machine size Standard_A2_v2 does not support EncryptionAtHost.
-  enable_host_encryption = false
+  host_encryption_enabled = false
   # The Virtual Machine size Standard_A2_v2 does not support Ephemeral OS disk."
   #os_disk_type           = "Ephemeral"
   # The virtual machine size Standard_A2_v2 has a max temporary disk size of 21474836480 bytes, but the kubelet disk requires 32212254720 bytes. Use a VM size with larger temporary disk or use the OS disk for kubelet.
