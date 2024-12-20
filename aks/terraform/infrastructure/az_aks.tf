@@ -52,6 +52,12 @@ resource "azurerm_kubernetes_cluster" "jok" {
     #kubelet_disk_type      = "Temporary"
 
     only_critical_addons_enabled = false
+
+    upgrade_settings {
+      drain_timeout_in_minutes      = 5
+      max_surge                     = "1"
+      node_soak_duration_in_minutes = 0
+    }
   }
 
   linux_profile {
@@ -127,8 +133,6 @@ resource "azurerm_kubernetes_cluster" "jok" {
   sku_tier            = "Free"
 
   depends_on = [
-    azurerm_resource_provider_registration.encryption_at_host,
-    null_resource.ContainerService_Refresh_Register,
     azurerm_role_assignment.mi-aks-contributor,
     azurerm_role_assignment.mi-aks-mi-operator
   ]

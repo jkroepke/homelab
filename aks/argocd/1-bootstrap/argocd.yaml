@@ -13,7 +13,7 @@ spec:
   source:
     repoURL: https://github.com/jkroepke/homelab.git
     targetRevision: HEAD
-    path: argocd/1-bootstrap
+    path: aks/argocd/1-bootstrap
 
   # Destination cluster and namespace to deploy the application
   destination:
