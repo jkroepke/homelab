@@ -1,0 +1,49 @@
+name: Update Chart.yaml
+
+on:
+  workflow_dispatch:
+
+jobs:
+  update-chart:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Modify Chart.yaml
+        run: |
+          echo "${{ github.sha }}" > commit.txt
+
+      - name: Commit Changes Using GraphQL API
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh api graphql -F query='
+          mutation($input: CreateCommitOnBranchInput!) {
+            createCommitOnBranch(input: $input) {
+              commit {
+                url
+              }
+            }
+          }' \
+          -F variables='{
+            "input": {
+              "branch": {
+                "repositoryNameWithOwner": "${{ github.repository }}",
+                "branchName": "main"
+              },
+              "expectedHeadOid": "${{ github.sha }}",
+              "message": {
+                "headline": "Update Chart.yaml"
+              },
+              "fileChanges": {
+                "additions": [
+                  {
+                    "path": "commit.txt",
+                    "contents": "$(cat commit.txt | base64 -w 0)"
+                  }
+                ],
+                "deletions": []
+              }
+            }
+          }'
