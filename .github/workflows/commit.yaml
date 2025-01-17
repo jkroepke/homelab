@@ -30,7 +30,7 @@ jobs:
           }' -F input='{
               "branch": {
                 "repositoryNameWithOwner": "${{ github.repository }}",
-                "branchName": "main"
+                "branchName": "${{ github.ref_name }}"
               },
               "expectedHeadOid": "${{ github.sha }}",
               "message": {
