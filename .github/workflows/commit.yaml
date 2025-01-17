@@ -2,6 +2,8 @@ name: Update Chart.yaml
 
 on:
   workflow_dispatch:
+  push:
+    - main
 
 jobs:
   update-chart:
@@ -20,14 +22,14 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh api graphql -F query='
-          mutation($input: CreateCommitOnBranchInput!) {
-            createCommitOnBranch(input: $input) {
-              commit {
-                url
+          gh api graphql -f query='
+            mutation CreateCommit($input: CreateCommitOnBranchInput!) {
+              createCommitOnBranch(input: $input) {
+                commit {
+                  url
+                }
               }
-            }
-          }' -F input='{
+            }' -F input='{
               "branch": {
                 "repositoryNameWithOwner": "${{ github.repository }}",
                 "branchName": "${{ github.ref_name }}"
