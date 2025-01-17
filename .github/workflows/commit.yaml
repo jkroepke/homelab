@@ -22,29 +22,35 @@ jobs:
       - name: Commit Changes Using GraphQL API
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |        
+        run: |      
           gh api graphql -f query='mutation ($input: CreateCommitOnBranchInput!) {
             createCommitOnBranch(input: $input) { 
               commit { 
                 url 
               } 
             } 
-          }' -F input="$(jq <<INPUT
-          {
-              "branch": {
-                "repositoryNameWithOwner": "${{ github.repository }}",
-                "branchName": "${{ github.ref_name }}"
-              },
-              "expectedHeadOid": "${{ github.sha }}",
-              "message": { "headline": "Update Chart.yaml" },
-              "fileChanges": {
-                "additions": [
-                  {
-                    "path": "commit.txt",
-                    "contents": "$(cat commit.txt | base64 -w 0)"
-                  }
-                ]
-              }
-          }         
-          INPUT
-          )"
+          }' \
+          --input - <(jq -n --arg repoName '${{ github.repository }}' \
+                --arg branchName '${{ github.ref_name }}' \
+                --arg expectedHeadOid '${{ github.sha }}' \
+                --arg path 'commit.txt' \
+                --arg contents '$(cat commit.txt | base64 -w 0)' \
+                --arg headline 'Update Chart.yaml' \
+          '{
+            branch: {
+              repositoryNameWithOwner: $repoName,
+              branchName: $branchName
+            },
+            expectedHeadOid: $expectedHeadOid,
+            message: {
+              headline: $headline
+            },
+            fileChanges: {
+              additions: [
+                {
+                  path: $path,
+                  contents: $contents
+                }
+              ]
+            }
+          }')
