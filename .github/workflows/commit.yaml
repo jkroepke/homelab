@@ -22,15 +22,14 @@ jobs:
       - name: Commit Changes Using GraphQL API
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          gh api graphql -f query='
-            mutation CreateCommit($input: CreateCommitOnBranchInput!) {
-              createCommitOnBranch(input: $input) {
-                commit {
-                  url
-                }
-              }
-            }' -F input='{
+        run: |        
+          gh api graphql -f query='mutation ($input: CreateCommitOnBranchInput!) {
+            createCommitOnBranch(input: $input) { 
+              commit { 
+                url 
+              } 
+            } 
+          }' -f variables='{"input": {
               "branch": {
                 "repositoryNameWithOwner": "${{ github.repository }}",
                 "branchName": "${{ github.ref_name }}"
@@ -48,4 +47,4 @@ jobs:
                 ],
                 "deletions": []
               }
-            }'
+            }}'
