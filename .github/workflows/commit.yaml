@@ -23,34 +23,35 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |      
-          gh api graphql -f query='mutation ($input: CreateCommitOnBranchInput!) {
-            createCommitOnBranch(input: $input) { 
-              commit { 
-                url 
+          curl https://api.github.com/graphql -sSf \
+               --write-out '%{stderr}HTTP status: %{response_code}\n\n'
+               -H "Authorization: bearer $TOKEN" \
+               --data @- <<GRAPHQL | jq
+          {
+            "query": "mutation (\$input: CreateCommitOnBranchInput!) {
+              createCommitOnBranch(input: \$input) { 
+                commit { 
+                  url 
+                } 
               } 
-            } 
-          }' \
-          --input <(jq -n --arg repoName '${{ github.repository }}' \
-                --arg branchName '${{ github.ref_name }}' \
-                --arg expectedHeadOid '${{ github.sha }}' \
-                --arg path 'commit.txt' \
-                --arg contents '$(cat commit.txt | base64 -w 0)' \
-                --arg headline 'Update Chart.yaml' \
-          '{
-            branch: {
-              repositoryNameWithOwner: $repoName,
-              branchName: $branchName
-            },
-            expectedHeadOid: $expectedHeadOid,
-            message: {
-              headline: $headline
-            },
-            fileChanges: {
-              additions: [
-                {
-                  path: $path,
-                  contents: $contents
-                }
-              ]
+            }",
+            "variables": {
+              "input": {
+                "branch": {
+                  "repositoryNameWithOwner": "${{ github.repository }}",
+                  "branchName": "${{ github.ref_name }}"
+                },
+                "message": { "headline": "Update Chart.yaml" },
+                "fileChanges": {
+                  "additions": [
+                    {
+                      "path": "commit.txt",
+                      "contents": "$(cat commit.txt | base64 -w 0)"
+                    }
+                  ]
+                },
+                "expectedHeadOid": "${{ github.sha }}"
+              }
             }
-          }')
+          }
+          GRAPHQL
