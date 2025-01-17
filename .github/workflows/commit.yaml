@@ -3,7 +3,8 @@ name: Update Chart.yaml
 on:
   workflow_dispatch:
   push:
-    - main
+    branches:
+      - main
 
 jobs:
   update-chart:
