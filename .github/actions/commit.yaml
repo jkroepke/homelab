@@ -40,7 +40,7 @@ jobs:
                 "additions": [
                   {
                     "path": "commit.txt",
-                    "contents": "$(cat commit.txt | base64 -w 0)"
+                    "contents": "'"$(cat commit.txt | base64 -w 0)"'"
                   }
                 ],
                 "deletions": []
