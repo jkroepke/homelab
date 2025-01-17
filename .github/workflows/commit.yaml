@@ -30,7 +30,7 @@ jobs:
               } 
             } 
           }' \
-          --input - <(jq -n --arg repoName '${{ github.repository }}' \
+          --input <(jq -n --arg repoName '${{ github.repository }}' \
                 --arg branchName '${{ github.ref_name }}' \
                 --arg expectedHeadOid '${{ github.sha }}' \
                 --arg path 'commit.txt' \
