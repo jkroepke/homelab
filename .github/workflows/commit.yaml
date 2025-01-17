@@ -25,7 +25,7 @@ jobs:
         run: |      
           curl https://api.github.com/graphql -sSf \
                --write-out '%{stderr}HTTP status: %{response_code}\n\n'
-               -H "Authorization: bearer $TOKEN" \
+               -H "Authorization: bearer $GITHUB_TOKEN" \
                --data @- <<GRAPHQL | jq
           {
             "query": "mutation (\$input: CreateCommitOnBranchInput!) {
