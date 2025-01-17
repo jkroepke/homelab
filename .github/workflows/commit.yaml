@@ -29,9 +29,8 @@ jobs:
                 url 
               } 
             } 
-          }' -F variables="$(jq <<INPUT
+          }' -F input="$(jq <<INPUT
           {
-            "input": {
               "branch": {
                 "repositoryNameWithOwner": "${{ github.repository }}",
                 "branchName": "${{ github.ref_name }}"
@@ -46,7 +45,6 @@ jobs:
                   }
                 ]
               }
-            }
           }         
           INPUT
           )"
