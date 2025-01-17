@@ -29,7 +29,7 @@ jobs:
                 url 
               } 
             } 
-          }' -f variables="$(jq <<INPUT
+          }' -F variables="$(jq <<INPUT
           {
             "input": {
               "branch": {
