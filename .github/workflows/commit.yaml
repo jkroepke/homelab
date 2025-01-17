@@ -23,7 +23,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |      
-          curl https://api.github.com/graphql -sSf \
+          curl https://api.github.com/graphql -f \
                --write-out '%{stderr}HTTP status: %{response_code}\n\n'
                -H "Authorization: bearer $GITHUB_TOKEN" \
                --data @- <<GRAPHQL | jq
