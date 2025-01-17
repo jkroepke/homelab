@@ -27,9 +27,7 @@ jobs:
                 url
               }
             }
-          }' \
-          -F variables='{
-            "input": {
+          }' -F input='{
               "branch": {
                 "repositoryNameWithOwner": "${{ github.repository }}",
                 "branchName": "main"
@@ -47,5 +45,4 @@ jobs:
                 ],
                 "deletions": []
               }
-            }
-          }'
+            }'
