@@ -13,8 +13,7 @@ jobs:
       contents: write
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4.1.8
+      - uses: actions/checkout@eef4408fe8da94cf04fa186ed67412f8e7f221eb
 
       - name: Modify Chart.yaml
         run: |
