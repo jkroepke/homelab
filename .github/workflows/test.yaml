@@ -12,7 +12,6 @@ jobs:
       contents: write
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: jkroepke/homelab/.github/actions/test@0a5d4f0d7424134386d2e2c8a325493ad73ec4be
-        with:
-          who-to-greet: ${{ github.actor }}
+
+
+0a5d4f0d7424134386d2e2c8a325493ad73ec4be
